@@ -53,7 +53,7 @@ public interface BaseUserMapper {
      * @mbg.generated Wed Jan 29 13:12:45 CST 2020
      */
     List<BaseUser> selectByExample(BaseUserExample example);
-  //查找所有员工
+    //查找所有员工
   	 List<BaseUser> findAll(int curPage, int row) throws Exception;
   	public int getAllRows() throws Exception;
   	//批量删除

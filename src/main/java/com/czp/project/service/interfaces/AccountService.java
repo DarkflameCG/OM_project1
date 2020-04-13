@@ -1,0 +1,42 @@
+package com.czp.project.service.interfaces;
+
+import java.util.List;
+
+import com.czp.project.common.bean.Account;
+import com.github.pagehelper.PageInfo;
+
+/**
+ * 账户操作的接口
+ * @author mastercgx
+ *
+ */
+public interface AccountService {
+	/**
+	 * 添加账户
+	 * @param account
+	 */
+	public void addAccount(Account account);
+	/**
+	 * 根据id删除账户
+	 * @param id
+	 */
+	public void removeAccountById(int id);
+	/**
+	 * 修改账户信息
+	 * @param account
+	 */
+	public void editAccount(Account account);
+	/**
+	 * 查询全部，不带分页
+	 * @return
+	 */
+	public List<Account> findAllAccount();
+	/**
+	 * 分页查询账户信息
+	 * @param currpage
+	 * @param row
+	 * @return 
+	 */
+	public PageInfo<Account> findAllAccountForPages(int currpage , int row);
+	
+}

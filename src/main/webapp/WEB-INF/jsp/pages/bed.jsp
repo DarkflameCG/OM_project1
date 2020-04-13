@@ -2,6 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<head>
+	<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+	<link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="../assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<link href="../assets/css/style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
+	<link rel="stylesheet" href="../iconfont/iconfont.css">
+</head>
 <script>
 	/* 页面逻辑 */
 	$(function(){
