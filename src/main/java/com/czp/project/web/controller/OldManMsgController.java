@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.czp.project.common.bean.OldMan;
 import com.czp.project.service.impl.OldManMsgImpl;
@@ -32,10 +33,28 @@ public class OldManMsgController {
 	@RequestMapping("/getMsgBySource")
 	public String getOldManMsgByString(HttpSession session,
 									   HttpServletRequest request) {
-		String source = request.getParameter("");
+		String source = request.getParameter("source");
 		List<OldMan> oldlist = oldimpl.selectMsgByString(source);
 		session.setAttribute("oldlist", oldlist);
 		
 		return "pages/oldManInfo";
 	}
+	
+	@RequestMapping("/addOldmanMsg")
+	@ResponseBody
+	public String addOldManMsg(OldMan oldman) {
+		oldimpl.addOldManMsg(oldman);
+		return "ok";
+	}
+	
+	@RequestMapping("/edit")
+	@ResponseBody
+	public String editOldManMsg(OldMan oldman) {
+		
+		System.out.println(oldman);
+		oldimpl.updateOldManMsg(oldman);
+		return "ok";
+	}
+	
+	
 }

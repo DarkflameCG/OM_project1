@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
-	<base href="http://loaclhost:2333/">
+	<base href="http://localhost:2333/">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -130,7 +130,7 @@
                         else
                             return false;
                     }
-                },
+                }, 
                 messages:{
                     required:"请填写用户名",
                     remote:"用户名已存在",
@@ -148,7 +148,7 @@
         3.清空表单数据
      */
     function setUrl() {
-        myUrl='/addUser';
+        myUrl='oldmsg/addOldmanMsg';
         $('#username').removeAttr("readonly");
         $('#form-data input').val(" ");
     }
@@ -182,7 +182,7 @@
                     return true;
                 },
                 success:function (data) {
-                    if(data > 0){
+                    if(data==='ok'){
                         $('#tip').html('<span style="color: green">操作成功！</span>');
                         location.reload();
                     }else{
@@ -208,10 +208,10 @@
     <div class="tool">
         <div class="row">
 			<br/>
-            <form action="getMsg" class="form-horizontal">
+            <form action="oldmsg/getMsgBySource" class="form-horizontal">
 
             <div class="col-sm-3">
-                <input type="text" id="search" class="form-control">
+                <input name="source" type="text" id="search" class="form-control">
             </div>
             <div class="col-sm-1">
                 <button type="submit" class="btn btn-primary">搜索</button>
@@ -250,17 +250,17 @@
         	<c:forEach items="${oldlist}" var="old">
             <tr th:each="user : ${userlist}">
             	<th ><input type="checkbox"></th>
-                <td>${old.id}</td>
-                <td>${old.oldmanName}</td>
-                <td><img src="./" alt="没有图片"></td>
-                <td>${old.age}</td>
-                <td>${old.gender}</td>
-                <td>${old.checkintime}</td>
-                <td>${old.health}</td>
-                <td>${old.familyMembersId}</td>
-                <td>${old.telphone}</td>
-                <td>${old.roomId}</td>
-                <td>${old.userId}</td>
+                <td th:text="${user.username}">${old.id}</td>
+                <td th:text="${user.password}">${old.oldmanName}</td>
+                <td th:text="${user.phone}"><img src="./" alt="没有图片"></td>
+                <td th:text="${user.email}">${old.age}</td>
+                <td th:text="${user.email}">${old.gender}</td>
+                <td th:text="${user.email}">${old.checkintime}</td>
+                <td th:text="${user.email}">${old.health}</td>
+                <td th:text="${user.email}">${old.familyMembersId}</td>
+                <td th:text="${user.email}">${old.telphone}</td>
+                <td th:text="${user.email}">${old.roomId}</td>
+                <td th:text="${user.email}">${old.userId}</td>
                 <td>
                     <!--传入当前用户id-->
                     <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#updateModal" th:onclick="'javascript: update('+${user.userID}+')' ">编辑</button>
@@ -309,7 +309,7 @@
                         <div class="form-group">
                             <label for="username" class="col-sm-3 control-label">用户名</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="username" name="username" placeholder="用户名长度在5-18字符之间">
+                                <input type="text" class="form-control" id="username" name="oldmanName" placeholder="用户名长度在5-18字符之间">
                             </div>
                         </div>
                         <div class="form-group">
