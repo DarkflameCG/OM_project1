@@ -137,6 +137,8 @@
     }
 
 
+
+
     /*
     点击添加用户时需要做的操作：
         1.修改提交表单的URL
@@ -198,6 +200,25 @@
                 });
     }
 
+
+function deletebyId(id){
+    alert(id)
+    if(!id){
+            alert('id错误');
+            return false;
+        }
+
+        $.ajax(
+                {
+        });
+}
+
+function deleteUser(id){
+    alert(id)
+    alert(111)
+     //加载模态框
+     $('#deleteModal').modal();
+}
 </script>
 <body>
 <div class="container-fluid">
@@ -255,7 +276,7 @@
                 <td>
                     <!--传入当前用户id-->
                     <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#updateModal" th:onclick="'javascript: update('+${user.userID}+')' ">编辑</button>
-                    <button type="button" class="btn btn-danger btn-sm"  th:onclick="'javascript:deleteUser('+${user.userID}+')' ">删除</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" th:onclick="'javascript:deleteUser('+${user.userID}+')' ">删除</button>
                 </td>
             </tr>
         </tbody>
@@ -333,64 +354,37 @@
         </div>
     </div>
     </form>
+    <!-- 模态框结束 -->
+       <!--模态框-->
+       <form method="post" name="user" class="form-horizontal" role="form" id="form-data"  style="margin: 20px;" >
+        <div class="modal fade bs-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                          &times;
+                      </button>
+                      <h4 class="modal-title" id="">
+                          警告：确认删除？
+                      </h4>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="input" class="btn btn-danger" onclick="deletebyId(id);">确定</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                      <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
+                      所以把按钮类型改为input，再手动调用封装好的验证函数-->
+                      <span id="tip"></span>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <!-- 模态框结束 -->
 </div>
+
+<!-- Small modal -->
+
+
 <div th:insert="template/footer :: copyright"></div>
 </body>
 </html>
-
-		<!-- <table class="table table-sm table-bordered table-hover text-center">
-		  <thead>
-		    <tr>
-		      <th scope="col"><input type="checkbox"></th>
-		      <th scope="col">照片</th>
-		      <th scope="col">姓名</th>
-		      <th scope="col">性别</th>
-		      <th scope="col">身份证号</th>
-		      <th scope="col">联系方式</th>
-		      <th scope="col">紧急联系人</th>
-		      <th scope="col">操作</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		    <tr>
-				      <td><input type="checkbox" value="`+item.id+`"></td>
-				      <td><img src="./" alt="没有图片"></td>
-				      <td>张三</td>
-				      <td>男</td>
-				      <td>156226262848511</td>
-				      <td>151848484</td>
-				      <td>151848484</td>
-				      <td>
-						<i class='iconfont icon-edit' id='edit'>qq</i>
-						<i class='iconfont icon-shanchu' id='del'></i>
-						
-				      </td>
-		    </tr>
-		  </tbody>
-		</table>
-		
-	</div>
-	<div style="position: relative;display: flex;justify-content: flex-end;">
-		<nav aria-label="Page navigation example" >
-			
-			  <ul class="pagination" onclick="pageChange(event)">
-
-			    <li class="page-item">
-			      <a class="page-link" href="#" aria-label="Previous">
-			        <span aria-hidden="true">&laquo;</span>
-			      </a>
-			    </li>
-			    <li class="page-item"><a class="page-link" href="#">1</a></li>
-			    <li class="page-item"><a class="page-link" href="#">2</a></li>
-			    <li class="page-item"><a class="page-link" href="#">3</a></li>
-			    <li class="page-item">
-			      <a class="page-link" href="#" aria-label="Next">
-			        <span aria-hidden="true">&raquo;</span>
-			      </a>
-			    </li>
-	  			</ul>
-	  			
-			</nav>
-	</div>
-		-->
-
