@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -255,7 +256,10 @@
                 <td th:text="${user.phone}"><img src="./" alt="没有图片"></td>
                 <td th:text="${user.email}">${old.age}</td>
                 <td th:text="${user.email}">${old.gender}</td>
-                <td th:text="${user.email}">${old.checkintime}</td>
+                <td th:text="${user.email}">
+                	<%-- ${old.checkintime} --%>
+                	<fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日"/>
+                </td>
                 <td th:text="${user.email}">${old.health}</td>
                 <td th:text="${user.email}">${old.familyMembersId}</td>
                 <td th:text="${user.email}">${old.telphone}</td>

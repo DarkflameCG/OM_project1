@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.czp.project.common.bean.OldMan;
 import com.czp.project.service.impl.OldManMsgImpl;
+import com.github.pagehelper.PageInfo;
 
 @Controller
 @RequestMapping("/oldmsg")
@@ -22,10 +23,13 @@ public class OldManMsgController {
 	private OldManMsgImpl oldimpl;
 	
 	
-	@RequestMapping("/getmsg")
-	public String getOldManMsg(HttpSession session) {
-		List<OldMan> oldlist = oldimpl.selectAll();
-		session.setAttribute("oldlist", oldlist);
+	@RequestMapping("/getmsg/{page}")
+	public String getOldManMsg(HttpSession session,
+							  @PathVariable String page) throws NumberFormatException, Exception {
+//		List<OldMan> oldlist = oldimpl.selectAll(); //查询全部
+		
+		PageInfo<OldMan> oldlist = oldimpl.selectMsgByPage(Integer.parseInt(page), 5);
+		session.setAttribute("oldlist", oldlist.getList());
 		
 		return "pages/oldManInfo";
 	}
