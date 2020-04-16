@@ -12,13 +12,13 @@ public class AccountImpl implements AccountService{
 
 	@Override
 	public void addAccount(Account account) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public void removeAccountById(int id) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
