@@ -29,10 +29,8 @@ public class OldManMsgController {
 	public String getOldManMsg(HttpSession session,
 							  @PathVariable String page) throws NumberFormatException, Exception {
 //		List<OldMan> oldlist = oldimpl.selectAll(); //查询全部
-		
 		PageInfo<OldMan> oldPages = oldimpl.selectMsgByPage(Integer.parseInt(page), 5);
 		session.setAttribute("oldPages", oldPages);
-		System.out.println(oldPages);
 		
 		return "pages/oldManInfo";
 	}
@@ -67,7 +65,13 @@ public class OldManMsgController {
 	@ResponseBody
 	public String removeOldManMsg(@RequestParam String id) {
 		System.out.println(id);
-		oldimpl.removeOldManMsg(Integer.parseInt(id));
+		if(id.contains(",")) {
+			//批量删除
+			oldimpl.removeOldByids(id);
+		}else {			
+			//根据id删除
+			oldimpl.removeOldManMsg(Integer.parseInt(id));
+		}
 		return "ok";
 	}
 	

@@ -26,32 +26,12 @@
 </head>
 <script>
 
-	//根绝id删除
+	//根据id删除
 	function deleteUser(id) {
 	    alert(11111)
 	    //加载模态框
 	    $('#deleteModal').modal();
 	}
-	//删除
-	function deletebyId() {
-	    var idval = $("#input1").val();
-	    var myUrl = 'http://localhost:2333/oldmsg/remove?id=13'/* +idval */;
-	    var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
-        httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
-        httpRequest.send();//第三步：发送请求  将请求参数写在URL中
-        //结果处理
-        httpRequest.onreadystatechange = function () {
-            if (httpRequest.readyState == 4 && httpRequest.status == 200) {
-                var str = httpRequest.responseText;
-                alert(str);
-                if(str=="ok"){
-                	alert("删除成功");
-                }
-            }
-        };
-        
-	}
-	
 
     //定义一个变量用于存储添加和修改时不同的URL
     var myUrl;
@@ -255,8 +235,7 @@
             </div>
             <div class="col-sm-2">
                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal" onclick="setUrl()">添加用户</button>
-                <button type="button" class="btn btn-danger"  th:onclick="'javascript:deleteUser('+${user.userID}+')' ">批量删除</button>
-  
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" th:onclick="">批量删除</button>		
             </div>
         </div>
     </div>
@@ -282,7 +261,7 @@
         <tbody >
         	<c:forEach items="${oldPages.list}" var="old">
             <tr th:each="user : ${userlist}">
-            	<th ><input type="checkbox"></th>
+            	<th ><input type="checkbox" value="${old.id}"></th>
                 <%-- <td th:text="${user.userid}">${old.id}</td> --%>
                 <td th:text="${user.userID}">${old.id}</td>
                 <td th:text="${user.username}">${old.oldmanName}</td>
@@ -300,12 +279,11 @@
                 <td th:text="${user.email}">${old.userId}</td>
                 <td>
                     <!--传入当前用户id-->
-                   	<input id="input1" type="hidden" value="${old.id}">
                     <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                             data-target="#updateModal"
                             th:onclick="'javascript:update('+${user.userID}+')' ">编辑</button>
                 	<button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                            data-target="#deleteModal">删除</button>
+                            data-target="#deleteModal" data-orderId="${old.id}">删除</button>
                       
                   
                 </td>
@@ -401,7 +379,7 @@
     </form>
 	
 	<!--删除模态框-->
-        <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
+        <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
             <div class="modal fade bs-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog"
                 aria-labelledby="mySmallModalLabel">
                 <div class="modal-dialog modal-sm" role="document">
@@ -415,10 +393,8 @@
                             </h4>
                         </div>
                         <div class="modal-footer">
-                        	<form id="form1" action="" method="get" >
-                        		<input type="hidden" value="">
-                        	</form>
-                            <button type="input" class="btn btn-danger" onclick="deletebyId();">确定</button>
+                        	<!--  onclick="deletebyId()" -->
+                            <button id="tijiao" type="input" class="btn btn-danger">确定</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                             <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                       所以把按钮类型改为input，再手动调用封装好的验证函数-->
@@ -433,4 +409,43 @@
 </div>
 <div th:insert="template/footer :: copyright"></div>
 </body>
+<script type="text/javascript">
+
+	//删除
+	$("#deleteModal").on("shown.bs.modal",function(e){
+		$("#tijiao").on("click",function(){
+			//定义url
+			var idval="";		
+			//判断checkbox是否勾选
+			var arr = $("input:checked");
+			if(arr.length!==0){
+				//批量删除
+				for(var i=0;i<arr.length;i++){
+					if(i==arr.length-1){
+						idval = idval+arr[i].value;
+					}else{
+						idval = idval+arr[i].value+","
+					}
+				}
+			}else{
+				//根据id删除
+				idval = $(e.relatedTarget).data('orderid');
+			}
+			//发送请求
+			var myUrl = 'http://localhost:2333/oldmsg/remove?id='+idval;
+			var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
+		    httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
+		    httpRequest.send();//第三步：发送请求  将请求参数写在URL中
+		    //结果处理
+		    httpRequest.onreadystatechange = function () {
+		        if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+		            var str = httpRequest.responseText;
+		            alert(str);
+		        }
+		    };
+		});
+		
+	})
+
+</script>
 </html>
