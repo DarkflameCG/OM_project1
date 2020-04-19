@@ -10,25 +10,57 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>用户列表</title>
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
     <!--validate验证表单插件-->
-    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
     <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
     <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+    <script src="js/lTable.js" type="text/javascript"></script>
 </head>
 <script>
+
+	//根绝id删除
+	function deleteUser(id) {
+	    alert(11111)
+	    //加载模态框
+	    $('#deleteModal').modal();
+	}
+	//删除
+	function deletebyId() {
+	    var idval = $("#input1").val();
+	    var myUrl = 'http://localhost:2333/oldmsg/remove?id=13'/* +idval */;
+	    var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
+        httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
+        httpRequest.send();//第三步：发送请求  将请求参数写在URL中
+        //结果处理
+        httpRequest.onreadystatechange = function () {
+            if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                var str = httpRequest.responseText;
+                alert(str);
+                if(str=="ok"){
+                	alert("删除成功");
+                }
+            }
+        };
+        
+	}
+	
+
     //定义一个变量用于存储添加和修改时不同的URL
     var myUrl;
     //传入点击的用户id，获取该用户信息并放入表单中
     function update(id) {
         //将提交表单的URL变为update
-        myUrl = '/updateUser';
+        //myUrl = '/updateUser';
+        alert(11111);
+        myUrl = 'oldmsg/edit';
         if(!id){
             alert('id错误');
             return false;
@@ -61,62 +93,63 @@
                             $('#username').attr("readonly","readonly");
                         }
                     }
-        });
+        }); 
     }
 
     //表单字段验证
     //如果按照一般验证的写法，只能调用整个表单的validate函数，而不能调用自定义的username验证，所以把两个函数封装成为一个，在点击按钮时调用
-    function vali() {
+   function vali() {
         //form-data表单验证。
         $("#form-data").validate({
-            onfocusout:function(element) { $(element).valid(); },
-            onblur: function(element) { $(element).valid(); },    //鼠标移开验证。这里写onblue:true没有效果
-            onsubmit:true,      //提交时验证（有效）
-            onkeyup:false,
+            onfocusout: function (element) { $(element).valid(); },
+            onblur: function (element) { $(element).valid(); },    //鼠标移开验证。这里写onblue:true没有效果
+            onsubmit: true,      //提交时验证（有效）
+            onkeyup: false,
 
-            rules:{
-                password:{
-                    required:true,
-                    rangelength:[5,20]
+            rules: {
+                password: {
+                    required: true,
+                    rangelength: [5, 20]
                 },
-                phone:{
-                    required:true,
-                    digits:true,
-                    rangelength:[11,11]
+                phone: {
+                    required: true,
+                    digits: true,
+                    rangelength: [11, 11]
                 },
-                email:{
-                    required:true,
-                    email:true
+                email: {
+                    required: true,
+                    email: true
                 }
             },
-            messages:{
-                password:{
-                    required:"请填写密码",
-                    rangelength:"密码长度不符合规范"
+            messages: {
+                password: {
+                    required: "请填写密码",
+                    rangelength: "密码长度不符合规范"
                 },
-                phone:{
-                    required:"请填写手机号",
-                    digits:"请填写正确的手机号",
-                    rangelength:"请填写正确的手机号"
+                phone: {
+                    required: "请填写手机号",
+                    digits: "请填写正确的手机号",
+                    rangelength: "请填写正确的手机号"
                 },
-                email:{
-                    required:"请填写邮箱",
-                    email:"请填写正确的邮箱"
+                email: {
+                    required: "请填写邮箱",
+                    email: "请填写正确的邮箱"
                 }
             },
-            submitHandler:function (form) {
+            submitHandler: function (form) {
                 checkForm();
             }
         });
-
         //自定义动态username验证
         //username的校验只在添加操作时才需要
         //通过对username的readonly属性验证来判断是添加还是更新
-        if($('#username').attr("readonly")==undefined){
-            $('#username').rules("add",{
-                required:true,
-                rangelength:[5,20],
-                remote: {
+        //
+        
+        if ($('#username').attr("readonly") == undefined) {
+            $('#username').rules("add", {
+                required: true,
+                rangelength: [5, 20],
+                /* remote: {
                     type: "POST",
                     url: "/checkUsername",
                     data: {
@@ -125,20 +158,20 @@
                         }
                     },
                     dataType: "html",
-                    dataFilter: function(data) {
+                    dataFilter: function (data) {
                         if (data == "true")
                             return true;
                         else
                             return false;
                     }
-                }, 
-                messages:{
-                    required:"请填写用户名",
-                    remote:"用户名已存在",
-                    rangelength:"用户名长度不符合规范"
+                }, */
+                messages: {
+                    required: "请填写用户名",
+                   /*  remote: "用户名已存在", */
+                    rangelength: "用户名长度不符合规范"
                 }
             });
-        }
+        } 
     }
 
 
@@ -151,13 +184,12 @@
     function setUrl() {
         myUrl='oldmsg/addOldmanMsg';
         $('#username').removeAttr("readonly");
-        $('#form-data input').val(" ");
+        $('#form-data input').val("");
     }
 
 
     //提交表单
     function checkForm() {
-
         var formData;
         //将表单内容序列化，即可得到相应对象，直接传到后台
         //userid为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错
@@ -248,13 +280,14 @@
             </tr>
         </thead>
         <tbody >
-        	<c:forEach items="${oldlist}" var="old">
+        	<c:forEach items="${oldPages.list}" var="old">
             <tr th:each="user : ${userlist}">
             	<th ><input type="checkbox"></th>
-                <td th:text="${user.username}">${old.id}</td>
-                <td th:text="${user.password}">${old.oldmanName}</td>
-                <td th:text="${user.phone}"><img src="./" alt="没有图片"></td>
-                <td th:text="${user.email}">${old.age}</td>
+                <%-- <td th:text="${user.userid}">${old.id}</td> --%>
+                <td th:text="${user.userID}">${old.id}</td>
+                <td th:text="${user.username}">${old.oldmanName}</td>
+                <td th:text="${user.password}"><img src="./" alt="没有图片"></td>
+                <td th:text="${user.phone}">${old.age}</td>
                 <td th:text="${user.email}">${old.gender}</td>
                 <td th:text="${user.email}">
                 	<%-- ${old.checkintime} --%>
@@ -267,32 +300,50 @@
                 <td th:text="${user.email}">${old.userId}</td>
                 <td>
                     <!--传入当前用户id-->
-                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#updateModal" th:onclick="'javascript: update('+${user.userID}+')' ">编辑</button>
-                    <button type="button" class="btn btn-danger btn-sm"  th:onclick="'javascript:deleteUser('+${user.userID}+')' ">删除</button>
+                   	<input id="input1" type="hidden" value="${old.id}">
+                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                            data-target="#updateModal"
+                            th:onclick="'javascript:update('+${user.userID}+')' ">编辑</button>
+                	<button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                            data-target="#deleteModal">删除</button>
+                      
+                  
                 </td>
             </tr>
             </c:forEach>
         </tbody>
     </table>
-    <nav aria-label="Page navigation">
-        <ul class="pagination">
-          <li>
-            <a href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li>
-            <a href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+    <!-- 分页开始 -->
+        <table width="461" height="24" border="1" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="199">当前为第${oldPages.pageNum}页,共${oldPages.pages}页</td>
+                <td width="199">
+                	<c:forEach items="${oldPages.navigatepageNums}" var="p">
+                		<a>${p }</a>
+                	</c:forEach>
+                </td>
+                <td width="256">
+                    <c:choose>
+                        <c:when test="${oldPages.hasPreviousPage}">
+                            <a href="oldmsg/getmsg/1">首页</a> |
+                            <a href="oldmsg/getmsg/${oldPages.pageNum -1 }">上一页</a>
+                        </c:when>
+                        <c:otherwise>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <c:choose>
+                        <c:when test="${oldPages.hasNextPage}">
+                            <a href="oldmsg/getmsg/${oldPages.pageNum + 1 }">下一页</a> |
+                            <a href="oldmsg/getmsg/${oldPages.pages }">尾页</a>
+                        </c:when>
+                        <c:otherwise>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+        </table>
+        <!-- 分页结束 -->
     <!--模态框-->
     <form method="post" name="user" class="form-horizontal" role="form" id="form-data"  style="margin: 20px;" >
     <div class="modal fade" id="updateModal"   tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
@@ -341,73 +392,45 @@
                     <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                     所以把按钮类型改为input，再手动调用封装好的验证函数-->
                     <button type="input" class="btn btn-primary" onclick="vali();">提交</button>
+                   
                     <span id="tip"></span>
                 </div>
             </div>
         </div>
     </div>
     </form>
+	
+	<!--删除模态框-->
+        <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
+            <div class="modal fade bs-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="">
+                                警告：确认删除？
+                            </h4>
+                        </div>
+                        <div class="modal-footer">
+                        	<form id="form1" action="" method="get" >
+                        		<input type="hidden" value="">
+                        	</form>
+                            <button type="input" class="btn btn-danger" onclick="deletebyId();">确定</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
+                      所以把按钮类型改为input，再手动调用封装好的验证函数-->
+                            <span id="tip"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- 删除模态框结束 -->
+
 </div>
 <div th:insert="template/footer :: copyright"></div>
 </body>
 </html>
-
-		<!-- <table class="table table-sm table-bordered table-hover text-center">
-		  <thead>
-		    <tr>
-		      <th scope="col"><input type="checkbox"></th>
-		      <th scope="col">照片</th>
-		      <th scope="col">姓名</th>
-		      <th scope="col">性别</th>
-		      <th scope="col">身份证号</th>
-		      <th scope="col">联系方式</th>
-		      <th scope="col">紧急联系人</th>
-		      <th scope="col">操作</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		    <tr>
-				      <td><input type="checkbox" value="`+item.id+`"></td>
-				      <td><img src="./" alt="没有图片"></td>
-				      <td>张三</td>
-				      <td>男</td>
-				      <td>156226262848511</td>
-				      <td>151848484</td>
-				      <td>151848484</td>
-				      <td>
-						<i class='iconfont icon-edit' id='edit'>qq</i>
-						<i class='iconfont icon-shanchu' id='del'></i>
-						
-				      </td>
-		    </tr>
-		  </tbody>
-		</table>
-		
-	</div>
-	<div style="position: relative;display: flex;justify-content: flex-end;">
-		<nav aria-label="Page navigation example" >
-			
-			  <ul class="pagination" onclick="pageChange(event)">
-
-			    <li class="page-item">
-			      <a class="page-link" href="#" aria-label="Previous">
-			        <span aria-hidden="true">&laquo;</span>
-			      </a>
-			    </li>
-			    <li class="page-item"><a class="page-link" href="#">1</a></li>
-			    <li class="page-item"><a class="page-link" href="#">2</a></li>
-			    <li class="page-item"><a class="page-link" href="#">3</a></li>
-			    <li class="page-item">
-			      <a class="page-link" href="#" aria-label="Next">
-			        <span aria-hidden="true">&raquo;</span>
-			      </a>
-			    </li>
-	  			</ul>
-	  			
-			</nav>
-	</div>
-		-->
-
-
-
-
