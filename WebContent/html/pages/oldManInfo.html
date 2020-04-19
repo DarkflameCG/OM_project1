@@ -135,10 +135,6 @@
             });
         }
     }
-
-
-
-
     /*
     点击添加用户时需要做的操作：
         1.修改提交表单的URL
@@ -215,7 +211,6 @@
 
     function deleteUser(id) {
         alert(id)
-        alert(111)
         //加载模态框
         $('#deleteModal').modal();
     }
@@ -286,28 +281,30 @@
                 </tr>
             </tbody>
         </table>
-        <!-- 分页 -->
-        <!-- <nav aria-label="Page navigation">
-        <ul class="pagination">
-          <li>
-            <a href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li>
-            <a href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav> -->
-        <!-- 分页 -->
-        <div id="u"></div>
+        <!-- 分页开始 -->
+        <table width="461" height="24" border="1" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="199">当前为第${page.currentPage}页,共${page.totalPage}页</td>
+                <td width="256">
+                    <c:choose>
+                        <c:when test="${page.hasPrePage}">
+                            <a href="<%=path %>/user.do?method=list&currentPage=1">首页</a> |
+                            <a href="<%=path %>/user.do?method=list&currentPage=${page.currentPage -1 }">上一页</a>
+                        </c:when>
+                        <c:otherwise>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test="${page.hasNextPage}">
+                            <a href="<%=path %>/user.do?method=list&currentPage=${page.currentPage + 1 }">下一页</a> |
+                            <a href="<%=path %>/user.do?method=list&currentPage=${page.totalPage }">尾页</a>
+                        </c:when>
+                        <c:otherwise>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+        </table>
         <!-- 分页结束 -->
         <!--模态框-->
         <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
@@ -402,201 +399,5 @@
 
     <div th:insert="template/footer :: copyright"></div>
 </body>
+
 </html>
-<script>
-    var pageSize = 10;
-    var myTable;
-    var dataUrl = "";
-    //初始化页面
-    initPage(1, pageSize, "");
-    //ajax获取数据
-    function initPage(num, ps, url) {
-        alert('num:' + num)
-        alert('ps:' + ps)
-        alert('url:' + url)
-        var data = {
-            "count": "51",
-            "pageNumber": "1",
-            "totalPage": "6",
-            "list": [
-                {
-                    "createperson": "",
-                    "createtime": "",
-                    "email": "",
-                    "password": "a1",
-                    "phone": "",
-                    "remark": "",
-                    "status": "0",
-                    "userid": "a1",
-                    "username": "a1",
-                    "userrole": "2",
-                    "userrolename": "system manager"
-                },
-                {
-                    "createperson": "",
-                    "createtime": "",
-                    "email": "",
-                    "password": "a10",
-                    "phone": "",
-                    "remark": "",
-                    "status": "0",
-                    "userid": "a10",
-                    "username": "a10",
-                    "userrole": "2",
-                    "userrolename": "system manager"
-                },
-                {
-                    "createperson": "",
-                    "createtime": "",
-                    "email": "",
-                    "password": "a11",
-                    "phone": "",
-                    "remark": "",
-                    "status": "0",
-                    "userid": "a11",
-                    "username": "a11",
-                    "userrole": "2",
-                    "userrolename": "system manager"
-                },
-                {
-                    "createperson": "",
-                    "createtime": "",
-                    "email": "",
-                    "password": "a12",
-                    "phone": "",
-                    "remark": "",
-                    "status": "0",
-                    "userid": "a12",
-                    "username": "a12",
-                    "userrole": "2",
-                    "userrolename": "system manager"
-                },
-                {
-                    "createperson": "",
-                    "createtime": "",
-                    "email": "",
-                    "password": "a13",
-                    "phone": "",
-                    "remark": "",
-                    "status": "0",
-                    "userid": "a13",
-                    "username": "a13",
-                    "userrole": "2",
-                    "userrolename": "system manager"
-                },
-                {
-                    "createperson": "",
-                    "createtime": "",
-                    "email": "",
-                    "password": "a14",
-                    "phone": "",
-                    "remark": "",
-                    "status": "0",
-                    "userid": "a14",
-                    "username": "a14",
-                    "userrole": "2",
-                    "userrolename": "system manager"
-                },
-                {
-                    "createperson": "",
-                    "createtime": "",
-                    "email": "",
-                    "password": "a15",
-                    "phone": "",
-                    "remark": "",
-                    "status": "0",
-                    "userid": "a15",
-                    "username": "a15",
-                    "userrole": "2",
-                    "userrolename": "system manager"
-                },
-                {
-                    "createperson": "",
-                    "createtime": "",
-                    "email": "",
-                    "password": "a16",
-                    "phone": "",
-                    "remark": "",
-                    "status": "0",
-                    "userid": "a16",
-                    "username": "a16",
-                    "userrole": "2",
-                    "userrolename": "system manager"
-                },
-                {
-                    "createperson": "",
-                    "createtime": "",
-                    "email": "",
-                    "password": "a17",
-                    "phone": "",
-                    "remark": "",
-                    "status": "0",
-                    "userid": "a17",
-                    "username": "a17",
-                    "userrole": "2",
-                    "userrolename": "system manager"
-                },
-                {
-                    "createperson": "",
-                    "createtime": "",
-                    "email": "",
-                    "password": "a18",
-                    "phone": "",
-                    "remark": "",
-                    "status": "0",
-                    "userid": "a18",
-                    "username": "a18",
-                    "userrole": "2",
-                    "userrolename": "system manager"
-                }
-            ],
-        }
-        // $.ajax({
-        // 	url:"json/data.json",
-        // 	type:"GET",
-
-        // 	//type:"POST",
-        // 	//data:"userinfoVO.pageid="+num+"&userinfoVO.pagecount="+ps,
-        // 	dataType: "json", 
-        //  	success:function(data){
-        initTable(data);
-        // 	},
-        // 	error:function(e){
-        // 		console.log(e)
-        //    		alert("数据获取错误");
-        // 	}
-        // });
-    }
-
-    //初始化table和分页数据
-    function initTable(data) {
-        //var obj = eval("("+data+")");
-        var obj = data;
-        //table
-        myTable = $.lTable(
-            '#d',
-            {
-                data: obj.list	//json数据
-                , title: ["userid", "username", "password", "userrolename", "status", "<button onclick='updF(id)'>修改</button>&nbsp;<button onclick='delF(id)'>删除</button>"]	//标题对应字段 
-                , name: ["用户id", "用户名称", "密码", "权限名称", "状态", "_opt"]
-                , tid: "userid"
-                , checkBox: "userid"
-            }
-        );
-        //myTable.getCheckboxIds(); //获取checkbox选中的值
-        //分页
-        $.lPaging(
-            '#u',	//对应id
-            {
-                pageNumber: obj.pageNumber 	//当前页数
-                , totalPage: 100	//总页数
-                , countSize: 15	//分页显示个数	(可省略)
-                , count: obj.count
-                , inputSearch: true//显示查询输入框
-                , onPageChange: function (num) {
-                    initPage(num, pageSize, dataUrl);
-                }
-            }
-        );
-    }
-</script>

@@ -201,110 +201,34 @@
 
 </script>
 <body>
-<div class="container-fluid">
-    <div class="tool">
-        <div class="row">
-            <form action="" class="form-horizontal">
 
-            <div class="col-sm-3">
-                <input type="text" id="search" class="form-control">
-            </div>
-            <div class="col-sm-1">
-                <button type="submit" class="btn btn-primary">搜索</button>
-            </div>
-            </form>
-            <div class="col-sm-4">
-
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal" onclick="setUrl()">添加用户</button>
-            </div>
-        </div>
-    </div>
-    <br>
-    <table class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>id</th>
-                <th>用户名</th>
-                <th>密码</th>
-                <th>电话</th>
-                <th>邮箱</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody >
-            <tr th:each="user : ${userlist}">
-                <td th:text="${user.userID}"></td>
-                <td th:text="${user.username}"></td>
-                <td th:text="${user.password}"></td>
-                <td th:text="${user.phone}"></td>
-                <td th:text="${user.email}"></td>
-                <td>
-                    <!--传入当前用户id-->
-                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#updateModal" th:onclick=update()>编辑</button>
-                    <button type="button" class="btn btn-danger btn-sm"  th:onclick="'javascript:deleteUser('+${user.userID}+')' ">删除</button>
-                    <button class="btn" th:onclick="update([[${person.name}]]);">获得名字</button>
-
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <!--模态框-->
-    <form method="post" name="user" class="form-horizontal" role="form" id="form-data"  style="margin: 20px;" >
-    <div class="modal fade" id="updateModal"   tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                        &times;
-                    </button>
-                    <h4 class="modal-title" id="updateModalLabel">
-                        用户信息
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <form action="" class="form-horizontal">
-                        <!--userid为隐藏的input，便于update时的传值-->
-                        <input type="text" id="userID" name="userID" hidden>
-                        <div class="form-group">
-                            <label for="username" class="col-sm-3 control-label">用户名</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="username" name="username" placeholder="用户名长度在5-18字符之间">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="password" class="col-sm-3 control-label">密码</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="password" name="password" placeholder="密码长度在5-20字符之间">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone" class="col-sm-3 control-label">手机号</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="phone" name="phone" placeholder="请输入手机号">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="col-sm-3 control-label">邮箱</label>
-                            <div class="col-sm-9">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="请输入邮箱地址">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
-                    所以把按钮类型改为input，再手动调用封装好的验证函数-->
-                    <button type="input" class="btn btn-primary" onclick="vali();">提交</button>
-                    <span id="tip"></span>
-                </div>
-            </div>
-        </div>
-    </div>
-    </form>
-</div>
-<div th:insert="template/footer :: copyright"></div>
+<div<table width="461" height="24" border="1" cellpadding="0" cellspacing="0">
+    <tr>
+      <td width="199">当前为第${page.currentPage}页,共${page.totalPage}页</td>
+      <td width="256">
+      <c:choose>
+          <c:when test="${page.hasPrePage}">
+              <a href="<%=path %>/user.do?method=list&currentPage=1">首页</a> | 
+      <a href="<%=path %>/user.do?method=list&currentPage=${page.currentPage -1 }">上一页</a>
+          </c:when>
+          <c:otherwise>
+              <!-- 首页 | 上一页 -->
+          </c:otherwise>
+      </c:choose>
+  
+      <c:choose>
+          <c:when test="${page.hasNextPage}">
+              <a href="<%=path %>/user.do?method=list&currentPage=${page.currentPage + 1 }">下一页</a> | 
+      <a href="<%=path %>/user.do?method=list&currentPage=${page.totalPage }">尾页</a>
+          </c:when>
+          <c:otherwise>
+              <!-- 下一页 | 尾页 -->
+          </c:otherwise>
+      </c:choose>
+  
+  </td>
+    </tr>
+  </table>
+  ></div>
 </body>
 </html>
