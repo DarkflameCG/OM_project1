@@ -56,7 +56,6 @@ public class OldManMsgController {
 	@ResponseBody
 	public String editOldManMsg(OldMan oldman) {
 		
-		System.out.println(oldman);
 		oldimpl.updateOldManMsg(oldman);
 		return "ok";
 	}

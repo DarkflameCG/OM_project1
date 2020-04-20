@@ -37,27 +37,37 @@
 </head>
 <script>
 
-    //根据id删除
-    function deleteUser(id) {
-        alert(11111)
-        //加载模态框
-        $('#deleteModal').modal();
-    }
-
     //定义一个变量用于存储添加和修改时不同的URL
     var myUrl;
     //传入点击的用户id，获取该用户信息并放入表单中
-    function update(id) {
+    function update(id,a) {
         //将提交表单的URL变为update
-        //myUrl = '/updateUser';
-        alert(11111);
+        
         myUrl = 'oldmsg/edit';
+        $("#userID").attr("value",id);
+        alert(id);
         if (!id) {
             alert('id错误');
             return false;
         }
+        
+        //获取当前控件的父控件 tr
+        var temp = $(a).parent().parent();
+        
+        //获取当前行tr下的所有td
+        var t = temp[0].cells;   
+        //模态框赋值
+        $('#username').val(t[2].innerHTML);
+        $('#age').val(t[4].innerHTML);
+        $('#gender').val(t[5].innerHTML);
+        $('#telphone').val(t[9].innerHTML);
+        $('#health').val(t[7].innerHTML);
 
-        $.ajax(
+        //给姓名框设置只读
+        //$('#username').attr("readonly", "readonly");
+        
+        //下面是使用ajax动态的放数据
+       /*  $.ajax(
             {
                 url: "/toUpdateUser",
                 data: { "id": id },
@@ -84,7 +94,7 @@
                         $('#username').attr("readonly", "readonly");
                     }
                 }
-            });
+            }); */
     }
 
     //表单字段验证
@@ -278,8 +288,7 @@
             <tbody>
                 <c:forEach items="${oldPages.list}" var="old">
                     <tr th:each="user : ${userlist}">
-                        <th><input type="checkbox" value="${old.id}"></th>
-                        <%-- <td th:text="${user.userid}">${old.id}</td> --%>
+                        <td><input type="checkbox" value="${old.id}"></td>
                         <td th:text="${user.userID}">${old.id}</td>
                         <td th:text="${user.username}">${old.oldmanName}</td>
                         <td th:text="${user.password}"><img src="./" alt="没有图片"></td>
@@ -297,8 +306,7 @@
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal"
-                                th:onclick="'javascript:update('+${user.userID}+')' ">编辑</button>
+                                data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${old.id}">删除</button>
                         </td>
@@ -354,7 +362,7 @@
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="userID" hidden>
+                                <input type="text" id="userID" name="id" hidden>
                                 <div class="form-group">
                                     <label for="username" class="col-sm-3 control-label">用户名</label>
                                     <div class="col-sm-9">
@@ -386,31 +394,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="familyMembersId" class="col-sm-3 control-label">老人家属</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="familyMembersId"
-                                            name="familyMembersId" placeholder="请输入老人家属姓名">
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label for="telphone" class="col-sm-3 control-label">手机号</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="telphone" name="telphone"
                                             placeholder="请输入手机号">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="roomId" class="col-sm-3 control-label">房间号</label>
-                                    <div class="col-sm-9">
-                                        <input type="roomId" class="form-control" id="roomId" name="roomId"
-                                            placeholder="请输入房间号">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="userId" class="col-sm-3 control-label">护工姓名</label>
-                                    <div class="col-sm-9">
-                                        <input type="userId" class="form-control" id="userId" name="userId"
-                                            placeholder="请输入护工姓名">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -506,6 +493,11 @@
             };
         });
     })
+    
+
+    
+    
+    
     // 上传图片
     $(".updatepanel").height($(".panel-info").height());
     document.getElementById('file').onchange = function () {

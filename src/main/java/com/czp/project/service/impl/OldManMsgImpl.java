@@ -70,11 +70,7 @@ public class OldManMsgImpl implements OldManMsgService{
 
 	@Override
 	public void updateOldManMsg(OldMan newmsg) {
-		oldamanmapper.updateByPrimaryKey(newmsg);
+		System.out.println(oldamanmapper.updateByPrimaryKeySelective(newmsg));
 	}
-
-
-
-
 
 }
