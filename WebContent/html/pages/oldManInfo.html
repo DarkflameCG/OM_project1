@@ -188,7 +188,6 @@
                 // alert(XMLHttpRequest.readyState);//状态
                 // alert(textStatus);//错误信息
                 alert("出错了");
-
             },
             complete: function () {
 
@@ -235,7 +234,7 @@
                 </div>
                 <div class="col-sm-2">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
-                        onclick="setUrl()">添加用户</button>
+                        onclick="setUrl()">添加 👴</button>
                     <button type="button" class="btn btn-danger"
                         th:onclick="'javascript:deleteUser('+${user.userID}+')' ">批量删除</button>
                 </div>
@@ -325,31 +324,70 @@
                                 <!--userid为隐藏的input，便于update时的传值-->
                                 <input type="text" id="userID" name="userID" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">用户名</label>
+                                    <label for="oldman_name" class="col-sm-3 control-label">姓名</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="oldman_name" name="oldman_name"
+                                            placeholder="姓名长度在2-10字符之间">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="age" class="col-sm-3 control-label">年龄</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="age" name="age"
+                                            placeholder="请输入年龄">
+                                    </div>
+                                </div>
+                                <!-- <div class="form-group">
+                                    <label for="username" class="col-sm-3 control-label">入住时间</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="username" name="username"
                                             placeholder="用户名长度在5-18字符之间">
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="form-group">
-                                    <label for="password" class="col-sm-3 control-label">密码</label>
+                                    <label for="username" class="col-sm-3 control-label">健康状况</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="password" name="password"
-                                            placeholder="密码长度在5-20字符之间">
+                                        <input type="text" class="form-control" id="username" name="username"
+                                            placeholder="请输入老人的健康状况">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="phone" class="col-sm-3 control-label">手机号</label>
+                                    <label for="password" class="col-sm-3 control-label">老人家属</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="phone" name="phone"
+                                        <input type="text" class="form-control" id="password" name="password"
+                                            placeholder="请输入老人家属姓名">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="telphone" class="col-sm-3 control-label">手机号</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="telphone" name="telphone"
                                             placeholder="请输入手机号">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="email" class="col-sm-3 control-label">邮箱</label>
+                                    <label for="email" class="col-sm-3 control-label">房间号</label>
                                     <div class="col-sm-9">
                                         <input type="email" class="form-control" id="email" name="email"
-                                            placeholder="请输入邮箱地址">
+                                            placeholder="请输入房间号">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="col-sm-3 control-label">护工姓名</label>
+                                    <div class="col-sm-9">
+                                        <input type="email" class="form-control" id="email" name="email"
+                                            placeholder="请输入护工姓名">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="username" class="col-sm-3 control-label">照片</label>
+                                    <div class="col-sm-9">
+                                        <label for="file">
+                                            <div class="panel updatepanel">
+                                                <div class="addbox"><span class="icon-add-50">+点击上传</span></div>
+                                                <input type="file" id="oldman_img" style="display: none" />
+                                            </div>
+                                        </label>
                                     </div>
                                 </div>
                             </form>
@@ -398,6 +436,29 @@
 
 
     <div th:insert="template/footer :: copyright"></div>
+
+    <script>
+
+        $(".updatepanel").height($(".panel-info").height());
+        document.getElementById('file').onchange = function () {
+            add();
+            var imgFile = this.files[0];
+            var fr = new FileReader();
+            fr.onload = function () {
+                var imgs = document.getElementsByClassName('updateimg');
+                imgs[imgs.length - 1].src = fr.result;
+            };
+            fr.readAsDataURL(imgFile);
+        };
+        function add() {
+            var html = "<div class='col-sm-4'><div class='panel panel-info'><div class='panel-heading'><i class='fa fa-times'></i></div><div class='panel-body' style='text-align: center;'><div class='row'><div class='col-sm-12 col-md-12'><img class='updateimg img-responsive' src='img/p_big3.jpg' style='width: inherit;height: 210px;'/></div></div></div></div></div>";
+            $("#updatebox").before(html);
+        }
+        $(".fa-times").click(function () {
+            $(this).parent().parent().parent().remove();
+        });
+
+    </script>
 </body>
 
 </html>

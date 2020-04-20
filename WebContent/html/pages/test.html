@@ -1,234 +1,99 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>用户列表</title>
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!--validate验证表单插件-->
-    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
-    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
-    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
-</head>
-<script>
-    //定义一个变量用于存储添加和修改时不同的URL
-    var myUrl;
-    //传入点击的用户id，获取该用户信息并放入表单中
-    function update(id) {
-        alert('123123')
-        //将提交表单的URL变为update
-        myUrl = '/updateUser';
-        if(!id){
-            alert('id错误');
-            return false;
-        }
-
-        $.ajax(
-                {
-                    url:"/toUpdateUser",
-                    data:{"id":id},
-                    type:"post",
-                    //解决编码问题
-                    scriptCharset: 'utf-8',
-                    beforeSend:function () {
-                        return true;
-                    },
-                    success:function (data) {
-                        if(data){
-                            //解析json数据
-                            var data = data;
-                            var user = eval("("+data + ")");
-
-                            //赋值
-                            $('#userID').val(user.userID);
-                            $('#username').val(user.username);
-                            $('#password').val(user.password);
-                            $('#phone').val(user.phone);
-                            $('#email').val(user.email);
-
-                            //在修改用户信息时，username不可修改
-                            $('#username').attr("readonly","readonly");
-                        }
-                    }
-        });
-    }
-
-    //表单字段验证
-    //如果按照一般验证的写法，只能调用整个表单的validate函数，而不能调用自定义的username验证，所以把两个函数封装成为一个，在点击按钮时调用
-    function vali() {
-        //form-data表单验证。
-        $("#form-data").validate({
-            onfocusout:function(element) { $(element).valid(); },
-            onblur: function(element) { $(element).valid(); },    //鼠标移开验证。这里写onblue:true没有效果
-            onsubmit:true,      //提交时验证（有效）
-            onkeyup:false,
-
-            rules:{
-                password:{
-                    required:true,
-                    rangelength:[5,20]
-                },
-                phone:{
-                    required:true,
-                    digits:true,
-                    rangelength:[11,11]
-                },
-                email:{
-                    required:true,
-                    email:true
-                }
-            },
-            messages:{
-                password:{
-                    required:"请填写密码",
-                    rangelength:"密码长度不符合规范"
-                },
-                phone:{
-                    required:"请填写手机号",
-                    digits:"请填写正确的手机号",
-                    rangelength:"请填写正确的手机号"
-                },
-                email:{
-                    required:"请填写邮箱",
-                    email:"请填写正确的邮箱"
-                }
-            },
-            submitHandler:function (form) {
-                checkForm();
-            }
-        });
-
-        //自定义动态username验证
-        //username的校验只在添加操作时才需要
-        //通过对username的readonly属性验证来判断是添加还是更新
-        if($('#username').attr("readonly")==undefined){
-            $('#username').rules("add",{
-                required:true,
-                rangelength:[5,20],
-                remote: {
-                    type: "POST",
-                    url: "/checkUsername",
-                    data: {
-                        username: function () {
-                            return $("#username").val();
-                        }
-                    },
-                    dataType: "html",
-                    dataFilter: function(data) {
-                        if (data == "true")
-                            return true;
-                        else
-                            return false;
-                    }
-                },
-                messages:{
-                    required:"请填写用户名",
-                    remote:"用户名已存在",
-                    rangelength:"用户名长度不符合规范"
-                }
-            });
-        }
-    }
-
-
-    /*
-    点击添加用户时需要做的操作：
-        1.修改提交表单的URL
-        2.将username的readonly属性移除
-        3.清空表单数据
-     */
-    function setUrl() {
-        myUrl='/addUser';
-        $('#username').removeAttr("readonly");
-        $('#form-data input').val(" ");
-    }
-
-
-    //提交表单
-    function checkForm() {
-
-        var formData;
-        //将表单内容序列化，即可得到相应对象，直接传到后台
-        //userid为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错
-        if($('#userID').val()==null||$('#userID').val()==undefined||$('#userID').val().length==0){
-            formData = $('#username,#password,#email,#phone').serializeArray();
-        }
-        //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
-        else{
-            formData = $('#form-data').serializeArray();
-        }
-
-        $.ajax({
-                url:myUrl,      //根据操作传入不同的URL
-                data:formData,  //传入序列化的表单对象
-                type:"post",
-                datatype:'text',
-                async:false,    //异步传输
-                timeout:50000,
-                //设置编码
-                contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                beforeSend:function () {
-                    $('#tip').html('<span style="color: cornflowerblue">正在处理...</span>');
-                    return true;
-                },
-                success:function (data) {
-                    if(data > 0){
-                        $('#tip').html('<span style="color: green">操作成功！</span>');
-                        location.reload();
-                    }else{
-                        $('#tip').html('<span style="color: red">操作失败，请重试</span>');
-                    }
-                },
-                error:function(XMLHttpRequest, textStatus, errorThrown) {
-                    // alert(XMLHttpRequest.status);//状态码
-                    // alert(XMLHttpRequest.readyState);//状态
-                    // alert(textStatus);//错误信息
-                    alert("出错了");
-
-                },
-                complete:function () {
-
-                }
-                });
-    }
-
-</script>
-<body>
-
-<div<table width="461" height="24" border="1" cellpadding="0" cellspacing="0">
-    <tr>
-      <td width="199">当前为第${page.currentPage}页,共${page.totalPage}页</td>
-      <td width="256">
-      <c:choose>
-          <c:when test="${page.hasPrePage}">
-              <a href="<%=path %>/user.do?method=list&currentPage=1">首页</a> | 
-      <a href="<%=path %>/user.do?method=list&currentPage=${page.currentPage -1 }">上一页</a>
-          </c:when>
-          <c:otherwise>
-              <!-- 首页 | 上一页 -->
-          </c:otherwise>
-      </c:choose>
-  
-      <c:choose>
-          <c:when test="${page.hasNextPage}">
-              <a href="<%=path %>/user.do?method=list&currentPage=${page.currentPage + 1 }">下一页</a> | 
-      <a href="<%=path %>/user.do?method=list&currentPage=${page.totalPage }">尾页</a>
-          </c:when>
-          <c:otherwise>
-              <!-- 下一页 | 尾页 -->
-          </c:otherwise>
-      </c:choose>
-  
-  </td>
-    </tr>
-  </table>
-  ></div>
-</body>
+<html>
+ 
+	<head>
+ 
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+		<title> - 选项卡 & 面板</title>
+		<meta name="keywords" content="">
+		<meta name="description" content="">
+ 
+		<link rel="shortcut icon" href="favicon.ico">
+		<link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+		<link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+		<link href="css/animate.css" rel="stylesheet">
+		<link href="css/style.css?v=4.1.0" rel="stylesheet">
+		<style>
+			.file-box {
+   position: relative;
+   display: inline-block;
+   width:100px;
+   height:100px;
+   background:url('images/uploadPc.png')no-repeat;
+   background-size:100px 100px;
+  }
+  #input_file{
+   width:100%;
+   height:100%;
+   opacity: 0;
+   filter:alpha(opacity=0);
+  }
+		</style>
+	</head>
+ 
+	<body class="gray-bg">
+		<div class="file-box">
+			<input type="file" value="" name="file" id = "input_file"
+			 accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" οnchange="imgPreview(this,0)" >
+		  </div>
+ 
+		<!-- 全局js -->
+		<script src="js/jquery.min.js?v=2.1.4"></script>
+		<script src="js/bootstrap.min.js?v=3.3.6"></script>
+ 
+		<!-- 自定义js -->
+		<script src="js/content.js?v=1.0.0"></script>
+		<script>
+			function imgPreview(fileDom,i) {
+  //判断是否支持FileReader
+  if(window.FileReader) {
+   var reader = new FileReader();
+  } else {
+   alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+  }
+  //获取文件
+  var file = fileDom.files[0];
+  var imageType = /^image\//;
+  //是否是图片
+  if(!imageType.test(file.type)) {
+   alert("请选择图片！");
+   return;
+  }
+  //读取完成
+  reader.onload = function(e) {
+   //图片路径设置为读取的图片
+   // img.src = e.target.result;
+   console.log(document.getElementsByClassName('file-box'));
+   document.getElementsByClassName('file-box')[i].style.background = "url("+e.target.result+")no-repeat";//回显图片
+   document.getElementsByClassName('file-box')[i].style.backgroundSize = '200px 160px';
+   console.log('reader',reader)
+  };
+  reader.readAsDataURL(file);
+ }
+ var formData = new FormData();
+formData.append('photo', $('#input_file')[0].files[0]);
+//ajax请求
+$.ajax({
+   type: "post",
+   url: "接口地址",
+   data: formdata,
+   dataType: 'json',
+   processData: false, // 告诉jQuery不要去处理发送的数据
+   contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+   xhrFields:{withCredentials:true},
+   async: true, //默认是true：异步，false：同步。
+   success: function (data) {
+    callback(data);
+   },
+   error: function (data) {
+    layer.msg('请求异常');
+   },
+  });
+		
+		</script>
+ 
+	</body>
+ 
 </html>
