@@ -24,6 +24,7 @@
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/BasePower.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/dao/ModularMapper.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/dao/BasePowerMapper.java
+/Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/web/controller/CommonController.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/UserLeave.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/Monitor.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/OldManExample.java
