@@ -1,471 +1,518 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:if test="${msg!=null }">
- <script type="text/javascript">
-	alert("${msg}");
- </script>
-</c:if>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <base href="http://localhost:2333/">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户列表</title>
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <!--validate验证表单插件-->
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+    <script src="js/lTable.js" type="text/javascript"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
+    <style>
+        .divcss5-left {
+            float: right;
+            width: 350px;
+            height: 50px;
+        }
+        .warp {
+            display: inline-block;
+            vertical-align: bottom;
+            position: relative;
+        }
+    </style>
+</head>
 <script>
-function todelect(){
-	    var Checkbox=false;//默认复选框为空
-	     $("input[name='id']").each(function(){//获取复选框节点id
-	      if (this.checked==true) {        
-	        Checkbox=true;    //已勾选
-	      }
-	    });
-	    if (Checkbox){//boolean值为true
-	        var t=confirm("您确认要删除选中的内容吗？");//弹出对话进行警告
-	        if (t==false) return false;    //不勾选不处理
-	        obj = document.getElementsByName("id");//将复选框定义成一个jquery对象
-	        check_val = [];//定义一个数组
-	        for(k in obj){//k相当于i,往这个jquery对象添加勾选的id;
-	            if(obj[k].checked)//选中的都放进 数组里
-	                check_val.push(obj[k].value);
-	        }
-	   
-	        $.ajax({//利用ajax发出请求
-	            type:"POST",//post类型
-	            url:"user/deleteAllUser?ids="+check_val, //向Controller里的deleteSelect传输ids
-	            success:function(data){//删除成功后，deleteMany会返回一个"ok";
-	            if(data=="ok"){
-	                alert("删除成功！");//返回ok后弹出一个对话框。
-	                location.href="user/pages?currpage=1";//相当于刷新界面
-	            }else{
-		 alert("删除失败！");
-	}
-	        } 
-	});
-	      
-	    }
-	    else{
-	        alert("请选择您要删除的内容!");//不勾选不提交，弹出警告框。
-	        return false;
-	    }
-	    
-	    
-	}
+
+    //定义一个变量用于存储添加和修改时不同的URL
+    var myUrl;
+    //传入点击的用户id，获取该用户信息并放入表单中
+    function update(id, a) {
+        //将提交表单的URL变为update
+        myUrl = 'oldmsg/edit';
+        $("#userID").attr("value", id);
+        ;
+        if (!id) {
+            alert('id错误');
+            return false;
+        }
+        //获取当前控件的父控件 tr
+        var temp = $(a).parent().parent();
+        //获取当前行tr下的所有td
+        var t = temp[0].cells;
+        //模态框赋值
+        $('#username').val(t[2].innerHTML);
+        $('#age').val(t[4].innerHTML);
+        $('#gender').val(t[5].innerHTML);
+        $('#telphone').val(t[9].innerHTML);
+        $('#health').val(t[7].innerHTML);
+        //给姓名框设置只读
+        //$('#username').attr("readonly", "readonly");
+        //下面是使用ajax动态的放数据
+        /*  $.ajax(
+             {
+                 url: "/toUpdateUser",
+                 data: { "id": id },
+                 type: "post",
+                 //解决编码问题
+                 scriptCharset: 'utf-8',
+                 beforeSend: function () {
+                     return true;
+                 },
+                 success: function (data) {
+                     if (data) {
+                         //解析json数据
+                         var data = data;
+                         var user = eval("(" + data + ")");
+ 
+                         //赋值
+                         $('#userID').val(user.userID);
+                         $('#username').val(user.username);
+                         $('#password').val(user.password);
+                         $('#phone').val(user.phone);
+                         $('#email').val(user.email);
+ 
+                         //在修改用户信息时，username不可修改
+                         $('#username').attr("readonly", "readonly");
+                     }
+                 }
+             }); */
+    }
+
+    //表单字段验证
+    //如果按照一般验证的写法，只能调用整个表单的validate函数，而不能调用自定义的username验证，所以把两个函数封装成为一个，在点击按钮时调用
+    function vali() {
+        //form-data表单验证。
+        $("#form-data").validate({
+            onfocusout: function (element) { $(element).valid(); },
+            onblur: function (element) { $(element).valid(); },    //鼠标移开验证。这里写onblue:true没有效果
+            onsubmit: true,      //提交时验证（有效）
+            onkeyup: false,
+            rules: {
+                password: {
+                    required: true,
+                    rangelength: [5, 20]
+                },
+                phone: {
+                    required: true,
+                    digits: true,
+                    rangelength: [11, 11]
+                },
+                email: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                password: {
+                    required: "请填写密码",
+                    rangelength: "密码长度不符合规范"
+                },
+                phone: {
+                    required: "请填写手机号",
+                    digits: "请填写正确的手机号",
+                    rangelength: "请填写正确的手机号"
+                },
+                email: {
+                    required: "请填写邮箱",
+                    email: "请填写正确的邮箱"
+                }
+            },
+            submitHandler: function (form) {
+                checkForm();
+            }
+        });
+        //自定义动态username验证
+        //username的校验只在添加操作时才需要
+        //通过对username的readonly属性验证来判断是添加还是更新
+        //
+        if ($('#username').attr("readonly") == undefined) {
+            $('#username').rules("add", {
+                required: true,
+                rangelength: [5, 20],
+                /* remote: {
+                    type: "POST",
+                    url: "/checkUsername",
+                    data: {
+                        username: function () {
+                            return $("#username").val();
+                        }
+                    },
+                    dataType: "html",
+                    dataFilter: function (data) {
+                        if (data == "true")
+                            return true;
+                        else
+                            return false;
+                    }
+                }, */
+                messages: {
+                    required: "请填写用户名",
+                    /*  remote: "用户名已存在", */
+                    rangelength: "用户名长度不符合规范"
+                }
+            });
+        }
+    }
+    /*
+    点击添加用户时需要做的操作：
+        1.修改提交表单的URL
+        2.将username的readonly属性移除
+        3.清空表单数据
+     */
+    function setUrl() {
+        myUrl = 'oldmsg/addOldmanMsg';
+        $('#username').removeAttr("readonly");
+        $('#form-data input').val("");
+    }
+    //提交表单
+    function checkForm() {
+        var formData;
+        //将表单内容序列化，即可得到相应对象，直接传到后台
+        // ！！！！！
+        //userid为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错！！！
+        // ！！！！！
+        // 此处绑定表单数据
+        if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
+            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId').serializeArray();
+        }
+        //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
+        else {
+            formData = $('#form-data').serializeArray();
+        }
+        $.ajax({
+            url: myUrl,      //根据操作传入不同的URL
+            data: formData,  //传入序列化的表单对象
+            type: "post",
+            datatype: 'text',
+            async: false,    //异步传输
+            timeout: 50000,
+            //设置编码
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            beforeSend: function () {
+                $('#tip').html('<span style="color: cornflowerblue">正在处理...</span>');
+                return true;
+            },
+            success: function (data) {
+                if (data === 'ok') {
+                    $('#tip').html('<span style="color: green">操作成功！</span>');
+                    location.reload();
+                } else {
+                    $('#tip').html('<span style="color: red">操作失败，请重试</span>');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                // alert(XMLHttpRequest.status);//状态码
+                // alert(XMLHttpRequest.readyState);//状态
+                // alert(textStatus);//错误信息
+                alert("出错了");
+
+            },
+            complete: function () {
+            }
+        });
+    }
 </script>
-<div id="waiter" style="padding-top: 1em">
-	
-	<!-- 按钮 -->
-	<div style="position: absolute;">
-	<form action="user/selectName">
-		<input id="queryInput" name="name" type="text" placeholder="请输入查询内容" style="margin-top: -1em">
-		
-		<input class="btn btn-info btn-sm" id="btn_query" style="margin-top: -.4em" type="submit" value="搜索">
-		</form>
-	</div>
-	<div class="btns" style="float: right;">
-		
-		<button class="btn btn-info btn-sm" id="btn_add">添加</button>
-		<button  onclick="todelect()" class="btn btn-danger btn-sm" id="btn_batchDel">批量删除</button>
-	</div>
-	<!-- 数据表格 -->
-	<div class="table_content">
-		<table class="table table-sm table-bordered table-hover text-center">
-		  <thead>
-		    <tr>
-		      <th scope="col"><input type="checkbox"></th>
-		      <th scope="col">姓名</th>
-		      <th scope="col">电话</th>
-		      <th scope="col">密码</th>
-		      <th scope="col">入职时间</th>
-		      <th scope="col">角色</th>
-		      <th scope="col">操作</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		  <c:forEach items="${users}" var="user">
-		    <tr>
-				      <td><input type="checkbox" value="${user.id}" name="id"></td>
-				      <td>${user.userName}</td>
-				      <td>110</td>
-				      <td>${user.password}</td>
-				      <td>${user.workTime}</td>
-				      <td>${user.role.power}</td>
-				      <td>
-						<i class='iconfont icon-edit' id='edit'></i>
-						<a class='iconfont icon-shanchu' id='del1' href="user/deleteUser?id=${user.id}"></a>
-				      </td>
-		    </tr>
-		    </c:forEach>
-		  </tbody>
-		</table>
-		<!-- 分页 -->
-		
-	</div>
-	
-	<div style="position: relative;display: flex;justify-content: flex-end;">
-		<nav aria-label="Page navigation example" >
-			<c:if test="${users.size()>1 || select==null}">
-			  <ul class="pagination" onclick="pageChange(event)">
 
-			    <li class="page-item">
-			      <a class="page-link" href="user/pages?currpage=${sessionScope.pu.curPage-1}" aria-label="Previous">
-			        <span aria-hidden="true">&laquo;</span>
-			      </a>
-			    </li>
-			    <li class="page-item"><a class="page-link" href="#">${sessionScope.pu.curPage}</a></li>
-			    <li class="page-item">
-			      <a class="page-link" href="user/pages?currpage=${sessionScope.pu.curPage+1}" aria-label="Next">
-			        <span aria-hidden="true">&raquo;</span>
-			      </a>
-			    </li>
-	  			</ul>
-	  			</c:if>
-			</nav>
-	</div>
-	
-<!-- 模态框 -->
-	<div class="modal fade" id="waiterModal">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title">添加员工</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	        <form onsubmit="return false" action="user/addUser" id="myForm" method="post" enctype="multipart/form-data">
-			  <div class="form-group row" id="name_err">
-			    <label for="input_realname" class="col-sm-2 col-form-label">姓名<span class="name_err" style="color: red;">请输入至少一位字母</span></label>
-			    <input type="text" class="form-control col-sm-10" id="input_realname" name="userName" placeholder="请输入姓名" style="margin-left: -.5em" autofocus>
-			    <span id="name_error" style="display:none;color:red;margin-top: 4em;left: 8em;font-size: 10px;">用户名不能为空</span>
-			  </div>
-			  <div class="form-group row" id="password_err">
-			    <label for="input_password" class="col-sm-2 col-form-label">密码<span class="password_err" style="color: red;">请输入至少一位数字</span></label>
-			    <input type="password" class="form-control col-sm-10" id="input_password" name="password" placeholder="请输入密码" style="margin-left: -.5em">
-			    <span id="password_error" style="display:none;color:red;margin-top: 4em;left: 8em;font-size: 10px;">密码不能为空</span>
-			  </div>
-			  <div class="form-group row" id="money_err">
-			    <label for="input_money" class="col-sm-2 col-form-label">工资<span class="password_err" style="color: red;">请输入至少一位数字</span></label>
-			    <input type="text" class="form-control col-sm-10" id="input_money" name="salary" placeholder="请输入工资" style="margin-left: -.5em">
-			  </div>
-			  <div class="form-group row" id="time_err">
-			    <label for="input_time" class="col-sm-2 col-form-label">入职<span class="password_err" style="color: red;">请输入至少一位数字</span></label>
-			    <input type="date" class="form-control col-sm-10" id="input_time" placeholder="请选择入职时间" name="workTime" style="margin-left: -.5em">
-			  </div>
-			  <div class="form-group row" id="roles_err">
-			    <label for="input_roles" class="col-sm-2 col-form-label">权限<span class="password_err" style="color: red;">请输入至少一位数字</span></label>
-			    <select style="border: 1px solid #ced4da;border-radius: 5px;width: 405px;margin-left: -.6em;color:#495057;" id="roles" defaultValue="" name="roleId">
-                                            <option value="">请选择角色</option>
-                                            <c:forEach items="${powers}" var="p">
-                                            <option value="${p.id}">${p.power}</option>
-                                            </c:forEach>
-                </select>	
-			  </div>
-			   <div class="form-group row">
-			    <label for="exampleFormControlFile1" class="col-sm-2 col-form-label">照片</label>
-			    <input type="file" class="form-control-file col-sm-10" id="exampleFormControlFile1" name="avator" style="margin-left: -1em;padding-top:.4em">
-			  </div>
-			 <!--  <div class="form-group" id="role_err">
-			    <label for="input_password">角色<span class="password_err" style="color: red;">请输入至少一位数字</span></label>
-			    <input type="password" class="form-control" id="input_password" placeholder="请输入角色">
-			  </div> -->
-			 
-			</form>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" id="btn_none">取消</button>
-	        <button type="button" class="btn btn-primary" id="addWaiter">保存</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<!-- 模态框结束 -->
-</div>
-<!-- 批量删除 -->
+<body>
+    <div class="container-fluid">
+        <div class="tool">
+            <div class="row">
+                <br />
+                <form action="oldmsg/getMsgBySource" class="form-horizontal">
+                    <div class="col-sm-3">
+                        <input name="source" type="text" id="search" class="form-control">
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="submit" class="btn btn-primary">搜索</button>
+                    </div>
+                </form>
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
+                        onclick="setUrl()">添加护工</button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
+                        th:onclick="">批量删除</button>
+                </div>
+            </div>
+        </div>
+        <br>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>工号</th>
+                    <th>姓名</th>
+                    <th>照片</th>
+                    <th>身份证</th>
+                    <th>家庭住址</th>
+                    <th>入职时间</th>
+                    <th>电话</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${oldPages.list}" var="old">
+                    <tr th:each="user : ${userlist}">
+                        <td><input type="checkbox" value="${old.id}"></td>
+                        <td th:text="${user.userID}">${old.id}</td>
+                        <td th:text="${user.username}">${old.oldmanName}</td>
+                        <td th:text="${user.password}"><img src="./" alt="没有图片"></td>
+                        <td th:text="${user.phone}">${old.age}</td>
+                        <td th:text="${user.email}">${old.gender}</td>
+                        <td th:text="${user.email}">
+                            <%-- ${old.checkintime} --%>
+                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
+                        </td>
+                        <td th:text="${user.email}">${old.telphone}</td>
+                        <td>
+                            <!--传入当前用户id-->
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                data-target="#deleteModal" data-orderId="${old.id}">删除</button>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+        <!-- 分页开始 -->
+        <div class="divcss5-left">
+            <table width="461" height="24" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td width="120">当前为第${oldPages.pageNum}页,共${oldPages.pages}页</td>
+                    <!-- <td width="199">
+                    <c:forEach items="${oldPages.navigatepageNums}" var="p">
+                        <a>${p }</a>
+                    </c:forEach>
+                </td> -->
+                    <td width="256">
+                        <c:choose>
+                            <c:when test="${oldPages.hasPreviousPage}">
+                                <a href="oldmsg/getmsg/1">首页</a> |
+                                <a href="oldmsg/getmsg/${oldPages.pageNum -1 }">上一页</a>
+                            </c:when>
+                            <c:otherwise>
+                            </c:otherwise>
+                        </c:choose>
 
- <script>
-	var baseURL = 'http://134.175.100.63:6677';
-	// 该id是点击修改按钮时获取的id，设置为全局变量
-	var EditId;
-	// 查询所有数据
-	function loadData(){
-		// 在每次追加数据之前，先清空table
-		$('.table tbody').empty();
-		var url_findAll = baseURL+'/waiter/findAll';
-		$.get(url_findAll,function(result){
-			result.data.forEach(function(item){
-				var newTr = $(`
-					<tr>
-				      <td><input type="checkbox" value="`+item.id+`"></td>
-				      <td>`+item.realname+`</td>
-				      <td>`+item.password+`</td>
-				      <td>`+item.telephone+`</td>
-				      <td>
-						<i class='iconfont icon-edit' id='edit'></i>
-						<i class='iconfont icon-shanchu' id='del'></i>
-				      </td>
-				    </tr>
-				`);
-				// 将生成的newTr追加到tbody上
-				$('.table tbody').append(newTr);
-			})
-		});
-	}
-	// 关闭提示框，在点击提示框中的x才调用该函数
-	function closeAlert(){
-		$(this).parents('.alert').remove();
-	}
-	// 分页函数
-	function pageChange(e){
-		console.log(e.target.innerText,"ssss")
-	}
-	$(function(){
-		// 加载所有数据
-		// loadData();
-
-		// 批量删除
-		$('#btn_batchDel').click(function(){
-			var url_batchDel = baseURL+'/waiter/batchDelete';
-			var ids = $(':checkbox:checked').map(function(index,item){
-				return $(item).val();
-			}).toArray();
-			var data = '';
-			for(index in ids){
-				if(index == 0){
-					data += 'ids='+ids[index]
-				}else{
-					data +='&ids='+ids[index]
-				}
-			}
-			$.post(url_batchDel,data,function(result){
-				console.log(result);
-				loadData();
-			})
-		})
-		$('#input_realname').blur(function(){
-			if($('#input_realname').val()==""){
-				var span=document.getElementById('name_error');
-				span.style.display="block"
-			}else{
-				var span1=document.getElementById('name_error');
-				span1.style.display="none"
-			}
-		})
-		$('#input_password').blur(function(){
-			if($('#input_password').val()==""){
-				var span=document.getElementById('password_error');
-				span.style.display="block"
-			}else{
-				var span2=document.getElementById('password_error');
-				span2.style.display="none"
-			}
-		})
-		// 添加或修改数据
-		$('#addWaiter').click(function(){
-			if($('#input_realname').val()!=""&&$('#input_password').val()!=""){
-				var span1=document.getElementById('name_error');
-				var span2=document.getElementById('password_error');
-				span1.style.display="none"
-				span2.style.display="none"
-				document.getElementById('myForm').submit()
-			}else{
-				if($('#input_password').val()=="" && $('#input_realname').val()==""){
-					var span=document.getElementById('password_error');
-					span.style.display="block"
-					var span1=document.getElementById('name_error');
-					span1.style.display="block"
-				}else if($('#input_realname').val()==""||$('#input_realname').val()==""){
-					if($('#input_password').val()==""){
-						var span=document.getElementById('password_error');
-						span.style.display="block"
-					}else{
-						var span=document.getElementById('name_error');
-						span.style.display="block"
-					}
-				}
-			}
-			var name = $('#input_realname').val();
-			var phone = $('#input_telephone').val();
-			var password = $('#input_password').val();
-			var pattern_name = /^[a-z]{1,}$/ig;
-			var pattern_phone = /^\d{9,11}$/ig;
-			var pattern_password = /^\d{1,}$/ig;
-			var name_res = pattern_name.test(name);
-			var phone_res = pattern_phone.test(phone);
-			var password_res = pattern_password.test(password);
-			if(name_res && phone_res && password_res){
-				if(EditId){
-					// id存在，即修改
-					var data = {
-						id:EditId,
-						realname:name,
-						telephone:phone,
-						password:password
-					}
-					var url_editCustomer = baseURL+'/waiter/saveOrUpdate';
-					$.post(url_editCustomer,data,function(result){
-						console.log(result,'修改');
-						loadData();
-					});
-					// 将id置为空，否则点击修改后再次点击添加，还是修改
-					EditId = '';
-					$('#waiterModal').modal('hide');	
-				}else{
-					// id不存在，即添加
-					var data = {
-						realname:name,
-						telephone:phone,
-						password:password
-					}
-					var url_addCustomer = baseURL+'/waiter/saveOrUpdate';
-					$.post(url_addCustomer,data,function(result){
-						console.log(result);
-						loadData();
-					});
-					$('#waiterModal').modal('hide');	
-				}
-			}
-
-			
-		})
-		
-		// 显示模态框
-		$('#btn_add').click(function(){
-			$('#waiterModal').modal('show');
-			$('#name_err span').addClass('name_err');
-			$('#telephone_err span').addClass('telephone_err');
-			$('#password_err span').addClass('password_err');
-		})
-		// 关闭模态框
-		$('#btn_none').click(function(){
-			$('#waiterModal').modal('hide');
-		})
-
-		// 监听模态框的关闭，清空模态框内容
-		$('#waiterModal').on('hidden.bs.modal', function(e){
-		  $(this).find('form')[0].reset();
-		})
-		$('#btn_query').click(function(event){
-			console.log($('#queryInput')[0].value)
-			alert(JSON.stringify(event))
-		})
-		// 删除与修改按钮
-		$('.table tbody').on('click','i',function(){
-			switch(this.id){
-				// 修改
-				case 'edit':
-					// 打开模态框
-				 	$('#waiterModal').modal('show');
-				 	// 获取当前行的值并放入模态框（不能在此处就发送请求）
-					EditId = $(this).parents('tr').find('td').find('input').val();
-				 	var name = $(this).parents('tr').find('td:nth-child(2)').text();
-				 	var telephone = $(this).parents('tr').find('td:nth-child(3)').text();
-				 	var password = $(this).parents('tr').find('td:nth-child(4)').text();
-				 	$('#input_realname').val(name);
-				 	$('#input_telephone').val(telephone);
-				 	$('#input_password').val(password);
-					break;
-				// 删除
-				case 'del':
-				 	var url_del = baseURL+'/waiter/deleteById';
-					var id = $(this).parents('tr').find('input[type=checkbox]').val();
-					var data = {
-						id:id
-					}
-					$.get(url_del,data,function(result){
-						if(result.status === 200){
-							loadData();
-							// 删除并刷新数据后，追加提示框
-							$(`
-								<div class="alert alert-info alert-dismissible" id='mySuccessAlert'>
-									<div>
-										删除成功
-									</div>
-									<button class="close" onclick="closeAlert.call(this)" id='btn_success'>
-										~
-									</button>
+                        <c:choose>
+                            <c:when test="${oldPages.hasNextPage}">
+                                <a href="oldmsg/getmsg/${oldPages.pageNum + 1 }">下一页</a> |
+                                <a href="oldmsg/getmsg/${oldPages.pages }">尾页</a>
+                            </c:when>
+                            <c:otherwise>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- 分页结束 -->
+        <!--模态框-->
+        <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
+            <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="updateModalLabel">
+                                护工信息
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" class="form-horizontal">
+                                <!--userid为隐藏的input，便于update时的传值-->
+                                <input type="text" id="userID" name="id" hidden>
+                                <div class="form-group">
+                                    <label for="username" class="col-sm-3 control-label">姓名</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="username" name="oldmanName"
+                                            placeholder="姓名长度在5-18字符之间">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="age" class="col-sm-3 control-label">年龄</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">
+                                    </div>
 								</div>
-							`).prependTo($('body'));
-							// 延时调用，2s后模拟点击提示框的关闭按钮
-							setTimeout(function(){
-								$('#btn_success').trigger('click');
-							},2000);
-						}else{
-							$(`
-								<div class="alert alert-info alert-dismissible" id='myWarnAlert'>
-									<div>
-										删除失败，接口异常
-									</div>
-									<button class="close" onclick="closeAlert.call(this)" id='btn_warn'>
-										！
-									</button>
+								<div class="form-group">
+                                    <label for="age" class="col-sm-3 control-label">家庭住址</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入家庭住址">
+                                    </div>
 								</div>
-							`).prependTo($('body'));
-							setTimeout(function(){
-								$('#btn_warn').trigger('click')
-							},2000);
-						}
-					});
-					break;
-			}	
-		})	
-	}); 
-	</script>
+								<div class="form-group">
+                                    <label for="age" class="col-sm-3 control-label">入职时间</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入入职时间">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="gender" class="col-sm-3 control-label">性别</label>
+                                    <div class="col-sm-9">
+                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
+                                            data-live-search="false">
+                                            <option value="男">男</option>
+                                            <option value="女">女</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="health" class="col-sm-3 control-label">身份证号</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="health" name="health"
+                                            placeholder="请输入身份证号">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="telphone" class="col-sm-3 control-label">手机号</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="telphone" name="telphone"
+                                            placeholder="请输入手机号">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="username" class="col-sm-3 control-label">照片</label>
+                                    <div class="col-sm-9">
+                                        <label for="file">
+                                            <div class="fileBox">
+                                                <div class="warp">
+                                                    <input type="file" id="file" />
+                                                </div>
+                                                <img src="" />
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
+                    所以把按钮类型改为input，再手动调用封装好的验证函数-->
+                            <button type="input" class="btn btn-primary" onclick="vali();">提交</button>
+                            <span id="tip"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
 
+        <!--删除模态框-->
+        <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
+            <div class="modal fade bs-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="">
+                                警告：确认删除？
+                            </h4>
+                        </div>
+                        <div class="modal-footer">
+                            <!--  onclick="deletebyId()" -->
+                            <button id="tijiao" type="input" class="btn btn-danger">确定</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
+                      所以把按钮类型改为input，再手动调用封装好的验证函数-->
+                            <span id="tip"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- 删除模态框结束 -->
+    </div>
+</body>
+<script type="text/javascript">
+    //删除
+    $("#deleteModal").on("shown.bs.modal", function (e) {
+        $("#tijiao").on("click", function () {
+            //定义url
+            var idval = "";
+            //判断checkbox是否勾选
+            var arr = $("input:checked");
+            if (arr.length !== 0) {
+                //批量删除
+                for (var i = 0; i < arr.length; i++) {
+                    if (i == arr.length - 1) {
+                        idval = idval + arr[i].value;
+                    } else {
+                        idval = idval + arr[i].value + ","
+                    }
+                }
+            } else {
+                //根据id删除
+                idval = $(e.relatedTarget).data('orderid');
+            }
+            //发送请求
+            var myUrl = 'http://localhost:2333/oldmsg/remove?id=' + idval;
+            var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
+            httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
+            httpRequest.send();//第三步：发送请求  将请求参数写在URL中
+            //结果处理
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                    var str = httpRequest.responseText;
+                    alert(str);
+                }
+            };
+        });
+    })
+    // 上传图片
+    var file = document.getElementById('file');
+    var image = document.querySelector("img");
+    file.onchange = function () {
+        var fileData = this.files[0];//获取到一个FileList对象中的第一个文件( File 对象),是我们上传的文件
+        var pettern = /^image/;
+        console.info(fileData.type)
+        if (!pettern.test(fileData.type)) {
+            alert("图片格式不正确");
+            return;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(fileData);//异步读取文件内容，结果用data:url的字符串形式表示
+        /*当读取操作成功完成时调用*/
+        reader.onload = function (e) {
+            console.log(e); //查看对象
+            console.log(this.result);//要的数据 这里的this指向FileReader（）对象的实例reader
+            // image.setAttribute("src", this.result)
+        }
+    }
+</script>
 
-
-<style>
-	.btns{
-		margin-bottom: 1em;
-	}
-	.btns button {
-		margin-right: 0.5em;
-	}
-	/*删除成功弹出框*/
-	#mySuccessAlert{
-		width: 200px;
-		position: absolute;
-		right: 5%;
-		top: 8.5%;
-		z-index: 100;
-	}
-	/*删除失败弹出框*/
-	#myWarnAlert{
-		width: 250px;
-		position: absolute;
-		right: 5%;
-		top: 8.5%;
-		z-index: 100;
-	}
-	/*模态框姓名栏*/
-	#name_err{
-		position: relative;
-	}
-	/*表单验证提示——姓名*/
-	.name_err{
-		display: none;
-	}
-	#name_err span{
-		position: absolute;
-		right: 0;
-	}
-	/*模态框电话栏*/
-	#telephone_err{
-		position: relative;
-	}
-	/*表单验证提示——电话*/
-	.telephone_err{
-		display: none;
-	}
-	#telephone_err span{
-		position: absolute;
-		right: 0;
-	}
-	/*模态框密码栏*/
-	#password_err{
-		position: relative;
-	}
-	/*表单验证提示——密码*/
-	.password_err{
-		display: none;
-	}
-	#password_err span{
-		position: absolute;
-		right: 0;
-	}
-</style>
+</html>
