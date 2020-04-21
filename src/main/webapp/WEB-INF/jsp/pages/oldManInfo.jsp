@@ -40,6 +40,11 @@
             width: 350px;
             height: 50px;
         }
+        .warp {
+            display: inline-block;
+            vertical-align: bottom;
+            position: relative;
+        }
     </style>
 </head>
 <script>
@@ -397,9 +402,11 @@
                                     <label for="username" class="col-sm-3 control-label">照片</label>
                                     <div class="col-sm-9">
                                         <label for="file">
-                                            <div class="panel updatepanel">
-                                                <div class="addbox"><span class="icon-add-50">+点击上传</span></div>
-                                                <input type="file" id="oldman_img" style="display: none" />
+                                            <div class="fileBox">
+                                                <div class="warp">
+                                                    <input type="file" id="file" />
+                                                </div>
+                                                <img src="" />
                                             </div>
                                         </label>
                                     </div>
@@ -483,24 +490,25 @@
         });
     })
     // 上传图片
-    $(".updatepanel").height($(".panel-info").height());
-    document.getElementById('file').onchange = function () {
-        add();
-        var imgFile = this.files[0];
-        var fr = new FileReader();
-        fr.onload = function () {
-            var imgs = document.getElementsByClassName('updateimg');
-            imgs[imgs.length - 1].src = fr.result;
-        };
-        fr.readAsDataURL(imgFile);
-    };
-    function add() {
-        var html = "<div class='col-sm-4'><div class='panel panel-info'><div class='panel-heading'><i class='fa fa-times'></i></div><div class='panel-body' style='text-align: center;'><div class='row'><div class='col-sm-12 col-md-12'><img class='updateimg img-responsive' src='img/p_big3.jpg' style='width: inherit;height: 210px;'/></div></div></div></div></div>";
-        $("#updatebox").before(html);
+    var file = document.getElementById('file');
+    var image = document.querySelector("img");
+    file.onchange = function () {
+        var fileData = this.files[0];//获取到一个FileList对象中的第一个文件( File 对象),是我们上传的文件
+        var pettern = /^image/;
+        console.info(fileData.type)
+        if (!pettern.test(fileData.type)) {
+            alert("图片格式不正确");
+            return;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(fileData);//异步读取文件内容，结果用data:url的字符串形式表示
+        /*当读取操作成功完成时调用*/
+        reader.onload = function (e) {
+            console.log(e); //查看对象
+            console.log(this.result);//要的数据 这里的this指向FileReader（）对象的实例reader
+            // image.setAttribute("src", this.result)
+        }
     }
-    $(".fa-times").click(function () {
-        $(this).parent().parent().parent().remove();
-    });
 </script>
 
 </html>
