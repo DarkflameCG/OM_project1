@@ -11,65 +11,65 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/common")
 public class CommonController {
 	
-	@RequestMapping("/attendance")
+	@RequestMapping("/attendance") //护工考勤
 	public String test1() {
-		return "pages/attendance";
+		return "pages/attendance"; 
 	}
 	
-	@RequestMapping("/exam")
+	@RequestMapping("/exam") //体检
 	public String test2() {
 		return "pages/exam";
 	}
 	
-	@RequestMapping("/home")
+	@RequestMapping("/home") //家属
 	public String test3() {
 		return "pages/home";
 	}
-	@RequestMapping("/money")
+	@RequestMapping("/money") //工资
 	public String test4() {
 		return "pages/money";
 	}
-	@RequestMapping("/moneyLog")
+	@RequestMapping("/moneyLog") //收费记录
 	public String test5() {
 		return "pages/moneyLog";
 	}
-	@RequestMapping("/moneySetting")
+	@RequestMapping("/moneySetting") //收费设置
 	public String test6() {
 		return "pages/moneySetting";
 	}
-	@RequestMapping("/oldmanQingjia")
+	@RequestMapping("/oldmanQingjia") //老人请假
 	public String test7() {
 		return "pages/oldmanQingjia";
 	}
-	@RequestMapping("/oldmanRuzhu")
+	@RequestMapping("/oldmanRuzhu") //老人入住
 	public String test8() {
 		return "pages/oldmanRuzhu";
 	}
-	@RequestMapping("/oldmanWaichu")
+	@RequestMapping("/oldmanWaichu") //老人外出
 	public String test9() {
 		return "pages/oldmanWaichu";
 	}
-	@RequestMapping("/oldmanZhuanfang")
+	@RequestMapping("/oldmanZhuanfang") //老人转房
 	public String test10() {
 		return "pages/oldmanZhuanfang";
 	}
-	@RequestMapping("/provid")
+	@RequestMapping("/provid") //
 	public String test11() {
 		return "pages/provid";
 	}
-	@RequestMapping("/roles")
+	@RequestMapping("/roles") //角色管理
 	public String test12() {
 		return "pages/roles";
-	}
-	@RequestMapping("/seek")
+	} 
+	@RequestMapping("/seek")  //外出就医
 	public String test13() {
 		return "pages/seek";
 	}
-	@RequestMapping("/setting")
+	@RequestMapping("/setting") //个人设置
 	public String test14() {
 		return "pages/setting";
 	}
-	@RequestMapping("/usermanager")
+	@RequestMapping("/usermanager") //用户管理
 	public String test15() {
 		return "pages/usermanager";
 	}
