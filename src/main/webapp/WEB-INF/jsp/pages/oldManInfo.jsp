@@ -34,67 +34,69 @@
 
     <!-- (Optional) Latest compiled and minified JavaScript translation files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
+    <style>
+        .divcss5-left {
+            float: right;
+            width: 350px;
+            height: 50px;
+        }
+    </style>
 </head>
 <script>
 
     //定义一个变量用于存储添加和修改时不同的URL
     var myUrl;
     //传入点击的用户id，获取该用户信息并放入表单中
-    function update(id,a) {
+    function update(id, a) {
         //将提交表单的URL变为update
-        
         myUrl = 'oldmsg/edit';
-        $("#userID").attr("value",id);
+        $("#userID").attr("value", id);
         alert(id);
         if (!id) {
             alert('id错误');
             return false;
         }
-        
         //获取当前控件的父控件 tr
         var temp = $(a).parent().parent();
-        
         //获取当前行tr下的所有td
-        var t = temp[0].cells;   
+        var t = temp[0].cells;
         //模态框赋值
         $('#username').val(t[2].innerHTML);
         $('#age').val(t[4].innerHTML);
         $('#gender').val(t[5].innerHTML);
         $('#telphone').val(t[9].innerHTML);
         $('#health').val(t[7].innerHTML);
-
         //给姓名框设置只读
         //$('#username').attr("readonly", "readonly");
-        
         //下面是使用ajax动态的放数据
-       /*  $.ajax(
-            {
-                url: "/toUpdateUser",
-                data: { "id": id },
-                type: "post",
-                //解决编码问题
-                scriptCharset: 'utf-8',
-                beforeSend: function () {
-                    return true;
-                },
-                success: function (data) {
-                    if (data) {
-                        //解析json数据
-                        var data = data;
-                        var user = eval("(" + data + ")");
-
-                        //赋值
-                        $('#userID').val(user.userID);
-                        $('#username').val(user.username);
-                        $('#password').val(user.password);
-                        $('#phone').val(user.phone);
-                        $('#email').val(user.email);
-
-                        //在修改用户信息时，username不可修改
-                        $('#username').attr("readonly", "readonly");
-                    }
-                }
-            }); */
+        /*  $.ajax(
+             {
+                 url: "/toUpdateUser",
+                 data: { "id": id },
+                 type: "post",
+                 //解决编码问题
+                 scriptCharset: 'utf-8',
+                 beforeSend: function () {
+                     return true;
+                 },
+                 success: function (data) {
+                     if (data) {
+                         //解析json数据
+                         var data = data;
+                         var user = eval("(" + data + ")");
+ 
+                         //赋值
+                         $('#userID').val(user.userID);
+                         $('#username').val(user.username);
+                         $('#password').val(user.password);
+                         $('#phone').val(user.phone);
+                         $('#email').val(user.email);
+ 
+                         //在修改用户信息时，username不可修改
+                         $('#username').attr("readonly", "readonly");
+                     }
+                 }
+             }); */
     }
 
     //表单字段验证
@@ -106,7 +108,6 @@
             onblur: function (element) { $(element).valid(); },    //鼠标移开验证。这里写onblue:true没有效果
             onsubmit: true,      //提交时验证（有效）
             onkeyup: false,
-
             rules: {
                 password: {
                     required: true,
@@ -145,7 +146,6 @@
         //username的校验只在添加操作时才需要
         //通过对username的readonly属性验证来判断是添加还是更新
         //
-
         if ($('#username').attr("readonly") == undefined) {
             $('#username').rules("add", {
                 required: true,
@@ -174,8 +174,6 @@
             });
         }
     }
-
-
     /*
     点击添加用户时需要做的操作：
         1.修改提交表单的URL
@@ -187,8 +185,6 @@
         $('#username').removeAttr("readonly");
         $('#form-data input').val("");
     }
-
-
     //提交表单
     function checkForm() {
         var formData;
@@ -204,7 +200,6 @@
         else {
             formData = $('#form-data').serializeArray();
         }
-
         $.ajax({
             url: myUrl,      //根据操作传入不同的URL
             data: formData,  //传入序列化的表单对象
@@ -234,11 +229,9 @@
 
             },
             complete: function () {
-
             }
         });
     }
-
 </script>
 
 <body>
@@ -247,7 +240,6 @@
             <div class="row">
                 <br />
                 <form action="oldmsg/getMsgBySource" class="form-horizontal">
-
                     <div class="col-sm-3">
                         <input name="source" type="text" id="search" class="form-control">
                     </div>
@@ -256,7 +248,6 @@
                     </div>
                 </form>
                 <div class="col-sm-4">
-
                 </div>
                 <div class="col-sm-2">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
@@ -315,35 +306,37 @@
             </tbody>
         </table>
         <!-- 分页开始 -->
-        <table width="461" height="24" border="1" cellpadding="0" cellspacing="0">
-            <tr>
-                <td width="199">当前为第${oldPages.pageNum}页,共${oldPages.pages}页</td>
-                <td width="199">
+        <div class="divcss5-left">
+            <table width="461" height="24" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td width="120">当前为第${oldPages.pageNum}页,共${oldPages.pages}页</td>
+                    <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
                     </c:forEach>
-                </td>
-                <td width="256">
-                    <c:choose>
-                        <c:when test="${oldPages.hasPreviousPage}">
-                            <a href="oldmsg/getmsg/1">首页</a> |
-                            <a href="oldmsg/getmsg/${oldPages.pageNum -1 }">上一页</a>
-                        </c:when>
-                        <c:otherwise>
-                        </c:otherwise>
-                    </c:choose>
+                </td> -->
+                    <td width="256">
+                        <c:choose>
+                            <c:when test="${oldPages.hasPreviousPage}">
+                                <a href="oldmsg/getmsg/1">首页</a> |
+                                <a href="oldmsg/getmsg/${oldPages.pageNum -1 }">上一页</a>
+                            </c:when>
+                            <c:otherwise>
+                            </c:otherwise>
+                        </c:choose>
 
-                    <c:choose>
-                        <c:when test="${oldPages.hasNextPage}">
-                            <a href="oldmsg/getmsg/${oldPages.pageNum + 1 }">下一页</a> |
-                            <a href="oldmsg/getmsg/${oldPages.pages }">尾页</a>
-                        </c:when>
-                        <c:otherwise>
-                        </c:otherwise>
-                    </c:choose>
-                </td>
-            </tr>
-        </table>
+                        <c:choose>
+                            <c:when test="${oldPages.hasNextPage}">
+                                <a href="oldmsg/getmsg/${oldPages.pageNum + 1 }">下一页</a> |
+                                <a href="oldmsg/getmsg/${oldPages.pages }">尾页</a>
+                            </c:when>
+                            <c:otherwise>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                </tr>
+            </table>
+        </div>
         <!-- 分页结束 -->
         <!--模态框-->
         <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
@@ -418,7 +411,6 @@
                             <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                     所以把按钮类型改为input，再手动调用封装好的验证函数-->
                             <button type="input" class="btn btn-primary" onclick="vali();">提交</button>
-
                             <span id="tip"></span>
                         </div>
                     </div>
@@ -453,12 +445,9 @@
             </div>
         </form>
         <!-- 删除模态框结束 -->
-
     </div>
-    <div th:insert="template/footer :: copyright"></div>
 </body>
 <script type="text/javascript">
-
     //删除
     $("#deleteModal").on("shown.bs.modal", function (e) {
         $("#tijiao").on("click", function () {
@@ -493,11 +482,6 @@
             };
         });
     })
-    
-
-    
-    
-    
     // 上传图片
     $(".updatepanel").height($(".panel-info").height());
     document.getElementById('file').onchange = function () {
