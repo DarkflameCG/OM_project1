@@ -56,7 +56,6 @@
         //将提交表单的URL变为update
         myUrl = 'oldmsg/edit';
         $("#userID").attr("value", id);
-        alert(id);
         if (!id) {
             alert('id错误');
             return false;

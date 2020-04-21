@@ -278,13 +278,13 @@
                         <td><input type="checkbox" value="${old.id}"></td>
                         <td th:text="${user.userID}">${old.id}</td>
                         <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.phone}">${old.age}</td>
-                        <td th:text="${user.email}">${old.gender}</td>
-                        <td th:text="${user.email}">
+                        <td th:text="${user.gender}">${old.gender}</td>
+                        <td th:text="${user.date}">
                             <%-- ${old.checkintime} --%>
                             <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td th:text="${user.email}">${old.health}</td>
+                        <td th:text="${user.index}">量血压</td>
+                        <td th:text="${user.index}"><a href="#">下载</a></td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
