@@ -1,0 +1,103 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<base href="<%=basePath%>">
+<!-- Bootstrap CSS -->
+<link href="html/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<!-- Font Awesome CSS -->
+<link href="html/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<!-- Custom CSS -->
+<link href="html/assets/css/style.css" rel="stylesheet" type="text/css" />
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="This is my page">
+<LINK href="css/style_cn.css" type=text/css rel=stylesheet>
+<LINK href="css/calendar-win2k-cold-1.css" type=text/css rel=stylesheet>
+<SCRIPT src="js/global.js" type=text/javascript></SCRIPT>
+<SCRIPT src="js/menu.js" type=text/javascript></SCRIPT>
+<script type="text/javascript">
+	window.onload = function() {
+		//定时器每秒调用一次fnDate()
+		setInterval(function() {
+			fnDate();
+		}, 1000);
+	}
+	//js 获取当前时间
+	function fnDate() {
+		var oDiv = document.getElementById("div");
+		var date = new Date();
+		var year = date.getFullYear();//当前年份
+		var month = date.getMonth();//当前月份
+		var data = date.getDate();//天
+		var hours = date.getHours();//小时
+		var minute = date.getMinutes();//分
+		var second = date.getSeconds();//秒
+		var time = year + "-" + fnW((month + 1)) + "-" + fnW(data) + " "
+				+ fnW(hours) + ":" + fnW(minute) + ":" + fnW(second);
+		oDiv.innerHTML = time;
+	}
+	//补位 当某个字段不是两位数时补0
+	function fnW(str) {
+		var num;
+		str >= 10 ? num = str : num = "0" + str;
+		return num;
+	}
+</script>
+</head>
+<body>
+<div id="main">
+	<!-- top bar navigation -->
+	<div class="headerbar">
+		<!-- LOGO -->
+		<div class="headerbar-left">
+			<a href="index.html" class="logo"><img alt="Logo" src="html/assets/images/logo.png" /> <span>老人信息</span></a>
+		</div>
+		<nav class="navbar-custom">
+			<ul class="list-inline float-right mb-0">
+				<li class="list-inline-item dropdown notif">
+					<a id="div"class="nav-link dropdown-toggle nav-user" data-toggle="dropdown" href="#" aria-haspopup="false" aria-expanded="false"></a>
+				</li>
+				<li class="list-inline-item dropdown notif">
+					<a class="nav-link dropdown-toggle nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+						<img src="${login.userImg }" alt="Profile image" class="avatar-rounded">
+					</a>
+					<div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+						<!-- item-->
+						<div class="dropdown-item noti-title">
+							<h5 class="text-overflow"><small>Hello</small> </h5>
+						</div>
+						<!-- item-->
+						<a href="pro-profile.html" class="dropdown-item notify-item">
+							<i class="fa fa-user"></i> <span>个人中心</span>
+						</a>
+						<!-- item-->
+						<a href="login.html" class="dropdown-item notify-item">
+							<i class="fa fa-power-off"></i> <span>退出登录</span>
+						</a>
+					</div>
+				</li>
+			</ul>
+			<ul class="list-inline menu-left mb-0">
+				<li class="float-left">
+					<button class="button-menu-mobile open-left">
+						<i class="fa fa-fw fa-bars"></i>
+					</button>
+				</li>
+			</ul>
+		</nav>
+	</div>
+	<!-- End Navigation -->
+</div>
+</body>
+</html>
