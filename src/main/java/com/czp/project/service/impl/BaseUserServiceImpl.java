@@ -6,9 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.czp.project.common.bean.BaseUser;
+import com.czp.project.common.bean.BaseUserExample;
+import com.czp.project.common.bean.OldMan;
 import com.czp.project.dao.BaseUserMapper;
 import com.czp.project.service.interfaces.BaseUserService;
 import com.czp.project.utils.PageUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 @Service
 public class BaseUserServiceImpl implements BaseUserService {
 @Autowired
@@ -47,6 +51,18 @@ private BaseUserMapper baseUserMapper;
 	@Override
 	public BaseUser selectLogin(BaseUser baseUser) throws Exception {
 		return baseUserMapper.selectLogin(baseUser);
+	}
+	@Override
+	public int updateUser(BaseUser baseUser) throws Exception {
+		int key = baseUserMapper.updateByPrimaryKey(baseUser);
+		return key;
+	}
+	@Override
+	public PageInfo<BaseUser> selectByExample(int currpage, int row) throws Exception {
+		PageHelper.startPage(currpage, row);
+		List<BaseUser> list = baseUserMapper.selectByExample(new BaseUserExample());
+		PageInfo<BaseUser> pi = new PageInfo<BaseUser>(list);
+		return pi;
 	}
 
 }

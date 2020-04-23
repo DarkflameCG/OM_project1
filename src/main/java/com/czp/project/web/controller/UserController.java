@@ -10,6 +10,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,9 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.czp.project.common.bean.BasePower;
 import com.czp.project.common.bean.BaseUser;
+import com.czp.project.common.bean.OldMan;
 import com.czp.project.service.interfaces.BasePowerService;
 import com.czp.project.service.interfaces.BaseUserService;
 import com.czp.project.utils.PageUtil;
+import com.github.pagehelper.PageInfo;
 
 @Controller
 @RequestMapping("/user")
@@ -57,36 +62,7 @@ public class UserController {
 			session.removeAttribute("select");
 			 return "redirect:/index";
 	    }
-	   @RequestMapping("/addUser")
-       public String addUser(HttpServletRequest req,HttpSession session,BaseUser baseUser,@RequestParam("avator") MultipartFile file,Integer roleId) {
-		   BasePower role=new BasePower();
-		   role.setId(roleId);
-		   baseUser.setRole(role);
-		   if(file!=null){
-				String filename = file.getOriginalFilename();
-				System.out.println("获取到的文件:"+file.getOriginalFilename());
-				//找到一个路径存放文件
-				//String realPath = "I:\\briup1606\\workspace04\\runssm\\WebContent\\file";
-				String realPath = 
-						req.getServletContext().getRealPath("/file");
-				System.out.println(realPath);
-				//创建一个文件，并将上传文件资料传入
-				File dest = new File(realPath, filename);
-				try {
-					file.transferTo(dest);
-					baseUser.setUserImg("file/"+filename);
-					baseUserService.addUser(baseUser);
-					session.removeAttribute("select");
-				} catch (Exception e) {
-					e.printStackTrace();
-					session.setAttribute("msg", "添加失败");
-					//return "/WEB-INF/member/createSpace.jsp";
-				}
-				//标识点击了员工信息
-				session.setAttribute("index", 1);
-			}
-     	  return "redirect:/index";
-       }
+	  
 	   //删除用户
 	   @RequestMapping("/deleteUser")
        public String deleteUser(Integer id,HttpSession session) {
@@ -143,28 +119,59 @@ public class UserController {
 			
 	  	  return "pages/waiters";
 	    }
+	   
+	   
+	   
 	   //登录验证
-	   @RequestMapping("/login")
-	    public String login(String username,String password,int roleId,HttpSession session,Model model) {
-		   BaseUser baseUser=new BaseUser();
-		   baseUser.setUserName(username);
-		   baseUser.setPassword(password);
-		   BasePower p=new BasePower();
-		   p.setId(roleId);
-		   baseUser.setRole(p);
+	   @ResponseBody
+	   @PostMapping("/login")
+	    public String login(@RequestBody BaseUser baseUser,HttpSession session) {
 			try {
 				BaseUser login = baseUserService.selectLogin(baseUser);
 				if (login==null) {
-					// TODO Auto-generated catch block
-					model.addAttribute("msg", "登陆失败");
 					return "login";
 				}
 				session.setAttribute("login", login);
 				return "index";
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				model.addAttribute("msg", "登陆失败");
 				return "login";
 			}
 	    }
+	   @RequestMapping("/me")
+		public String userSetting(){
+			   return "pages/user_setting";
+		}
+	   @RequestMapping("/updateUser")
+       public String addUser(HttpServletRequest req,HttpSession session,BaseUser baseUser,@RequestParam("image") MultipartFile file) {
+		  
+		   if(file!=null){
+				String filename = file.getOriginalFilename();
+				System.out.println("获取到的文件:"+file.getOriginalFilename());
+				//找到一个路径存放文件
+				//String realPath = "I:\\briup1606\\workspace04\\runssm\\WebContent\\file";
+				String realPath = 
+						req.getServletContext().getRealPath("/file");
+				System.out.println(realPath);
+				//创建一个文件，并将上传文件资料传入
+				File dest = new File(realPath, filename);
+				try {
+					file.transferTo(dest);
+					baseUser.setUserImg("file/"+filename);
+					baseUserService.updateUser(baseUser);
+					session.setAttribute("login", baseUser);
+				} catch (Exception e) {
+					e.printStackTrace();
+					session.setAttribute("msg", "添加失败");
+				}
+				
+			}
+     	  return "pages/user_setting";
+       }
+	   @RequestMapping("/user/{page}")
+		public String getOldManMsg(HttpSession session,
+								  @PathVariable String page) throws NumberFormatException, Exception {
+			PageInfo<BaseUser> info = baseUserService.selectByExample(Integer.parseInt(page), 2);
+			session.setAttribute("users", info);
+			return "pages/users_manager";
+		}
 }

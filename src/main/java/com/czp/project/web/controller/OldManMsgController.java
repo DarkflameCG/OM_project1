@@ -31,7 +31,6 @@ public class OldManMsgController {
 //		List<OldMan> oldlist = oldimpl.selectAll(); //查询全部
 		PageInfo<OldMan> oldPages = oldimpl.selectMsgByPage(Integer.parseInt(page), 5);
 		session.setAttribute("oldPages", oldPages);
-		
 		return "pages/oldManInfo";
 	}
 	
