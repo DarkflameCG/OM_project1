@@ -68,12 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														</div>
 														</div>
 
-														<div class="col-lg-6">
-														<div class="form-group">
-														<label>Valid Email (required)</label>
-														<input class="form-control" name="email" type="email" value="office@website.com" required />
-														</div>
-														</div>  
+														
 													</div>
 													
 													<div class="row">				
@@ -84,12 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														</div>
 														</div>              			                                
 														
-														<div class="col-lg-6">
-														<div class="form-group">
-														<label>Skype</label>
-														<input class="form-control" name="skype" type="text" value="skypeid" />
-														</div>
-														</div>   
+														
 													</div>
 													
 													<div class="row">

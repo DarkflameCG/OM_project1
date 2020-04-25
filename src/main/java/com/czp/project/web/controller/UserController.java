@@ -62,39 +62,20 @@ public class UserController {
 			session.removeAttribute("select");
 			 return "redirect:/index";
 	    }
+	/*
+	 * //删除用户
+	 * 
+	 * @RequestMapping("/deleteUser") public String deleteUser(Integer
+	 * id,HttpSession session) {
+	 * 
+	 * try { baseUserService.deleteUser(id); session.removeAttribute("select"); }
+	 * catch (Exception e) { // TODO Auto-generated catch block e.printStackTrace();
+	 * }
+	 * 
+	 * 
+	 * return "redirect:/index"; }
+	 */
 	  
-	   //删除用户
-	   @RequestMapping("/deleteUser")
-       public String deleteUser(Integer id,HttpSession session) {
-		   
-					try {
-						baseUserService.deleteUser(id);
-						session.removeAttribute("select");
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				
-			
-     	  return "redirect:/index";
-       }
-	   //批量删除
-	   @RequestMapping("/deleteAllUser")
-	   @ResponseBody
-       public String deleteAllUser(String ids,Model model,HttpSession session) {
-		   try {
-			   System.out.println("ids:"+ids);
-			String[] d=ids.split(",");//把数组里的值逗号隔开
-			   baseUserService.deleteMany(d);
-			   session.removeAttribute("select");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "error";
-		}
-		   return "ok";//返回给ajax
-					
-       }
 	   //根据名字查询
 	   @RequestMapping("/selectName")
        public String selectName(String name,HttpSession session) {
@@ -170,8 +151,45 @@ public class UserController {
 	   @RequestMapping("/user/{page}")
 		public String getOldManMsg(HttpSession session,
 								  @PathVariable String page) throws NumberFormatException, Exception {
-			PageInfo<BaseUser> info = baseUserService.selectByExample(Integer.parseInt(page), 2);
-			session.setAttribute("users", info);
+		 //分页员工信息
+		   System.out.println("确实能够:"+page);
+			PageUtil<BaseUser> pu = baseUserService.findAll(Integer.parseInt(page), 2);
+			List<BaseUser> services = pu.getData();
+			session.setAttribute("pu", pu);
+			session.setAttribute("users", services);
+		/*
+		 * PageInfo<BaseUser> info =
+		 * baseUserService.selectByExample(Integer.parseInt(page), 2);
+		 * session.setAttribute("users", info); System.out.println("二次:"+info);
+		 */
 			return "pages/users_manager";
 		}
+	   //批量或单个删除
+	   @RequestMapping("/deleteUser")
+       public String deleteAllUser(@RequestParam String id) {
+		  
+		   try {
+			   String[] d=null;
+			   int result =0;
+			   if(id.contains(",")) {
+					//批量删除
+				   d=id.split(",");//把数组里的值逗号隔开
+				    result = baseUserService.deleteMany(d); 
+				}else {		
+					 result = baseUserService.deleteUser(Integer.parseInt(id));
+				}
+			 
+			 
+				   return "pages/users_manager";
+			
+			  
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "redirect:u";
+		}
+		  //
+					
+       }
+	  
 }

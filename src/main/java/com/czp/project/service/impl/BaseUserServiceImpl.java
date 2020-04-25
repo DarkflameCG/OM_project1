@@ -25,6 +25,7 @@ private BaseUserMapper baseUserMapper;
 	@Override
 	public PageUtil<BaseUser> findAll(int curPage, int row) throws Exception {
 		List<BaseUser> all = baseUserMapper.findAll((curPage-1)*row, row);
+		System.out.println(all);
 		PageUtil<BaseUser> pu = new PageUtil<>();
 		pu.setCurPage(curPage);
 		pu.setData(all);
@@ -37,8 +38,12 @@ private BaseUserMapper baseUserMapper;
 		return baseUserMapper.getAllRows();
 	}
 	@Override
-	public void deleteUser(int id) throws Exception {
-		baseUserMapper.deleteByPrimaryKey(id);
+	public synchronized int deleteUser(int id) throws Exception {
+		System.out.println("id:"+id);
+		baseUserMapper.updateByoldman(null, id);
+		int key = baseUserMapper.deleteByPrimaryKey(id);
+		System.out.println("删除:"+key);
+		return key;
 	}
 	@Override
 	public Integer deleteMany(String[] ids) throws Exception {
@@ -59,8 +64,10 @@ private BaseUserMapper baseUserMapper;
 	}
 	@Override
 	public PageInfo<BaseUser> selectByExample(int currpage, int row) throws Exception {
+	
 		PageHelper.startPage(currpage, row);
 		List<BaseUser> list = baseUserMapper.selectByExample(new BaseUserExample());
+		System.out.println("查询："+list);
 		PageInfo<BaseUser> pi = new PageInfo<BaseUser>(list);
 		return pi;
 	}

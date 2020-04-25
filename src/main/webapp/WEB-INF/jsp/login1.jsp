@@ -122,7 +122,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 	            //请求的媒体类型
                 	            contentType: "application/json;charset=UTF-8",
                 	            //请求地址
-                	            url : "http://localhost:2333/user/login",
+                	            url : "user/login",
                 	            //数据，json字符串
                 	            data : jsonStr,
                 	            dataType: "text",

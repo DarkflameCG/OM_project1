@@ -186,7 +186,6 @@
      */
     function setUrl() {
         myUrl = 'oldmsg/addOldmanMsg';
-        $('#username').removeAttr("readonly");
         $('#form-data input').val("");
     }
     //提交表单
@@ -440,7 +439,7 @@
                         </div>
                         <div class="modal-footer">
                             <!--  onclick="deletebyId()" -->
-                            <button id="tijiao" type="input" class="btn btn-danger">确定</button>
+                            <button id="tijiao" type="button" class="btn btn-danger">确定</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                             <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                       所以把按钮类型改为input，再手动调用封装好的验证函数-->
