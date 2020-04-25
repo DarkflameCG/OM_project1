@@ -24,7 +24,7 @@ public class OldManMsgController {
 	@Autowired
 	private OldManMsgImpl oldimpl;
 	
-	
+	//分页查询全部
 	@RequestMapping("/getmsg/{page}")
 	public String getOldManMsg(HttpSession session,
 							  @PathVariable String page) throws NumberFormatException, Exception {
@@ -33,8 +33,8 @@ public class OldManMsgController {
 		session.setAttribute("oldPages", oldPages);
 		return "pages/oldManInfo";
 	}
-	
-	@RequestMapping("/getMsgBySource")
+	//分页模糊查询
+	@RequestMapping("/getMsgBySource") 
 	public String getOldManMsgByString(HttpSession session,
 									   HttpServletRequest request) {
 		String source = request.getParameter("source");
