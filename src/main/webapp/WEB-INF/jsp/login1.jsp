@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS登录拖拽补缺验证效果代码</title>
+    <title>老人信息管理系统登录</title>
 
     <link rel="stylesheet" type="text/css" href="html/JS-login/css/styles.css">
     <link rel="stylesheet" href="html/JS-login/css/jigsaw.css">

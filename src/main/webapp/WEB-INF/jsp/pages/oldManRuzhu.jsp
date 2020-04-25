@@ -267,25 +267,24 @@
                     <th>性别</th>
                     <th>时间</th>
                     <th>入住房间号</th>
-                    <th>入住时间</th>
                     <th>办理人</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${oldPages.list}" var="old">
+                <c:forEach items="${ruzhuPages.list}" var="old">
                     <tr th:each="user : ${userlist}">
                         <td><input type="checkbox" value="${old.id}"></td>
-                        <td th:text="${user.userID}">${old.id}</td>
-                        <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.password}"><img src="./" alt="没有图片"></td>
-                        <td th:text="${user.phone}">${old.age}</td>
-                        <td th:text="${user.email}">${old.gender}</td>
-                        <td th:text="${user.email}">
+                        <td th:text="">${old.id}</td>
+                        <td th:text="">${old.oldmanName}</td>
+                        <td th:text=""><img src="./" alt="没有图片"></td>
+                        <td th:text="">${old.age}</td>
+                        <td th:text="">${old.gender}</td>
+                        <td th:text="">
                             <%-- ${old.checkintime} --%>
                             <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td th:text="${user.email}">${old.health}</td>
+                        <td th:text="">${old.health}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
