@@ -109,7 +109,7 @@
   <select id="findAll" parameterType="int" resultMap="BaseUserResult"> 
 			select b.id, user_img, user_name, password,salary,work_time,title,p.id, p.power
 			from base_user_info b left outer join power p on  
-			b.role_id=p.id 
+			b.role_id=p.id order by b.id
 			 limit #{param1},#{param2}
 		</select> 
 <!--   <select id="findAll" parameterType="int" resultType="com.czp.project.common.bean.BaseUser">
@@ -369,5 +369,8 @@
       user_name = #{userName,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR}
           where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByoldman">
+    update old_man set user_id=#{userId1} where user_id=#{userId2}
   </update>
 </mapper>

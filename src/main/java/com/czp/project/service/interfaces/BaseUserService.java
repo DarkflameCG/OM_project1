@@ -18,7 +18,7 @@ public interface BaseUserService {
 			int row) throws Exception;
 	public int getAllRows() throws  Exception;
 	//删除员工
-	public void deleteUser(int id) throws Exception;
+	public int deleteUser(int id) throws Exception;
 	//批量删除
 	 public Integer deleteMany(String[] ids) throws Exception;
 	//查询

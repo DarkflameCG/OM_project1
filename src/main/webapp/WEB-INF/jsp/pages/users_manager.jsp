@@ -1,19 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    
         <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <head>
 <base href="<%=basePath%>">
-	<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
-	<link href="html/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 	<link href="html/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 	<link href="html/assets/css/style.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
 	<link rel="stylesheet" href="html/iconfont/iconfont.css">
-	<script src="html/js/lTable.js" type="text/javascript"></script>
+	<script src="js/lTable.js" type="text/javascript"></script>
+	
+	
 </head>
 <div class="ownersettings" style="padding-top: 1em">
 	<div class="table_content" >
@@ -26,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="btns" style="float: right;">
 							
 							<button class="btn btn-info btn-sm" id="btn_add_users">添加</button>
-							<button class="btn btn-danger btn-sm" id="btn_batchDel">批量删除</button>
+							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">批量删除</button>
 						</div>
 		  		</div>
 				<table class="table table-sm table-bordered table-hover text-center">
@@ -40,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    </tr>
 				  </thead>
 				  <tbody>
-				    <c:forEach items="${users.list}" var="user">
+				    <c:forEach items="${users}" var="user">
 				    <tr>
 						      <td><input type="checkbox" value="${user.id}"></td>
 						      <td>${user.userName}</td>
@@ -64,35 +74,66 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="divcss5-left">
             <table width="461" height="24" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td width="120">当前为第${users.pageNum}页,共${users.pages}页</td>
+                    <td width="120">当前为第${sessionScope.pu.curPage}页,共${sessionScope.pu.pages}页</td>
                     <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
                     </c:forEach>
                 </td> -->
                     <td width="256">
-                        <c:choose>
-                            <c:when test="${users.hasPreviousPage}">
+                      <%--   <c:choose> --%>
+                           <%--  <c:when test="${users.hasPreviousPage}"> --%>
+                           <c:if test="${sessionScope.pu.curPage>1 }">
                                 <a href="user/user/1">首页</a> |
-                                <a href="user/user/${users.pageNum -1 }">上一页</a>
-                            </c:when>
-                            <c:otherwise>
+                                <a href="user/user/${sessionScope.pu.curPage-1}">上一页</a>
+                                </c:if>
+                          <%--   </c:when> --%>
+                          <%--   <c:otherwise>
                             </c:otherwise>
-                        </c:choose>
+                        </c:choose> --%>
 
-                        <c:choose>
-                            <c:when test="${users.hasNextPage}">
-                                <a href="user/user/${users.pageNum + 1 }">下一页</a> |
-                                <a href="user/user/${users.pages }">尾页</a>
-                            </c:when>
-                            <c:otherwise>
+                       <%--  <c:choose> --%>
+                           <%--  <c:when test="${users.hasNextPage}"> --%>
+                                <a href="user/user/${sessionScope.pu.curPage+1}">下一页</a> |
+                                <a href="user/user/${sessionScope.pu.pages }">尾页</a>
+                           <%--  </c:when> --%>
+                           <%--  <c:otherwise>
                             </c:otherwise>
-                        </c:choose>
+                        </c:choose> --%>
                     </td>
                 </tr>
             </table>
         </div>
         <!-- 分页结束 -->
+        
+         <!--删除模态框-->
+        <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
+            <div class="modal fade bs-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="">
+                                警告：确认删除？
+                            </h4>
+                        </div>
+                        <div class="modal-footer">
+                            <!--  onclick="deletebyId()" -->
+                            <button id="tijiao"  class="btn btn-danger">确定</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
+                      所以把按钮类型改为input，再手动调用封装好的验证函数-->
+                            <span id="tip"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- 删除模态框结束 -->
+        
 		<!-- 模态框 -->
 	<div class="modal fade" id="waiterModal">
 	  <div class="modal-dialog" role="document">
@@ -132,238 +173,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  </div>
 	</div>
 </div>
-
-<script>
-	$('#myTab a').on('click', function (e) {
-	  e.preventDefault()
-	  console.log(e,"aaa")
-	  // $(this).tab('show')
-	})
-	var baseURL = 'http://134.175.100.63:6677';
-	// 该id是点击修改按钮时获取的id，设置为全局变量
-	var EditId;
-	// 查询所有数据
-	function loadData(){
-		// 在每次追加数据之前，先清空table
-		$('.table tbody').empty();
-		var url_findAll = baseURL+'/waiter/findAll';
-		$.get(url_findAll,function(result){
-			result.data.forEach(function(item){
-				var newTr = $(`
-					<tr>
-				      <td><input type="checkbox" value="`+item.id+`"></td>
-				      <td>`+item.realname+`</td>
-				      <td>`+item.password+`</td>
-				      <td>`+item.telephone+`</td>
-				      <td>
-						<i class='iconfont icon-edit' id='edit'></i>
-						<i class='iconfont icon-shanchu' id='del'></i>
-				      </td>
-				    </tr>
-				`);
-				// 将生成的newTr追加到tbody上
-				$('.table tbody').append(newTr);
-			})
-		});
-	}
-	// 关闭提示框，在点击提示框中的x才调用该函数
-	function closeAlert(){
-		$(this).parents('.alert').remove();
-	}
-	// 分页函数
-	function pageChange(e){
-		console.log(e.target.innerText,"ssss")
-	}
-	$(function(){
-		// 加载所有数据
-		// loadData();
-
-		// 批量删除
-		$('#btn_batchDel').click(function(){
-			var url_batchDel = baseURL+'/waiter/batchDelete';
-			var ids = $(':checkbox:checked').map(function(index,item){
-				return $(item).val();
-			}).toArray();
-			var data = '';
-			for(index in ids){
-				if(index == 0){
-					data += 'ids='+ids[index]
-				}else{
-					data +='&ids='+ids[index]
-				}
-			}
-			$.post(url_batchDel,data,function(result){
-				console.log(result);
-				loadData();
-			})
-		})
-
-		// 添加或修改数据
-		$('#addWaiter').click(function(){
-			var name = $('#input_realname').val();
-			var phone = $('#input_telephone').val();
-			var password = $('#input_password').val();
-			var pattern_name = /^[a-z]{1,}$/ig;
-			var pattern_phone = /^\d{9,11}$/ig;
-			var pattern_password = /^\d{1,}$/ig;
-			var name_res = pattern_name.test(name);
-			var phone_res = pattern_phone.test(phone);
-			var password_res = pattern_password.test(password);
-			if(name_res && phone_res && password_res){
-				if(EditId){
-					// id存在，即修改
-					var data = {
-						id:EditId,
-						realname:name,
-						telephone:phone,
-						password:password
-					}
-					var url_editCustomer = baseURL+'/waiter/saveOrUpdate';
-					$.post(url_editCustomer,data,function(result){
-						console.log(result,'修改');
-						loadData();
-					});
-					// 将id置为空，否则点击修改后再次点击添加，还是修改
-					EditId = '';
-					$('#waiterModal').modal('hide');	
-				}else{
-					// id不存在，即添加
-					var data = {
-						realname:name,
-						telephone:phone,
-						password:password
-					}
-					var url_addCustomer = baseURL+'/waiter/saveOrUpdate';
-					$.post(url_addCustomer,data,function(result){
-						console.log(result);
-						loadData();
-					});
-					$('#waiterModal').modal('hide');	
-				}
-			}else{
-				// 表单验证
-				if(!name_res && !phone_res && !password_res){
-					$('#name_err span').removeClass('name_err');
-					$('#telephone_err span').removeClass('telephone_err');
-					$('#password_err span').removeClass('password_err');
-				}
-				if(!phone_res && !password_res){
-					$('#telephone_err span').removeClass('telephone_err');
-					$('#password_err span').removeClass('password_err');
-				}
-				if(!name_res && !phone_res){
-					$('#name_err span').removeClass('name_err');
-					$('#telephone_err span').removeClass('telephone_err');
-				}
-				if(!name_res && !password_res){
-					$('#name_err span').removeClass('name_err');
-					$('#password_err span').removeClass('password_err');
-				}
-				if(!name_res){
-					$('#name_err span').removeClass('name_err');
-				}
-				if(!phone_res){
-					$('#telephone_err span').removeClass('telephone_err');	
-				}
-				if(!password_res){
-					$('#password_err span').removeClass('password_err');	
-				}
-			}
-
-			
-		})
-		
-		// 显示模态框，用户添加
-		$('#btn_add_users').click(function(){
-			$('#waiterModal').modal('show');
-			$('#name_err span').addClass('name_err');
-			$('#telephone_err span').addClass('telephone_err');
-			$('#password_err span').addClass('password_err');
-		})
-		
-		
-		
-		// 关闭模态框
-		$('#btn_none').click(function(){
-			$('#waiterModal').modal('hide');
-		})
-
-		// 监听模态框的关闭，清空模态框内容
-		$('#waiterModal').on('hidden.bs.modal', function(e){
-		  $(this).find('form')[0].reset();
-		})
-		$('#btn_query1').click(function(event){
-			console.log($('#queryInput1')[0].value)
-			alert(JSON.stringify(event))
-		})
-		$('#btn_query2').click(function(event){
-			console.log($('#queryInput2')[0].value)
-			alert(JSON.stringify(event))
-		})
-		$('#btn_query3').click(function(event){
-			console.log($('#queryInput3')[0].value)
-			alert(JSON.stringify(event))
-		})
-		// 删除与修改按钮
-		$('.table tbody').on('click','i',function(){
-			switch(this.id){
-				// 修改
-				case 'edit':
-					// 打开模态框
-				 	$('#waiterModal').modal('show');
-				 	// 获取当前行的值并放入模态框（不能在此处就发送请求）
-					EditId = $(this).parents('tr').find('td').find('input').val();
-				 	var name = $(this).parents('tr').find('td:nth-child(2)').text();
-				 	var telephone = $(this).parents('tr').find('td:nth-child(3)').text();
-				 	var password = $(this).parents('tr').find('td:nth-child(4)').text();
-				 	$('#input_realname').val(name);
-				 	$('#input_telephone').val(telephone);
-				 	$('#input_password').val(password);
-					break;
-				// 删除
-				case 'del':
-				 	var url_del = baseURL+'/waiter/deleteById';
-					var id = $(this).parents('tr').find('input[type=checkbox]').val();
-					var data = {
-						id:id
-					}
-					$.get(url_del,data,function(result){
-						if(result.status === 200){
-							loadData();
-							// 删除并刷新数据后，追加提示框
-							$(`
-								<div class="alert alert-info alert-dismissible" id='mySuccessAlert'>
-									<div>
-										删除成功
-									</div>
-									<button class="close" onclick="closeAlert.call(this)" id='btn_success'>
-										~
-									</button>
-								</div>
-							`).prependTo($('body'));
-							// 延时调用，2s后模拟点击提示框的关闭按钮
-							setTimeout(function(){
-								$('#btn_success').trigger('click');
-							},2000);
-						}else{
-							$(`
-								<div class="alert alert-info alert-dismissible" id='myWarnAlert'>
-									<div>
-										删除失败，接口异常
-									</div>
-									<button class="close" onclick="closeAlert.call(this)" id='btn_warn'>
-										！
-									</button>
-								</div>
-							`).prependTo($('body'));
-							setTimeout(function(){
-								$('#btn_warn').trigger('click')
-							},2000);
-						}
-					});
-					break;
-			}	
-		})	
-	});
-</script>
+<script type="text/javascript">
+    //删除
+    $("#deleteModal").on("shown.bs.modal", function (e) {
+    	
+        $("#tijiao").on("click", function () {
+            //定义url
+            var idval = "";
+            //判断checkbox是否勾选
+            var arr = $("input:checked");
+            if (arr.length !== 0) {
+                //批量删除
+                for (var i = 0; i < arr.length; i++) {
+                    if (i == arr.length - 1) {
+                        idval = idval + arr[i].value;
+                    } else {
+                        idval = idval + arr[i].value + ","
+                    }
+                }
+            } else {
+                //根据id删除
+                idval = $(e.relatedTarget).data('orderid');
+            }
+            //发送请求
+            var myUrl = 'user/deleteUser?id=' + idval;
+            window.location.href=myUrl;
+           /*  var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
+            httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
+            httpRequest.send(null);//第三步：发送请求  将请求参数写在URL中
+            //结果处理
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState == 4) {
+                	console.log("aa");
+                	//window.location.href="user/user/1";
+                	//location.onload();
+                	//history.go(0)
+                	
+                }
+            }; */
+        });
+    })
+	</script>
 

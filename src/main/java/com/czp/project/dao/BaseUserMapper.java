@@ -101,4 +101,6 @@ public interface BaseUserMapper {
      * @mbg.generated Wed Jan 29 13:12:45 CST 2020
      */
     int updateByPrimaryKey(BaseUser record);
+    //更新oldman里面的护工id
+      int updateByoldman(@Param("userId1")String userId1, @Param("userId2")int userId2);
 }
