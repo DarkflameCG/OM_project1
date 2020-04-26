@@ -32,8 +32,7 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 
-    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
+   
     <style>
         .divcss5-left {
             float: right;
@@ -272,19 +271,18 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${ruzhuPages.list}" var="old">
+                <c:forEach items="${ruzhuPages.list}" var="ruzhu">
                     <tr th:each="user : ${userlist}">
-                        <td><input type="checkbox" value="${old.id}"></td>
-                        <td th:text="">${old.id}</td>
-                        <td th:text="">${old.oldmanName}</td>
-                        <td th:text=""><img src="./" alt="没有图片"></td>
-                        <td th:text="">${old.age}</td>
-                        <td th:text="">${old.gender}</td>
+                        <td><input type="checkbox" value="1"></td>
+                        <td th:text="">1</td>
+                        <td th:text="">张三</td>
+                        <td th:text="">男</td>
                         <td th:text="">
                             <%-- ${old.checkintime} --%>
                             <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td th:text="">${old.health}</td>
+                        <td th:text="">101</td>
+                        <td th:text="">admin</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
@@ -348,16 +346,10 @@
                                 <!--userid为隐藏的input，便于update时的传值-->
                                 <input type="text" id="userID" name="id" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">用户名</label>
+                                    <label for="username" class="col-sm-3 control-label">姓名</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="username" name="oldmanName"
                                             placeholder="用户名长度在5-18字符之间">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">年龄</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -371,28 +363,19 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="health" class="col-sm-3 control-label">健康状况</label>
+                                    <label for="health" class="col-sm-3 control-label">请选择房间号</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="health" name="health"
-                                            placeholder="请输入老人的健康状况">
+                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
+                                            data-live-search="false">
+                                            <option value="101">101</option>
+                                            <option value="102">102</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="telphone" class="col-sm-3 control-label">手机号</label>
+                                    <label for="age" class="col-sm-3 control-label">备注</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="telphone" name="telphone"
-                                            placeholder="请输入手机号">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">照片</label>
-                                    <div class="col-sm-9">
-                                        <label for="file">
-                                            <div class="panel updatepanel">
-                                                <div class="addbox"><span class="icon-add-50">+点击上传</span></div>
-                                                <input type="file" id="oldman_img" style="display: none" />
-                                            </div>
-                                        </label>
+                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">
                                     </div>
                                 </div>
                             </form>

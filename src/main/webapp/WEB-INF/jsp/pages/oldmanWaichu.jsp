@@ -32,8 +32,7 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 
-    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
+   
     <style>
         .divcss5-left {
             float: right;
@@ -264,15 +263,12 @@
                     <th></th>
                     <th>序号</th>
                     <th>姓名</th>
-                    <th>照片</th>
-                    <th>年龄</th>
-                    <th>性别</th>
-                    <th>入住时间</th>
-                    <th>健康状况</th>
-                    <th>老人家属</th>
-                    <th>电话</th>
-                    <th>房间号</th>
-                    <th>护工姓名</th>
+                    <th>事项</th>
+                    <th>外出时间</th>
+                    <th>返回时间</th>
+                    <th>紧急联系电话</th>
+                    <th>登记人</th>
+                    <th>状态</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -280,20 +276,20 @@
                 <c:forEach items="${oldPages.list}" var="old">
                     <tr th:each="user : ${userlist}">
                         <td><input type="checkbox" value="${old.id}"></td>
-                        <td th:text="${user.userID}">${old.id}</td>
-                        <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.password}"><img src="./" alt="没有图片"></td>
-                        <td th:text="${user.phone}">${old.age}</td>
-                        <td th:text="${user.email}">${old.gender}</td>
-                        <td th:text="${user.email}">
+                       	<th>1</th>
+	                    <th>张三</th>
+	                    <th>外出广场舞</th>
+	                    <td th:text="${user.email}">
                             <%-- ${old.checkintime} --%>
                             <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td th:text="${user.email}">${old.health}</td>
-                        <td th:text="${user.email}">${old.familyMembersId}</td>
-                        <td th:text="${user.email}">${old.telphone}</td>
-                        <td th:text="${user.email}">${old.roomId}</td>
-                        <td th:text="${user.email}">${old.userId}</td>
+	                    <td th:text="${user.email}">
+                            <%-- ${old.checkintime} --%>
+                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
+                        </td>
+	                    <th>12345678901</th>
+	                    <th>小李</th>
+	                    <th>未返回</th>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"

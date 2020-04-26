@@ -52,20 +52,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <ul class="list-inline float-right mb-0">
                         <li class="list-inline-item dropdown notif">
                             <a class="nav-link dropdown-toggle nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                <img src="${login.userImg }" alt="Profile image" class="avatar-rounded">
+                                <img src="${login.userImg }" alt="图片迷路了。。。" class="avatar-rounded">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                                 <!-- item-->
                                 <div class="dropdown-item noti-title">
                                     <h5 class="text-overflow"><small>${login.userName }</small> </h5>
                                 </div>
-
-
                                 <!-- item-->
                                 <a id="owner" href="" class="dropdown-item notify-item">
                                     <i class="fa fa-user"></i> <span>个人中心</span>
                                 </a>
-
                                 <!-- item-->
                                 <a href="login.html" class="dropdown-item notify-item">
                                     <i class="fa fa-power-off"></i> <span>退出登录</span>
