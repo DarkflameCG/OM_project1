@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.czp.project.common.bean.BasePower;
 import com.czp.project.common.bean.BaseUser;
 import com.czp.project.service.interfaces.BasePowerService;
 import com.czp.project.service.interfaces.BaseUserService;
@@ -109,10 +110,12 @@ public class UserController {
 	    public String login(@RequestBody BaseUser baseUser,HttpSession session) {
 			try {
 				BaseUser login = baseUserService.selectLogin(baseUser);
+				List<BasePower> powers = basePowerService.selectAll();
 				if (login==null) {
 					return "login";
 				}
 				session.setAttribute("login", login);
+				session.setAttribute("powers", powers);
 				return "index";
 			} catch (Exception e) {
 				return "login";
@@ -122,6 +125,7 @@ public class UserController {
 		public String userSetting(){
 			   return "pages/user_setting";
 		}
+	   //个人信息修改
 	   @RequestMapping("/updateUser")
        public String addUser(HttpServletRequest req,HttpSession session,BaseUser baseUser,@RequestParam("image") MultipartFile file) {
 		  
@@ -151,6 +155,7 @@ public class UserController {
 	   @RequestMapping("/user/{page}")
 		public String getOldManMsg(HttpSession session,
 								  @PathVariable String page) throws NumberFormatException, Exception {
+		   
 		 //分页员工信息
 		  PageInfo<BaseUser> info =
 		  baseUserService.selectByExample(Integer.parseInt(page), 6);
@@ -181,8 +186,19 @@ public class UserController {
 			e.printStackTrace();
 			return "ok";
 		}
-		  //
 					
        }
+	   //添加用户
+	   @RequestMapping("/addUser")
+       public String addUser(HttpServletRequest req,HttpSession session,BaseUser baseUser,int roleId,@RequestParam("image") MultipartFile file) {
+		   System.out.println(baseUser);
+		   System.out.println(roleId);
+		   if(file!=null){
+				String filename = file.getOriginalFilename();
+				System.out.println(filename);
+		   }
+		   return "ok";
+	   }
+		  
 	  
 }
