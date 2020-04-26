@@ -19,7 +19,7 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<LINK href="css/style_cn.css" type=text/css rel=stylesheet>
+
 <LINK href="css/calendar-win2k-cold-1.css" type=text/css rel=stylesheet>
 <SCRIPT src="js/global.js" type=text/javascript></SCRIPT>
 <SCRIPT src="js/menu.js" type=text/javascript></SCRIPT>
