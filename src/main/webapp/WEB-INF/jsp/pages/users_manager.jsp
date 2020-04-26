@@ -50,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    </tr>
 				  </thead>
 				  <tbody>
-				    <c:forEach items="${users}" var="user">
+				    <c:forEach items="${users.list}" var="user">
 				    <tr>
 						      <td><input type="checkbox" value="${user.id}"></td>
 						      <td>${user.userName}</td>
@@ -74,32 +74,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="divcss5-left">
             <table width="461" height="24" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td width="120">当前为第${sessionScope.pu.curPage}页,共${sessionScope.pu.pages}页</td>
+                    <td width="120">当前为第${users.pageNum}页,共${users.pages}页</td>
                     <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
                     </c:forEach>
                 </td> -->
                     <td width="256">
-                      <%--   <c:choose> --%>
-                           <%--  <c:when test="${users.hasPreviousPage}"> --%>
-                           <c:if test="${sessionScope.pu.curPage>1 }">
+                        <c:choose>
+                            <c:when test="${users.hasPreviousPage}">
                                 <a href="user/user/1">首页</a> |
-                                <a href="user/user/${sessionScope.pu.curPage-1}">上一页</a>
-                                </c:if>
-                          <%--   </c:when> --%>
-                          <%--   <c:otherwise>
+                                <a href="user/user/${users.pageNum -1 }">上一页</a>
+                            </c:when>
+                            <c:otherwise>
                             </c:otherwise>
-                        </c:choose> --%>
+                        </c:choose>
 
-                       <%--  <c:choose> --%>
-                           <%--  <c:when test="${users.hasNextPage}"> --%>
-                                <a href="user/user/${sessionScope.pu.curPage+1}">下一页</a> |
-                                <a href="user/user/${sessionScope.pu.pages }">尾页</a>
-                           <%--  </c:when> --%>
-                           <%--  <c:otherwise>
+                        <c:choose>
+                            <c:when test="${users.hasNextPage}">
+                                <a href="user/user/${users.pageNum + 1 }">下一页</a> |
+                                <a href="user/user/${users.pages }">尾页</a>
+                            </c:when>
+                            <c:otherwise>
                             </c:otherwise>
-                        </c:choose> --%>
+                        </c:choose>
                     </td>
                 </tr>
             </table>
@@ -122,7 +120,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         </div>
                         <div class="modal-footer">
                             <!--  onclick="deletebyId()" -->
-                            <button id="tijiao"  class="btn btn-danger">确定</button>
+                            <button id="tijiao" type="button"  class="btn btn-danger">确定</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                             <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                       所以把按钮类型改为input，再手动调用封装好的验证函数-->
@@ -158,10 +156,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    <label for="input_password">密码<span class="password_err" style="color: red;">请输入至少一位数字</span></label>
 			    <input type="password" class="form-control" id="input_password" placeholder="请输入密码">
 			  </div>
-			 <!--  <div class="form-group" id="role_err">
-			    <label for="input_password">角色<span class="password_err" style="color: red;">请输入至少一位数字</span></label>
-			    <input type="password" class="form-control" id="input_password" placeholder="请输入角色">
-			  </div> -->
 			 
 			</form>
 	      </div>
@@ -195,22 +189,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 //根据id删除
                 idval = $(e.relatedTarget).data('orderid');
             }
-            //发送请求
-            var myUrl = 'user/deleteUser?id=' + idval;
-            window.location.href=myUrl;
-           /*  var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
-            httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
-            httpRequest.send(null);//第三步：发送请求  将请求参数写在URL中
-            //结果处理
-            httpRequest.onreadystatechange = function () {
-                if (httpRequest.readyState == 4) {
-                	console.log("aa");
-                	//window.location.href="user/user/1";
-                	//location.onload();
-                	//history.go(0)
-                	
-                }
-            }; */
+          //发送请求
+             var myUrl = 'user/deleteUser?id=' + idval;
+            $.ajax({
+				type : "GET",
+				url : myUrl,
+				data : "null",
+				dataType : "text",
+				success : function(obj) {
+					window.location.href="user/user/1";
+				}
+			}); 
+           
         });
     })
 	</script>

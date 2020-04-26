@@ -20,7 +20,7 @@ public interface BaseUserService {
 	//删除员工
 	public int deleteUser(int id) throws Exception;
 	//批量删除
-	 public Integer deleteMany(String[] ids) throws Exception;
+	 public void deleteMany(String[] ids) throws Exception;
 	//查询
 	 List<BaseUser> selectByName(String name) throws Exception;
 	//验证用户名密码是否一致

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,15 +19,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.czp.project.common.bean.BasePower;
 import com.czp.project.common.bean.BaseUser;
-import com.czp.project.common.bean.OldMan;
 import com.czp.project.service.interfaces.BasePowerService;
 import com.czp.project.service.interfaces.BaseUserService;
 import com.czp.project.utils.PageUtil;
 import com.github.pagehelper.PageInfo;
 
 @Controller
+@CrossOrigin
 @RequestMapping("/user")
 public class UserController {
 	@Autowired
@@ -152,41 +152,34 @@ public class UserController {
 		public String getOldManMsg(HttpSession session,
 								  @PathVariable String page) throws NumberFormatException, Exception {
 		 //分页员工信息
-		   System.out.println("确实能够:"+page);
-			PageUtil<BaseUser> pu = baseUserService.findAll(Integer.parseInt(page), 2);
-			List<BaseUser> services = pu.getData();
-			session.setAttribute("pu", pu);
-			session.setAttribute("users", services);
-		/*
-		 * PageInfo<BaseUser> info =
-		 * baseUserService.selectByExample(Integer.parseInt(page), 2);
-		 * session.setAttribute("users", info); System.out.println("二次:"+info);
-		 */
+		  PageInfo<BaseUser> info =
+		  baseUserService.selectByExample(Integer.parseInt(page), 6);
+		  session.setAttribute("users", info); 
+		 
 			return "pages/users_manager";
 		}
 	   //批量或单个删除
 	   @RequestMapping("/deleteUser")
+	   @ResponseBody
        public String deleteAllUser(@RequestParam String id) {
 		  
 		   try {
 			   String[] d=null;
-			   int result =0;
 			   if(id.contains(",")) {
+				  
 					//批量删除
 				   d=id.split(",");//把数组里的值逗号隔开
-				    result = baseUserService.deleteMany(d); 
+				    baseUserService.deleteMany(d); 
 				}else {		
-					 result = baseUserService.deleteUser(Integer.parseInt(id));
+					 baseUserService.deleteUser(Integer.parseInt(id));
 				}
-			 
-			 
-				   return "pages/users_manager";
+				   return "ok";
 			
 			  
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "redirect:u";
+			return "ok";
 		}
 		  //
 					

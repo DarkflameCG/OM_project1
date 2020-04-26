@@ -103,4 +103,5 @@ public interface BaseUserMapper {
     int updateByPrimaryKey(BaseUser record);
     //更新oldman里面的护工id
       int updateByoldman(@Param("userId1")String userId1, @Param("userId2")int userId2);
+
 }
