@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>缴费记录</title>
+    <title>体检记录</title>
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -39,11 +39,6 @@
             width: 350px;
             height: 50px;
         }
-        .warp {
-            display: inline-block;
-            vertical-align: bottom;
-            position: relative;
-        }
     </style>
 </head>
 <script>
@@ -55,7 +50,7 @@
         //将提交表单的URL变为update
         myUrl = 'oldmsg/edit';
         $("#userID").attr("value", id);
-        ;
+        alert(id);
         if (!id) {
             alert('id错误');
             return false;
@@ -266,14 +261,14 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>序号</th>
+                    <th>序号</th>姓名、时间、是否有家属陪同、是否有护工陪同、目标医院
                     <th>姓名</th>
                     <th>时间</th>
-                    <th>项目</th>
-                    <th>金额</th>
-                    <th>支付方式</th>
-                    <th>支付时间</th>
-                    <th>操作人</th>
+                    <th>是否有家属陪同</th>
+                    <th>是否有护工陪同</th>
+                    <th>是否使用车辆</th>
+                    <th>目标医院</th>
+                    <th>登记人</th>
                     <th>备注</th>
                     <th>操作</th>
                 </tr>
@@ -284,19 +279,16 @@
                         <td><input type="checkbox" value="${old.id}"></td>
                         <td th:text="${user.userID}">${old.id}</td>
                         <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.email}">
+                        <td th:text="${user.date}">
                             <%-- ${old.checkintime} --%>
                             <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td th:text="${user.phone}">${old.age}</td>
-                        <td th:text="${user.email}">${old.gender}</td>
-                        <td th:text="${user.email}">${old.health}</td>
-                        <td th:text="${user.email}">
-                            <%-- ${old.checkintime} --%>
-                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
-                        </td>
-                        <td th:text="${user.email}">${old.familyMembersId}</td>
-                        <td th:text="${user.email}">${old.telphone}</td>
+                        <td th:text="${user.index}">是</td>
+                        <td th:text="${user.index}">是</td>
+                        <td th:text="${user.index}">是</td>
+                        <td th:text="${user.index}">仁和医院</td>
+                        <td th:text="${user.index}">登记人</td>
+                        <td th:text="${user.index}">备注</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
@@ -352,7 +344,7 @@
                                 &times;
                             </button>
                             <h4 class="modal-title" id="updateModalLabel">
-                                缴费记录添加
+                                就医信息
                             </h4>
                         </div>
                         <div class="modal-body">
@@ -367,46 +359,45 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">时间</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入时间">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="gender" class="col-sm-3 control-label">项目</label>
+                                    <label for="gender" class="col-sm-3 control-label">是否有家属陪同</label>
                                     <div class="col-sm-9">
                                         <select id="gender" name="gender" class="selectpicker show-tick form-control"
                                             data-live-search="false">
-                                            <!-- 需要查询收费项目进行遍历 -->
-                                            <option value="男">男</option>
-                                            <option value="女">女</option>
+                                            <option value="是">是</option>
+                                            <option value="否">否</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="health" class="col-sm-3 control-label">金额</label>
+                                </div><div class="form-group">
+                                    <label for="gender" class="col-sm-3 control-label">是否有护工陪同</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="health" name="health"
-                                            placeholder="请输入金额">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="telphone" class="col-sm-3 control-label">支付方式</label>
-                                    <div class="col-sm-9">
-                                         <select id="gender" name="gender" class="selectpicker show-tick form-control"
+                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
                                             data-live-search="false">
-                                            <option value="1">微信</option>
-                                            <option value="2">支付宝</option>
-                                            <option value="3">现金</option>
-                                            <option value="4">银行卡</option>
+                                            <option value="是">是</option>
+                                            <option value="否">否</option>
+                                        </select>
+                                    </div>
+                                </div><div class="form-group">
+                                    <label for="gender" class="col-sm-3 control-label">是否使用车辆</label>
+                                    <div class="col-sm-9">
+                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
+                                            data-live-search="false">
+                                            <option value="是">是</option>
+                                            <option value="否">否</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="telphone" class="col-sm-3 control-label">支付时间</label>
+                                    <label for="username" class="col-sm-3 control-label">目标医院</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="telphone" name="telphone"
-                                            placeholder="请输入支付时间">
+                                        <input type="text" class="form-control" id="username" name="oldmanName"
+                                            placeholder="请填写医院名称">
+                                    </div>
+                                </div>
+                                 <div class="form-group">
+                                    <label for="username" class="col-sm-3 control-label">备注</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="username" name="oldmanName"
+                                            placeholder="请填写备注">
                                     </div>
                                 </div>
                             </form>
@@ -488,25 +479,24 @@
         });
     })
     // 上传图片
-    var file = document.getElementById('file');
-    var image = document.querySelector("img");
-    file.onchange = function () {
-        var fileData = this.files[0];//获取到一个FileList对象中的第一个文件( File 对象),是我们上传的文件
-        var pettern = /^image/;
-        console.info(fileData.type)
-        if (!pettern.test(fileData.type)) {
-            alert("图片格式不正确");
-            return;
-        }
-        var reader = new FileReader();
-        reader.readAsDataURL(fileData);//异步读取文件内容，结果用data:url的字符串形式表示
-        /*当读取操作成功完成时调用*/
-        reader.onload = function (e) {
-            console.log(e); //查看对象
-            console.log(this.result);//要的数据 这里的this指向FileReader（）对象的实例reader
-            // image.setAttribute("src", this.result)
-        }
+    $(".updatepanel").height($(".panel-info").height());
+    document.getElementById('file').onchange = function () {
+        add();
+        var imgFile = this.files[0];
+        var fr = new FileReader();
+        fr.onload = function () {
+            var imgs = document.getElementsByClassName('updateimg');
+            imgs[imgs.length - 1].src = fr.result;
+        };
+        fr.readAsDataURL(imgFile);
+    };
+    function add() {
+        var html = "<div class='col-sm-4'><div class='panel panel-info'><div class='panel-heading'><i class='fa fa-times'></i></div><div class='panel-body' style='text-align: center;'><div class='row'><div class='col-sm-12 col-md-12'><img class='updateimg img-responsive' src='img/p_big3.jpg' style='width: inherit;height: 210px;'/></div></div></div></div></div>";
+        $("#updatebox").before(html);
     }
+    $(".fa-times").click(function () {
+        $(this).parent().parent().parent().remove();
+    });
 </script>
 
 </html>

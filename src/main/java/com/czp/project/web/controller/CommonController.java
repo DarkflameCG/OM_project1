@@ -39,11 +39,11 @@ public class CommonController {
 	}
 	@RequestMapping("/oldmanQingjia") //老人请假
 	public String test7() {
-		return "pages/oldmanQingjia";
+		return "pages/oldManQingjia";
 	}
 	@RequestMapping("/oldmanRuzhu") //老人入住
 	public String test8() {
-		return "pages/oldmanRuzhu";
+		return "pages/oldManRuzhu";
 	}
 	@RequestMapping("/oldmanWaichu") //老人外出
 	public String test9() {

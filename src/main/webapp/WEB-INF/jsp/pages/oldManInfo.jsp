@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>用户列表</title>
+    <title>老人信息列表</title>
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <!-- Bootstrap 核心 CSS 文件 -->
@@ -196,7 +196,8 @@
         // ！！！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId').serializeArray();
+            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone').serializeArray();
+            formData.append('photo', document.getElementById('file').files[0]);
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -205,6 +206,7 @@
         $.ajax({
             url: myUrl,      //根据操作传入不同的URL
             data: formData,  //传入序列化的表单对象
+            cache: false,
             type: "post",
             datatype: 'text',
             async: false,    //异步传输
@@ -341,7 +343,7 @@
         </div>
         <!-- 分页结束 -->
         <!--模态框-->
-        <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
+        <form method="post" name="user" enctype="multipart/form-data" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
             <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -351,7 +353,7 @@
                                 &times;
                             </button>
                             <h4 class="modal-title" id="updateModalLabel">
-                                用户信息
+                                老人信息
                             </h4>
                         </div>
                         <div class="modal-body">
