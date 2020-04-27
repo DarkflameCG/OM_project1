@@ -29,7 +29,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- 下拉选择框相关 JavaScript -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 
-
 	<base href="http://localhost:2333/">
 	<!-- Custom CSS -->
 	<link href="html/assets/css/style.css" rel="stylesheet" type="text/css" />
@@ -65,7 +64,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var r = confirm("您确定要退出登录吗？")
 			if (r == true) {
 				top.location.href = "http://localhost:2333/login";
-			} 
+			}
+		}
+		function index() {
+			top.location.href = 'http://localhost:2333/html/main.html'
 		}
 	</script>
 	<style>
@@ -97,7 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="headerbar">
 			<!-- LOGO -->
 			<div class="headerbar-left">
-				<a href="javascript:(0)"" class=" logo"><img alt="Logo" src="html/assets/images/logo.png" />
+				<a href="javascript:index()" class="logo"><img alt="Logo" src="html/assets/images/logo.png" />
 					<span>老人信息</span></a>
 			</div>
 			<nav class="navbar-custom">

@@ -230,7 +230,6 @@
                 // alert(XMLHttpRequest.readyState);//状态
                 // alert(textStatus);//错误信息
                 alert("出错了");
-
             },
             complete: function () {
             }
@@ -253,7 +252,7 @@
                 </form>
                 <div class="col-sm-4">
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-4">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加用户</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
@@ -343,7 +342,8 @@
         </div>
         <!-- 分页结束 -->
         <!--模态框-->
-        <form method="post" name="user" enctype="multipart/form-data" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
+        <form method="post" name="user" enctype="multipart/form-data" class="form-horizontal" role="form" id="form-data"
+            style="margin: 20px;">
             <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -490,6 +490,7 @@
     // 上传图片
     var file = document.getElementById('file');
     var image = document.querySelector("img");
+    var that = this;
     file.onchange = function () {
         var fileData = this.files[0];//获取到一个FileList对象中的第一个文件( File 对象),是我们上传的文件
         var pettern = /^image/;
@@ -498,15 +499,45 @@
             alert("图片格式不正确");
             return;
         }
-        var reader = new FileReader();
-        reader.readAsDataURL(fileData);//异步读取文件内容，结果用data:url的字符串形式表示
-        /*当读取操作成功完成时调用*/
-        reader.onload = function (e) {
-            console.log(e); //查看对象
-            console.log(this.result);//要的数据 这里的this指向FileReader（）对象的实例reader
-            // image.setAttribute("src", this.result)
+        that.upload(fileData);
+    }
+    function upload(img) {
+        // 表单数据对象
+        var formData = new FormData();
+        // 将文件数据添加到表单数据中
+        formData.append("file", img);
+        var myUrl = 'http://localhost:2333/commonJson/upload';
+        var request = createCORSRequest('post', myUrl);
+        if (request) {
+            request.onload = function () {
+                console.log(request.response)
+                var data =request.response;
+                console.log(data)
+                console.log(data.code)
+                if (request.status == 200) {
+                    alert("上传成功！");
+                    //
+                } else {
+                    alert("上传失败！");
+                }
+            };
+            // 上传表单数据
+            request.send(formData);
         }
     }
+    function createCORSRequest(method, url) {
+        var xhr = new XMLHttpRequest();
+        if ("withCredentials" in xhr) {
+            xhr.open(method, url, true);
+        } else if (typeof XDmainRequest != "undefined") { //兼容IE
+            xhr = new XDmainRequest();
+            xhr.open(method, url, true);
+        } else {
+            xhr = null;
+        }
+        return xhr;
+    }
+
 </script>
 
 </html>
