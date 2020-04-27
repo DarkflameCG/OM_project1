@@ -1,6 +1,7 @@
 package com.czp.project.utils;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 
 /**

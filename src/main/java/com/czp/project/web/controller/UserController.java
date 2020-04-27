@@ -179,7 +179,6 @@ public class UserController {
 					 baseUserService.deleteUser(Integer.parseInt(id));
 				}
 				   return "ok";
-			
 			  
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
