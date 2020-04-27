@@ -1,6 +1,7 @@
 package com.czp.project.web.controller;
 
 import java.io.File;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,10 +30,9 @@ public class CommonJsonController {
 		String basePath = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+req.getContextPath()+"/";
 		String filename = "";
 		if(file!=null){
-			filename = file.getOriginalFilename();
+			filename =System.currentTimeMillis()+"_"+file.getOriginalFilename();
 			System.out.println("获取到的文件:"+file.getOriginalFilename());
 			//找到一个路径存放文件
-			//String realPath = "I:\\briup1606\\workspace04\\runssm\\WebContent\\file";
 			String realPath = 
 					req.getServletContext().getRealPath("/file");
 			System.out.println(realPath);
