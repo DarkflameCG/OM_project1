@@ -18,7 +18,9 @@
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/web/controller/OldManMsgController.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/dao/UserLeaveMapper.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/IndexExample.java
+/Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/utils/CodeStatus.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/RoomExample.java
+/Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/utils/Message.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/dao/IndexMapper.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/Modular.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/BasePower.java
@@ -50,6 +52,7 @@
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/PayExample.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/dao/FamilyMembersMapper.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/service/interfaces/AccountService.java
+/Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/web/controller/CommonJsonController.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/CostExample.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/web/filter/BasePathFilter.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/OldManLeave.java

@@ -45,6 +45,8 @@ public class OldManMsgImpl implements OldManMsgService{
 		return oldamanmapper.selectByExample(example);
 		
 	}
+	
+	
 
 
 	@Override

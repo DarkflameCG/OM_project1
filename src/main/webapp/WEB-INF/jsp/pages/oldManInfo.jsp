@@ -286,7 +286,7 @@
                         <td><input type="checkbox" value="${old.id}"></td>
                         <td th:text="${user.userID}">${old.id}</td>
                         <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.password}"><img src="./" alt="没有图片"></td>
+                        <td th:text="${user.password}"><img src="${old.oldmanImg}" alt="没有图片"></td>
                         <td th:text="${user.phone}">${old.age}</td>
                         <td th:text="${user.email}">${old.gender}</td>
                         <td th:text="${user.email}">
