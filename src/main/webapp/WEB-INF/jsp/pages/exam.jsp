@@ -248,7 +248,7 @@
                 </form>
                 <div class="col-sm-4">
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-4">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加用户</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
