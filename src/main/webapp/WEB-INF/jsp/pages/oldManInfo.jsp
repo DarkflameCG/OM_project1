@@ -186,6 +186,8 @@
     function setUrl() {
         myUrl = 'oldmsg/addOldmanMsg';
         $('#form-data input').val("");
+        // 打开模态框禁用提交按钮
+        $('#modal_button').attr('disabled', true)
     }
     //提交表单
     function checkForm() {
@@ -416,7 +418,7 @@
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                             <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                     所以把按钮类型改为input，再手动调用封装好的验证函数-->
-                            <button type="input" class="btn btn-primary" onclick="vali();">提交</button>
+                            <button id="modal_button" type="input" class="btn btn-primary" onclick="vali();">提交</button>
                             <span id="tip"></span>
                         </div>
                     </div>
@@ -514,6 +516,8 @@
                     alert("图片上传成功！");
                     // 通过截取字符串获得图片路径
                     img_url = request.response.toString().split('url":')[1].slice(1, -2)
+                    // 图片上传成功后启用提交按钮
+                    $('#modal_button').attr('disabled', false)
                 } else {
                     alert("图片上传失败！");
                 }
