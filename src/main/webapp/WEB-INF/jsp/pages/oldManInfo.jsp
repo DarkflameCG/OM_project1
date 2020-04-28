@@ -285,7 +285,7 @@
                         <td><input type="checkbox" value="${old.id}"></td>
                         <td th:text="${user.userID}">${old.id}</td>
                         <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.password}"><img src="${old.oldmanImg}" alt="没有图片"></td>
+                        <td th:text="${user.password}"><img style="width: 50px;" src="${old.oldmanImg}" alt="没有图片"></td>
                         <td th:text="${user.phone}">${old.age}</td>
                         <td th:text="${user.email}">${old.gender}</td>
                         <td th:text="${user.email}">
@@ -510,15 +510,12 @@
         var request = createCORSRequest('post', myUrl);
         if (request) {
             request.onload = function () {
-                console.log(request.response)
-                var data =request.response;
-                console.log(data)
-                console.log(data.code)
                 if (request.status == 200) {
-                    alert("上传成功！");
-                    //
+                    alert("图片上传成功！");
+                    // 通过截取字符串获得图片路径
+                    img_url = request.response.toString().split('url":')[1].slice(1, -2)
                 } else {
-                    alert("上传失败！");
+                    alert("图片上传失败！");
                 }
             };
             // 上传表单数据

@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--validate验证表单插件-->
 	<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
 	<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
-	<script src="js/lTable.js" type="text/javascript"></script>
+	<script src="../js/lTable.js" type="text/javascript"></script>
 
 	<!-- 下拉选择框相关 CSS -->
 	<link rel="stylesheet"
