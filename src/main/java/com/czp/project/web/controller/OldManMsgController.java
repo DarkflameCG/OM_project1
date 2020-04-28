@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.czp.project.common.bean.OldMan;
 import com.czp.project.service.impl.OldManMsgImpl;
+import com.czp.project.utils.NumberProduct;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -49,39 +50,15 @@ public class OldManMsgController {
 	
 	@RequestMapping("/addOldmanMsg")
 	@ResponseBody
-	public String addOldManMsg(HttpServletRequest req,
-							   HttpSession session,
-							   OldMan oldman,
-							   @RequestParam("photo") MultipartFile file) {
-		System.out.println("aaaa");
-		if(file!=null){
-			String filename = file.getOriginalFilename();
-			System.out.println("获取到的文件:"+file.getOriginalFilename());
-			//找到一个路径存放文件
-			//String realPath = "I:\\briup1606\\workspace04\\runssm\\WebContent\\file";
-			String realPath = 
-					req.getServletContext().getRealPath("/file");
-			System.out.println(realPath);
-			//创建一个文件，并将上传文件资料传入
-			File dest = new File(realPath, filename);
-			try {
-				file.transferTo(dest);
-				oldman.setOldmanImg("file/"+filename);
-				oldimpl.addOldManMsg(oldman);
-				session.setAttribute("msg", "添加成功");
-			} catch (Exception e) {
-				e.printStackTrace();
-				session.setAttribute("msg", "添加失败");
-			}
-		}
-		
+	public String addOldManMsg(OldMan oldman) {
+		oldman.setOldNumber(NumberProduct.getNumber());
+		oldimpl.addOldManMsg(oldman);	
 		return "ok";
 	}
 	
 	@RequestMapping("/edit")
 	@ResponseBody
 	public String editOldManMsg(OldMan oldman) {
-		
 		oldimpl.updateOldManMsg(oldman);
 		return "ok";
 	}
@@ -99,6 +76,4 @@ public class OldManMsgController {
 		}
 		return "ok";
 	}
-	
-	
 }
