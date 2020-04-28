@@ -251,14 +251,12 @@
                         <button type="submit" class="btn btn-primary">搜索</button>
                     </div>
                 </form>
-                <div class="col-sm-4">
-                </div>
-                <div class="col-sm-2">
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
-                        onclick="setUrl()">添加护工</button>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
-                        th:onclick="">批量删除</button>
-                </div>
+                 <div class="btns" style="float: right;">
+							
+							 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
+                        onclick="setUrl()">添加用户</button>
+							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">批量删除</button>
+						</div>
             </div>
         </div>
         <br>
@@ -268,35 +266,30 @@
                     <th></th>
                     <th>工号</th>
                     <th>姓名</th>
-                    <th>性别</th>
+                    <th>密码</th>
                     <th>照片</th>
-                    <th>身份证</th>
-                    <th>家庭住址</th>
                     <th>入职时间</th>
-                    <th>电话</th>
+                    <th>角色</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${oldPages.list}" var="old">
-                    <tr th:each="user : ${userlist}">
-                        <td><input type="checkbox" value="${old.id}"></td>
-                        <td th:text="${user.userID}">${old.id}</td>
-                        <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.password}"><img src="./" alt="没有图片"></td>
-                        <td th:text="${user.phone}">${old.age}</td>
-                        <td th:text="${user.email}">${old.gender}</td>
-                        <td th:text="${user.email}">
-                            <%-- ${old.checkintime} --%>
-                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
-                        </td>
-                        <td th:text="${user.email}">${old.telphone}</td>
+                <c:forEach items="${users.list}" var="user">
+                    <tr>
+                        <td><input type="checkbox" value="${user.id}"></td>
+                        <td>${user.id}</td>
+                        <td>${user.userName}</td>
+                        <td>${user.password}</td>
+                        <td><img src="${user.userImg}" alt="没有图片"></td>
+                        
+                        <td>${user.workTime}</td>
+                        <td>${user.role.power}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
+                                data-target="#updateModal" onclick="update(${user.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                data-target="#deleteModal" data-orderId="${old.id}">删除</button>
+                                data-target="#deleteModal" data-orderId="${user.id}">删除</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -306,7 +299,7 @@
         <div class="divcss5-left">
             <table width="461" height="24" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td width="120">当前为第${oldPages.pageNum}页,共${oldPages.pages}页</td>
+                    <td width="120">当前为第${users.pageNum}页,共${users.pages}页</td>
                     <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
@@ -314,18 +307,18 @@
                 </td> -->
                     <td width="256">
                         <c:choose>
-                            <c:when test="${oldPages.hasPreviousPage}">
-                                <a href="oldmsg/getmsg/1">首页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pageNum -1 }">上一页</a>
+                            <c:when test="${users.hasPreviousPage}">
+                                <a href="nursworker/selectnursworker/1">首页</a> |
+                                <a href="nursworker/selectnursworker/${users.pageNum -1 }">上一页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
                         </c:choose>
 
                         <c:choose>
-                            <c:when test="${oldPages.hasNextPage}">
-                                <a href="oldmsg/getmsg/${oldPages.pageNum + 1 }">下一页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pages }">尾页</a>
+                            <c:when test="${users.hasNextPage}">
+                                <a href="nursworker/selectnursworker/${users.pageNum + 1 }">下一页</a> |
+                                <a href="nursworker/selectnursworker/${users.pages }">尾页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
@@ -445,7 +438,7 @@
                         </div>
                         <div class="modal-footer">
                             <!--  onclick="deletebyId()" -->
-                            <button id="tijiao" type="input" class="btn btn-danger">确定</button>
+                            <button id="tijiao" type="button" class="btn btn-danger">确定</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                             <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                       所以把按钮类型改为input，再手动调用封装好的验证函数-->
@@ -480,17 +473,16 @@
                 idval = $(e.relatedTarget).data('orderid');
             }
             //发送请求
-            var myUrl = 'http://localhost:2333/oldmsg/remove?id=' + idval;
-            var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
-            httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
-            httpRequest.send();//第三步：发送请求  将请求参数写在URL中
-            //结果处理
-            httpRequest.onreadystatechange = function () {
-                if (httpRequest.readyState == 4 && httpRequest.status == 200) {
-                    var str = httpRequest.responseText;
-                    alert(str);
-                }
-            };
+            var myUrl = 'user/deleteUser?id=' + idval;
+           $.ajax({
+				type : "GET",
+				url : myUrl,
+				data : "null",
+				dataType : "text",
+				success : function(obj) {
+					window.location.href="nursworker/selectnursworker/1";
+				}
+			}); 
         });
     })
     // 上传图片

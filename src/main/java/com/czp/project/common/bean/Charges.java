@@ -132,4 +132,11 @@ public class Charges {
     public void setUnit(String unit) {
         this.unit = unit == null ? null : unit.trim();
     }
+
+	@Override
+	public String toString() {
+		return "Charges [id=" + id + ", indexName=" + indexName + ", amountOfMoney=" + amountOfMoney + ", unit=" + unit
+				+ "]";
+	}
+    
 }

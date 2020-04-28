@@ -65,4 +65,14 @@ public class IndexImpl implements IndexService{
 		
 	}
 
+	@Override
+	public PageInfo<Charges> findAllByName(int currpage, int row,String source) {
+		PageHelper.startPage(currpage, row);
+		ChargesExample example=new ChargesExample();
+		example.createCriteria().andIndexNameLike("%"+source+"%");
+		List<Charges> list = chargesMapper.selectByExample(example);
+		PageInfo<Charges> pi = new PageInfo<Charges>(list);
+		return pi;
+	}
+
 }

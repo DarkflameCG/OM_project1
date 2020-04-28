@@ -1,5 +1,6 @@
 package com.czp.project.web.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.czp.project.common.bean.BaseUser;
 import com.czp.project.common.bean.Charges;
@@ -58,4 +60,24 @@ public class IndexController {
 		}
 					
      }
+	 //添加收费项
+	   @RequestMapping("/addIndex")
+	   @ResponseBody
+       public String addIndex(HttpServletRequest req,HttpSession session,Charges charges) {
+		   try {
+			indexImpl.addIndex(charges);
+			 return "ok";
+		} catch (Exception e) {
+			return "error";
+		}
+		  
+	   }
+	   //搜索
+	   @RequestMapping("/search/{page}")
+		public String search(HttpSession session,String source,@PathVariable String page) throws NumberFormatException, Exception {
+		   //分页搜索信息
+		   PageInfo<Charges> info =indexImpl.findAllByName(Integer.parseInt(page), 6, source);
+			  session.setAttribute("indexs", info); 
+			return "pages/moneySetting";
+		}
 }

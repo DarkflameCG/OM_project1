@@ -47,4 +47,9 @@ public interface IndexService {
 	 * @param name
 	 */
 	public void findIndexBySting(String name);
+	/**
+	 * 搜索查询
+	 * @param name
+	 */
+	public PageInfo<Charges> findAllByName(int currpage, int row,String source);
 }

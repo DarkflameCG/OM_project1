@@ -51,7 +51,7 @@
     function update(id, a) {
         //将提交表单的URL变为update
         myUrl = 'oldmsg/edit';
-        $("#userID").attr("value", id);
+        $("#id").attr("value", id);
         ;
         if (!id) {
             alert('id错误');
@@ -62,11 +62,11 @@
         //获取当前行tr下的所有td
         var t = temp[0].cells;
         //模态框赋值
-        $('#username').val(t[2].innerHTML);
-        $('#age').val(t[3].innerHTML);
-        $('#gender').val(t[5].innerHTML);
+        $('#indexName').val(t[2].innerHTML);
+        $('#amountOfMoney').val(t[3].innerHTML);
+        /* $('#gender').val(t[5].innerHTML);
         $('#telphone').val(t[9].innerHTML);
-        $('#health').val(t[7].innerHTML);
+        $('#health').val(t[7].innerHTML); */
         //给姓名框设置只读
         //$('#username').attr("readonly", "readonly");
     }
@@ -118,8 +118,8 @@
         //username的校验只在添加操作时才需要
         //通过对username的readonly属性验证来判断是添加还是更新
         //
-        if ($('#username').attr("readonly") == undefined) {
-            $('#username').rules("add", {
+        /* if ($('#indexName').attr("readonly") == undefined) {
+            $('#indexName').rules("add", {
                 required: true,
                 rangelength: [5, 20],
                 /* remote: {
@@ -137,14 +137,14 @@
                         else
                             return false;
                     }
-                }, */
-                messages: {
+                }, 
+                 messages: {
                     required: "请填写用户名",
-                    /*  remote: "用户名已存在", */
+                      //remote: "用户名已存在", 
                     rangelength: "用户名长度不符合规范"
-                }
+                } 
             });
-        }
+        } */
     }
     /*
     点击添加用户时需要做的操作：
@@ -153,8 +153,8 @@
         3.清空表单数据
      */
     function setUrl() {
-        myUrl = 'oldmsg/addOldmanMsg';
-        $('#username').removeAttr("readonly");
+        myUrl = 'index/addIndex';
+        $('#indexName').removeAttr("readonly");
         $('#form-data input').val("");
     }
     //提交表单
@@ -165,8 +165,8 @@
         //userid为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错！！！
         // ！！！！！
         // 此处绑定表单数据
-        if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId').serializeArray();
+        if ($('#id').val() == null || $('#id').val() == undefined || $('#id').val().length == 0) {
+            formData = $('#indexName,#amountOfMoney').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -189,6 +189,7 @@
                 if (data === 'ok') {
                     $('#tip').html('<span style="color: green">操作成功！</span>');
                     location.reload();
+                    //window.location.href="index/finance/1";
                 } else {
                     $('#tip').html('<span style="color: red">操作失败，请重试</span>');
                 }
@@ -211,7 +212,7 @@
         <div class="tool">
             <div class="row">
                 <br />
-                <form action="oldmsg/getMsgBySource" class="form-horizontal">
+                <form action="index/search/1" class="form-horizontal">
                     <div class="col-sm-3">
                         <input name="source" type="text" id="search" class="form-control">
                     </div>
@@ -219,14 +220,13 @@
                         <button type="submit" class="btn btn-primary">搜索</button>
                     </div>
                 </form>
-                <div class="col-sm-4">
-                </div>
-                <div class="col-sm-2">
-                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
+               
+               <div class="btns" style="float: right;">
+							
+							 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加用户</button>
 							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">批量删除</button>
-                </div>
-            </div>
+						</div>
         </div>
         <br>
         <table class="table table-bordered table-hover">
@@ -249,7 +249,7 @@
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
+                                data-target="#updateModal" onclick="update(${index.id},this)">编辑</button>
                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${index.id}">删除</button>
                         </td>
@@ -336,18 +336,18 @@
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="id" hidden>
+                                <input type="text" id="id" name="id" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">项目</label>
+                                    <label for="indexName" class="col-sm-3 control-label">项目</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="username" name="oldmanName"
-                                            placeholder="项目名长度在5-18字符之间">
+                                        <input type="text" class="form-control" id="indexName" name="indexName"
+                                            placeholder="输入项目名">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="age" class="col-sm-3 control-label">费用</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入费用">
+                                        <input type="text" class="form-control" id="amountOfMoney" name="amountOfMoney" placeholder="请输入费用">
                                     </div>
                                 </div>
                             </form>

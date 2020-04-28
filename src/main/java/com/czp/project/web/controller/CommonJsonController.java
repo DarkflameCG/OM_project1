@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.czp.project.common.bean.extend.FileUrl;
 import com.czp.project.utils.CodeStatus;
 import com.czp.project.utils.Message;
 
@@ -25,7 +26,7 @@ import com.czp.project.utils.Message;
 public class CommonJsonController {
 	
 	@RequestMapping("/upload")
-	public ResponseEntity<Message> uploadFile(HttpServletRequest req,
+	public FileUrl uploadFile(HttpServletRequest req,
 											  @RequestParam MultipartFile file){
 		String basePath = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+req.getContextPath()+"/";
 		String filename = "";
@@ -42,10 +43,10 @@ public class CommonJsonController {
 				file.transferTo(dest);
 			} catch (Exception e) {
 				e.printStackTrace();
-				return ResponseEntity.ok(new Message(CodeStatus.ERROR));
+				return new FileUrl(500,"错误");
 			}
 		}
-		return ResponseEntity.ok(new Message(CodeStatus.SUCCESS,basePath+"file/"+filename));
+		return new FileUrl(200,basePath+"file/"+filename);
 
 		
 	}
