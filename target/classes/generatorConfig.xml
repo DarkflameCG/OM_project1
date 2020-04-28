@@ -6,12 +6,12 @@
 <generatorConfiguration>
 
 <!--  <classPathEntry location="D:\gg\repository\mysql\mysql-connector-java\8.0.18\mysql-connector-java-8.0.18.jar" />-->
-<classPathEntry location="/Users/mastercgx/JavaEE_work_use/maven/maven_repo/mysql/mysql-connector-java/8.0.18/mysql-connector-java-8.0.18.jar" />
+<classPathEntry location="D:\jar\mysql-connector-java-5.1.25-bin.jar" />
   <context id="DB2Tables" targetRuntime="MyBatis3">
 
-    <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-        connectionURL="jdbc:mysql://127.0.0.1:3306/oldman"
-        userId="root"
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://203.195.246.58:3306/oldman"
+        userId="root1"
         password="rootroot">
       <!--产生selectByPrimaryKey-->
       <property name="useInformationSchema" value="true" />
@@ -41,10 +41,10 @@
 
 
 	<!-- 映射配置 -->
-    <table tableName="cost" domainObjectName="Cost" ></table>
+   <!--  <table tableName="cost" domainObjectName="Cost" ></table> -->
     <!-- <table tableName="family_members" domainObjectName="FamilyMembers" ></table> -->
-    <table tableName="index" domainObjectName="Index" ></table>
-    <table tableName="Account" domainObjectName="Account" ></table>
+    <table tableName="charges" domainObjectName="Charges" ></table>
+    <!-- <table tableName="Account" domainObjectName="Account" ></table> -->
     <!-- <table tableName="modular" domainObjectName="Modular" ></table>
     <table tableName="monitor" domainObjectName="Monitor" ></table> -->
   <!--   <table tableName="old_man" domainObjectName="OldMan" ></table> -->

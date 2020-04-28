@@ -5,52 +5,58 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.czp.project.common.bean.Index;
-import com.czp.project.dao.IndexMapper;
+import com.czp.project.common.bean.Charges;
+import com.czp.project.common.bean.ChargesExample;
+import com.czp.project.dao.ChargesMapper;
 import com.czp.project.service.interfaces.IndexService;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 @Service
 public class IndexImpl implements IndexService{
 
 	@Autowired
-	private IndexMapper indexmapper;
+	private ChargesMapper chargesMapper;
 	
 	@Override
-	public void addIndex(Index index) {
+	public void addIndex(Charges index) {
 		// TODO Auto-generated method stub
-		indexmapper.insert(index);
+		chargesMapper.insert(index);
 		
 	}
 
 	@Override
 	public void removeIndexById(int id) {
+		chargesMapper.deleteByPrimaryKey(id);
+		
+	}
+
+	@Override
+	public void removeIndexByIds(String[] ids) {
+		for (String str : ids) {
+			chargesMapper.deleteByPrimaryKey(Integer.parseInt(str));
+		}
+		
+	}
+
+	@Override
+	public void eidtIndex(Charges index) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void removeIndexByIds(String ids) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void eidtIndex(Index index) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<Index> findAll() {
+	public List<Charges> findAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public PageInfo<Index> findAllForPage(int currpage, int row) {
-		// TODO Auto-generated method stub
-		return null;
+	public PageInfo<Charges> findAllForPage(int currpage, int row) {
+		PageHelper.startPage(currpage, row);
+		List<Charges> list = chargesMapper.selectByExample(new ChargesExample());
+		PageInfo<Charges> pi = new PageInfo<Charges>(list);
+		return pi;
 	}
 
 	@Override

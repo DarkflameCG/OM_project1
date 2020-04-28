@@ -13,10 +13,10 @@
     <title>用户列表</title>
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <!-- Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <!-- Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
@@ -24,15 +24,13 @@
     <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
     <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
     <script src="js/lTable.js" type="text/javascript"></script>
-
-    <!-- Latest compiled and minified CSS -->
+	<script type="text/javascript" src="js/ajaxfileupload.js"></script>
+    <!-- 下拉选择框相关 CSS -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
-
-    <!-- Latest compiled and minified JavaScript -->
+    <!-- 下拉选择框相关 JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 
-   
     <style>
         .divcss5-left {
             float: right;
@@ -224,10 +222,9 @@
                 <div class="col-sm-4">
                 </div>
                 <div class="col-sm-2">
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
+                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加用户</button>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
-                        th:onclick="">批量删除</button>
+							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">批量删除</button>
                 </div>
             </div>
         </div>
@@ -243,18 +240,18 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${oldPages.list}" var="old">
-                    <tr th:each="user : ${userlist}">
-                        <td><input type="checkbox" value="${old.id}"></td>
-                        <td th:text="${user.userID}">${old.id}</td>
-                        <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.age}">${old.roomId}</td>
+                <c:forEach items="${indexs.list}" var="index">
+                    <tr>
+                        <td><input type="checkbox" value="${index.id}"></td>
+                        <td>${index.id}</td>
+                        <td>${index.indexName}</td>
+                        <td>${index.amountOfMoney}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                 data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                data-target="#deleteModal" data-orderId="${old.id}">删除</button>
+                           <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                data-target="#deleteModal" data-orderId="${index.id}">删除</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -264,7 +261,7 @@
         <div class="divcss5-left">
             <table width="461" height="24" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td width="120">当前为第${oldPages.pageNum}页,共${oldPages.pages}页</td>
+                    <td width="120">当前为第${indexs.pageNum}页,共${indexs.pages}页</td>
                     <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
@@ -272,18 +269,18 @@
                 </td> -->
                     <td width="256">
                         <c:choose>
-                            <c:when test="${oldPages.hasPreviousPage}">
-                                <a href="oldmsg/getmsg/1">首页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pageNum -1 }">上一页</a>
+                            <c:when test="${indexs.hasPreviousPage}">
+                                <a href="index/finance/1">首页</a> |
+                                <a href="index/finance/${indexs.pageNum -1 }">上一页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
                         </c:choose>
 
                         <c:choose>
-                            <c:when test="${oldPages.hasNextPage}">
-                                <a href="oldmsg/getmsg/${oldPages.pageNum + 1 }">下一页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pages }">尾页</a>
+                            <c:when test="${indexs.hasNextPage}">
+                                <a href="index/finance/${indexs.pageNum + 1 }">下一页</a> |
+                                <a href="index/finance/${indexs.pages }">尾页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
@@ -293,6 +290,35 @@
             </table>
         </div>
         <!-- 分页结束 -->
+        
+        
+         <!--删除模态框-->
+        <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
+            <div class="modal fade bs-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="">
+                                警告：确认删除？
+                            </h4>
+                        </div>
+                        <div class="modal-footer">
+                            <!--  onclick="deletebyId()" -->
+                            <button id="tijiao" type="button"  class="btn btn-danger">确定</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
+                      所以把按钮类型改为input，再手动调用封装好的验证函数-->
+                            <span id="tip"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- 删除模态框结束 -->
         <!--模态框-->
         <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
             <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
@@ -338,38 +364,12 @@
             </div>
         </form>
 
-        <!--删除模态框-->
-        <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
-            <div class="modal fade bs-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog"
-                aria-labelledby="mySmallModalLabel">
-                <div class="modal-dialog modal-sm" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                &times;
-                            </button>
-                            <h4 class="modal-title" id="">
-                                警告：确认删除？
-                            </h4>
-                        </div>
-                        <div class="modal-footer">
-                            <!--  onclick="deletebyId()" -->
-                            <button id="tijiao" type="input" class="btn btn-danger">确定</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
-                      所以把按钮类型改为input，再手动调用封装好的验证函数-->
-                            <span id="tip"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <!-- 删除模态框结束 -->
     </div>
 </body>
 <script type="text/javascript">
     //删除
     $("#deleteModal").on("shown.bs.modal", function (e) {
+    	
         $("#tijiao").on("click", function () {
             //定义url
             var idval = "";
@@ -388,18 +388,18 @@
                 //根据id删除
                 idval = $(e.relatedTarget).data('orderid');
             }
-            //发送请求
-            var myUrl = 'http://localhost:2333/oldmsg/remove?id=' + idval;
-            var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
-            httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
-            httpRequest.send();//第三步：发送请求  将请求参数写在URL中
-            //结果处理
-            httpRequest.onreadystatechange = function () {
-                if (httpRequest.readyState == 4 && httpRequest.status == 200) {
-                    var str = httpRequest.responseText;
-                    alert(str);
-                }
-            };
+          //发送请求
+             var myUrl = 'index/deleteIndex?id=' + idval;
+            $.ajax({
+				type : "GET",
+				url : myUrl,
+				data : "null",
+				dataType : "text",
+				success : function(obj) {
+					window.location.href="index/finance/1";
+				}
+			}); 
+           
         });
     })
     // 上传图片

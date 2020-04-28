@@ -27,7 +27,6 @@ import com.czp.project.utils.PageUtil;
 import com.github.pagehelper.PageInfo;
 
 @Controller
-@CrossOrigin
 @RequestMapping("/user")
 public class UserController {
 	@Autowired
@@ -153,7 +152,7 @@ public class UserController {
      	  return "pages/user_setting";
        }
 	   @RequestMapping("/user/{page}")
-		public String getOldManMsg(HttpSession session,
+		public String getBaseUser(HttpSession session,
 								  @PathVariable String page) throws NumberFormatException, Exception {
 		   
 		 //分页员工信息
