@@ -43,7 +43,8 @@
 	<!-- 映射配置 -->
    <!--  <table tableName="cost" domainObjectName="Cost" ></table> -->
     <!-- <table tableName="family_members" domainObjectName="FamilyMembers" ></table> -->
-    <table tableName="charges" domainObjectName="Charges" ></table>
+    <!-- <table tableName="charges" domainObjectName="Charges" ></table> -->
+    <table tableName="oldman_ruzhu" domainObjectName="OldManRuZhu" ></table>
     <!-- <table tableName="Account" domainObjectName="Account" ></table> -->
     <!-- <table tableName="modular" domainObjectName="Modular" ></table>
     <table tableName="monitor" domainObjectName="Monitor" ></table> -->

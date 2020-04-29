@@ -268,6 +268,7 @@
                     <th>姓名</th>
                     <th>密码</th>
                     <th>照片</th>
+                    <th>工资</th>
                     <th>入职时间</th>
                     <th>角色</th>
                     <th>操作</th>
@@ -280,8 +281,8 @@
                         <td>${user.id}</td>
                         <td>${user.userName}</td>
                         <td>${user.password}</td>
-                        <td><img src="${user.userImg}" alt="没有图片"></td>
-                        
+                        <td><img style="width: 50px;" src="${user.userImg}" alt="没有图片"></td>
+                         <td>${user.salary}</td>
                         <td>${user.workTime}</td>
                         <td>${user.role.power}</td>
                         <td>
@@ -414,7 +415,7 @@
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                             <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                     所以把按钮类型改为input，再手动调用封装好的验证函数-->
-                            <button type="input" class="btn btn-primary" onclick="vali();">提交</button>
+                            <button type="button" class="btn btn-primary" onclick="vali();">提交</button>
                             <span id="tip"></span>
                         </div>
                     </div>

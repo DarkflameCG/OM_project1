@@ -271,24 +271,23 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${ruzhuPages.list}" var="ruzhu">
-                    <tr th:each="user : ${userlist}">
-                        <td><input type="checkbox" value="1"></td>
-                        <td th:text="">1</td>
-                        <td th:text="">张三</td>
-                        <td th:text="">男</td>
-                        <td th:text="">
-                            <%-- ${old.checkintime} --%>
-                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
+                <c:forEach items="${ruzhus.list}" var="ruzhu">
+                    <tr>
+                        <td><input type="checkbox" value="${ruzhu.id}"></td>
+                        <td>${ruzhu.id}</td>
+                        <td>${ruzhu.oldMan.oldmanName}</td>
+                        <td>${ruzhu.oldMan.gender}</td>
+                        <td>
+                            <fmt:formatDate value="${ruzhu.time}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td th:text="">101</td>
-                        <td th:text="">admin</td>
+                        <td>${ruzhu.userLog}</td>
+                        <td>${ruzhu.inRoomId}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
+                                data-target="#updateModal" onclick="update(${ruzhu.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                data-target="#deleteModal" data-orderId="${old.id}">删除</button>
+                                data-target="#deleteModal" data-orderId="${ruzhu.id}">删除</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -298,7 +297,7 @@
         <div class="divcss5-left">
             <table width="461" height="24" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td width="120">当前为第${oldPages.pageNum}页,共${oldPages.pages}页</td>
+                    <td width="120">当前为第${ruzhus.pageNum}页,共${ruzhus.pages}页</td>
                     <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
@@ -306,18 +305,18 @@
                 </td> -->
                     <td width="256">
                         <c:choose>
-                            <c:when test="${oldPages.hasPreviousPage}">
-                                <a href="oldmsg/getmsg/1">首页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pageNum -1 }">上一页</a>
+                            <c:when test="${ruzhus.hasPreviousPage}">
+                                <a href="activity/ruzhu/1">首页</a> |
+                                <a href="activity/ruzhu/${ruzhus.pageNum -1 }">上一页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
                         </c:choose>
 
                         <c:choose>
-                            <c:when test="${oldPages.hasNextPage}">
-                                <a href="oldmsg/getmsg/${oldPages.pageNum + 1 }">下一页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pages }">尾页</a>
+                            <c:when test="${ruzhus.hasNextPage}">
+                                <a href="activity/ruzhu/${ruzhus.pageNum + 1 }">下一页</a> |
+                                <a href="activity/ruzhu/${ruzhus.pages }">尾页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>

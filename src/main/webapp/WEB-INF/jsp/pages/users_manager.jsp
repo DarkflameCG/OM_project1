@@ -56,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         var t = temp[0].cells;
         //模态框赋值
         $('#userName').val(t[1].innerHTML);
-        $('#salary').val(t[2].innerHTML);
+        $('#password').val(t[2].innerHTML);
        /*  $('#gender').val(t[5].innerHTML);
         $('#telphone').val(t[9].innerHTML);
         $('#health').val(t[7].innerHTML); */
@@ -141,10 +141,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         //通过对username的readonly属性验证来判断是添加还是更新
         //
          if ($('#userName').attr("readonly") == undefined) {
-            $('#userName').rules("add", {
+           /*  $('#userName').rules("add", {
                 required: true,
                 rangelength: [5, 20],
-                /* remote: {
+                 remote: {
                     type: "POST",
                     url: "/checkUsername",
                     data: {
@@ -159,13 +159,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         else
                             return false;
                     }
-                }, */
+                }, 
                 messages: {
                     required: "请填写用户名",
-                    /*  remote: "用户名已存在", */
+                      remote: "用户名已存在", 
                     rangelength: "用户名长度不符合规范"
                 }
-            });
+            }); */
         }
     }
     /*
@@ -187,7 +187,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         // ！！！！！
         // 此处绑定表单数据
          if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#userName,#password,#salary,#roleId,#image').serializeArray();
+            formData = $('#userName,#password,#salary,#roleId').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -246,10 +246,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<table class="table table-sm table-bordered table-hover text-center">
 				  <thead>
 				    <tr>
-				      <th scope="col"><input type="checkbox"></th>
-				      <th scope="col">用户</th>
-				      <th scope="col">金额</th>
-				      <th scope="col">时间</th>
+				     	 <th></th>
+				     	 <th>用户</th>
+				      	<th>密码</th>
+                    	<th>照片</th>
+                    	<th>角色</th>
 				      <th scope="col">操作</th>
 				    </tr>
 				  </thead>
@@ -258,8 +259,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <tr>
 						      <td><input type="checkbox" value="${user.id}"></td>
 						      <td>${user.userName}</td>
-						      <td>${user.salary}</td>
-						      <td>${user.workTime}</td>
+						      <td>${user.password}</td>
+						      <td><img style="width: 50px;" src="${user.userImg}" alt="没有图片"></td>
+                        	  <td>${user.role.power}</td>
 						      <td>
  						<!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
@@ -351,14 +353,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             </h4>
                         </div>
                         <div class="modal-body">
-                            <form action="" class="form-horizontal" enctype="multipart/form-data">
+                            <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
                                 <input type="text" id="userID" name="id" hidden>
                                 <div class="form-group">
                                     <label for="userName" class="col-sm-3 control-label">用户名</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="userName" name="userName"
-                                            placeholder="用户名长度在5-18字符之间">
+                                            placeholder="用户名">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -367,13 +369,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                         <input type="text" class="form-control" id="password" name="password" placeholder="请输入密码">
                                     </div>
                                 </div>
-                                 <div class="form-group">
-                                    <label for="salary" class="col-sm-3 control-label">工资</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="salary" name="salary"
-                                            placeholder="请输入工资">
-                                    </div>
-                                </div>
+                                 
                                 <div class="form-group">
                                     <label for="roleId" class="col-sm-3 control-label">角色</label>
                                     <div class="col-sm-9">
@@ -392,7 +388,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                         <label for="file">
                                             <div class="fileBox">
                                                 <div class="warp">
-                                                    <input type="file" id="image" name="image"/>
+                                                   <input type="file" id="file" />
                                                 </div>
                                                 <img src="" />
                                             </div>
@@ -451,7 +447,55 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            
         });
     })
-	</script>
+	 // 上传图片
+    var file = document.getElementById('file');
+    var image = document.querySelector("img");
+    var that = this;
+    file.onchange = function () {
+        var fileData = this.files[0];//获取到一个FileList对象中的第一个文件( File 对象),是我们上传的文件
+        var pettern = /^image/;
+        console.info(fileData.type)
+        if (!pettern.test(fileData.type)) {
+            alert("图片格式不正确");
+            return;
+        }
+        that.upload(fileData);
+    }
+    function upload(img) {
+        // 表单数据对象
+        var formData = new FormData();
+        // 将文件数据添加到表单数据中
+        formData.append("file", img);
+        var myUrl = 'http://localhost:2333/commonJson/upload';
+        var request = createCORSRequest('post', myUrl);
+        if (request) {
+            request.onload = function () {
+                if (request.status == 200) {
+                    alert("图片上传成功！");
+                    // 通过截取字符串获得图片路径
+                    img_url = request.response.toString().split('url":')[1].slice(1, -2)
+                } else {
+                    alert("图片上传失败！");
+                }
+            };
+            // 上传表单数据
+            request.send(formData);
+        }
+    }
+    function createCORSRequest(method, url) {
+        var xhr = new XMLHttpRequest();
+        if ("withCredentials" in xhr) {
+            xhr.open(method, url, true);
+        } else if (typeof XDmainRequest != "undefined") { //兼容IE
+            xhr = new XDmainRequest();
+            xhr.open(method, url, true);
+        } else {
+            xhr = null;
+        }
+        return xhr;
+    }
+
+</script>
 
 
 </html>

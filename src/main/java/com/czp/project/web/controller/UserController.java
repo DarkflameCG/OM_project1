@@ -188,13 +188,13 @@ public class UserController {
        }
 	   //添加用户
 	   @RequestMapping("/addUser")
-       public String addUser(HttpServletRequest req,HttpSession session,BaseUser baseUser,int roleId,@RequestParam("image") MultipartFile file) {
+       public String addUser(HttpServletRequest req,HttpSession session,BaseUser baseUser,int roleId) {
 		   System.out.println(baseUser);
 		   System.out.println(roleId);
-		   if(file!=null){
-				String filename = file.getOriginalFilename();
-				System.out.println(filename);
-		   }
+		/*
+		 * if(file!=null){ String filename = file.getOriginalFilename();
+		 * System.out.println(filename); }
+		 */
 		   return "ok";
 	   }
 		  
