@@ -1,5 +1,6 @@
 package com.czp.project.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,15 @@ public class NursWorkServiceImpl implements NursWorkService{
 		PageHelper.startPage(currpage, row);
 		BaseUserExample example = new BaseUserExample();
 		example.createCriteria().andRoleIdEqualTo(2);
+		List<BaseUser> list = baseUserMapper.selectByExample(example);
+		PageInfo<BaseUser> pi = new PageInfo<BaseUser>(list);
+		return pi;
+	}
+	@Override
+	public PageInfo<BaseUser> findAllByName(int currpage, int row, String source) throws Exception {
+		PageHelper.startPage(currpage, row);
+		BaseUserExample example=new BaseUserExample();
+		example.createCriteria().andUserNameLike("%"+source+"%").andRoleIdEqualTo(2);
 		List<BaseUser> list = baseUserMapper.selectByExample(example);
 		PageInfo<BaseUser> pi = new PageInfo<BaseUser>(list);
 		return pi;

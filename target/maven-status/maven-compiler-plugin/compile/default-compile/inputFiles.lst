@@ -5,6 +5,7 @@
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/service/impl/BaseUserServiceImpl.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/service/impl/OldManMsgImpl.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/web/controller/CeshiController.java
+/Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/extend/FileUrl.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/ModularExample.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/dao/CostMapper.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/BaseUserExample.java

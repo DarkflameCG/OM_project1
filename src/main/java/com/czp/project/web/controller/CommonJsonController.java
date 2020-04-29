@@ -1,3 +1,4 @@
+
 package com.czp.project.web.controller;
 
 import java.io.File;
@@ -32,11 +33,9 @@ public class CommonJsonController {
 		String filename = "";
 		if(file!=null){
 			filename =System.currentTimeMillis()+"_"+file.getOriginalFilename();
-			System.out.println("获取到的文件:"+file.getOriginalFilename());
 			//找到一个路径存放文件
 			String realPath = 
 					req.getServletContext().getRealPath("/file");
-			System.out.println(realPath);
 			//创建一个文件，并将上传文件资料传入
 			File dest = new File(realPath, filename);
 			try {
@@ -46,7 +45,8 @@ public class CommonJsonController {
 				return new FileUrl(500,"错误");
 			}
 		}
-		return new FileUrl(200,basePath+"file/"+filename);
+		//return new FileUrl(200,basePath+"file/"+filename);
+		return new FileUrl(200,"file/"+filename);
 
 		
 	}

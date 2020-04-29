@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.czp.project.common.bean.BaseUser;
 import com.czp.project.common.bean.BaseUserExample;
+import com.czp.project.common.bean.Charges;
+import com.czp.project.common.bean.ChargesExample;
 import com.czp.project.common.bean.OldMan;
 import com.czp.project.dao.BaseUserMapper;
 import com.czp.project.service.interfaces.BaseUserService;
@@ -64,6 +66,16 @@ private BaseUserMapper baseUserMapper;
 		return key;
 	}
 	@Override
+	public int updateUser1(BaseUser baseUser) throws Exception {
+		int key = baseUserMapper.updateByPrimaryKey1(baseUser);
+		return key;
+	}
+	@Override
+	public int updateUser2(BaseUser baseUser) throws Exception {
+		int key = baseUserMapper.updateByPrimaryKey2(baseUser);
+		return key;
+	}
+	@Override
 	public PageInfo<BaseUser> selectByExample(int currpage, int row) throws Exception {
 	
 		PageHelper.startPage(currpage, row);
@@ -71,5 +83,13 @@ private BaseUserMapper baseUserMapper;
 		PageInfo<BaseUser> pi = new PageInfo<BaseUser>(list);
 		return pi;
 	}
-
+	@Override
+	public PageInfo<BaseUser> findAllByName(int currpage, int row,String source) {
+		PageHelper.startPage(currpage, row);
+		BaseUserExample example=new BaseUserExample();
+		example.createCriteria().andUserNameLike("%"+source+"%");
+		List<BaseUser> list = baseUserMapper.selectByExample(example);
+		PageInfo<BaseUser> pi = new PageInfo<BaseUser>(list);
+		return pi;
+	}
 }

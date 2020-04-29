@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.czp.project.common.bean.BaseUser;
 import com.czp.project.common.bean.BaseUserExample;
+import com.czp.project.common.bean.Charges;
 import com.czp.project.common.bean.OldMan;
 import com.czp.project.utils.PageUtil;
 import com.github.pagehelper.PageInfo;
@@ -26,5 +27,8 @@ public interface BaseUserService {
 	//验证用户名密码是否一致
 	  	BaseUser selectLogin(BaseUser baseUser) throws Exception;
 	  	int updateUser(BaseUser baseUser) throws Exception;
+		int updateUser1(BaseUser baseUser) throws Exception;
+		int updateUser2(BaseUser baseUser) throws Exception;
 	  	PageInfo<BaseUser> selectByExample(int currpage, int row) throws Exception;
+	  	public PageInfo<BaseUser> findAllByName(int currpage, int row,String source) throws Exception; 
 }

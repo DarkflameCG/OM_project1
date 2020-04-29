@@ -224,7 +224,7 @@
                <div class="btns" style="float: right;">
 							
 							 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
-                        onclick="setUrl()">添加用户</button>
+                        onclick="setUrl()">添加项目</button>
 							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">批量删除</button>
 						</div>
         </div>
@@ -330,7 +330,7 @@
                                 &times;
                             </button>
                             <h4 class="modal-title" id="updateModalLabel">
-                                用户信息
+                               项目信息
                             </h4>
                         </div>
                         <div class="modal-body">

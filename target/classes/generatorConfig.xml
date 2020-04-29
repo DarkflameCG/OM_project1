@@ -9,7 +9,11 @@
 <classPathEntry location="D:\jar\mysql-connector-java-5.1.25-bin.jar" />
   <context id="DB2Tables" targetRuntime="MyBatis3">
 
+<<<<<<< HEAD
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+=======
+    <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+>>>>>>> 51bac208e49a03307b5d0de83ea583b9712e7764
         connectionURL="jdbc:mysql://203.195.246.58:3306/oldman"
         userId="root1"
         password="rootroot">
@@ -41,14 +45,20 @@
 
 
 	<!-- 映射配置 -->
+<<<<<<< HEAD
    <!--  <table tableName="cost" domainObjectName="Cost" ></table> -->
     <!-- <table tableName="family_members" domainObjectName="FamilyMembers" ></table> -->
     <!-- <table tableName="charges" domainObjectName="Charges" ></table> -->
     <table tableName="oldman_ruzhu" domainObjectName="OldManRuZhu" ></table>
     <!-- <table tableName="Account" domainObjectName="Account" ></table> -->
+=======
+    <!-- <table tableName="cost" domainObjectName="Cost" ></table> -->
+    <!-- <table tableName="family_members" domainObjectName="FamilyMembers" ></table> -->
+   <!--  <table tableName="Account" domainObjectName="Account" ></table> -->
+>>>>>>> 51bac208e49a03307b5d0de83ea583b9712e7764
     <!-- <table tableName="modular" domainObjectName="Modular" ></table>
     <table tableName="monitor" domainObjectName="Monitor" ></table> -->
-  <!--   <table tableName="old_man" domainObjectName="OldMan" ></table> -->
+    <table tableName="old_man" domainObjectName="OldMan" ></table>
   <!--   <table tableName="old_man_leave" domainObjectName="OldManLeave" ></table> 
     <table tableName="room" domainObjectName="Room" ></table>
     <table tableName="user_leave" domainObjectName="UserLeave" ></table>
@@ -67,7 +77,7 @@
 	 mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
 	-->
 
+	</context>
 
-
-  </context>
+  
 </generatorConfiguration>

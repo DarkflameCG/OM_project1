@@ -1,6 +1,7 @@
 package com.czp.project.web.controller;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import javax.management.relation.Role;
@@ -21,8 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.czp.project.common.bean.BasePower;
 import com.czp.project.common.bean.BaseUser;
+import com.czp.project.common.bean.Charges;
 import com.czp.project.service.interfaces.BasePowerService;
 import com.czp.project.service.interfaces.BaseUserService;
+import com.czp.project.utils.DateAndStringUtil;
 import com.czp.project.utils.PageUtil;
 import com.github.pagehelper.PageInfo;
 
@@ -120,6 +123,13 @@ public class UserController {
 				return "login";
 			}
 	    }
+	   //退出登录
+	   @PostMapping("/loginOut")
+	    public String loginOut(HttpSession session) {
+		   System.out.println("退出");
+		   session.invalidate();
+		   return "login";
+	   }
 	   @RequestMapping("/me")
 		public String userSetting(){
 			   return "pages/user_setting";
@@ -155,14 +165,14 @@ public class UserController {
 		public String getBaseUser(HttpSession session,
 								  @PathVariable String page) throws NumberFormatException, Exception {
 		   
-		 //分页员工信息
+		 //分页用户信息
 		  PageInfo<BaseUser> info =
 		  baseUserService.selectByExample(Integer.parseInt(page), 6);
 		  session.setAttribute("users", info); 
 		 
 			return "pages/users_manager";
 		}
-	   //批量或单个删除
+	   //批量或单个删除用户
 	   @RequestMapping("/deleteUser")
 	   @ResponseBody
        public String deleteAllUser(@RequestParam String id) {
@@ -188,15 +198,38 @@ public class UserController {
        }
 	   //添加用户
 	   @RequestMapping("/addUser")
+	   @ResponseBody
        public String addUser(HttpServletRequest req,HttpSession session,BaseUser baseUser,int roleId) {
-		   System.out.println(baseUser);
-		   System.out.println(roleId);
-		/*
-		 * if(file!=null){ String filename = file.getOriginalFilename();
-		 * System.out.println(filename); }
-		 */
+		   BasePower role=new BasePower();
+		   role.setId(roleId);
+		   baseUser.setRole(role);
+		   baseUser.setWorkTime(DateAndStringUtil.getFisrtDayOfMonth(new Date()));
+		   baseUserService.addUser(baseUser);
 		   return "ok";
 	   }
-		  
+	   //更新用户
+	   @RequestMapping("/updateUser1")
+	   @ResponseBody
+       public String updateUser1(HttpServletRequest req,HttpSession session,BaseUser baseUser,int roleId) {
+		   try {
+			BasePower role=new BasePower();
+			   role.setId(roleId);
+			   baseUser.setRole(role);
+			baseUserService.updateUser1(baseUser);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+     	  return "ok";
+       } 
+	 //搜索用户
+	   @RequestMapping("/search/{page}")
+		public String search(HttpSession session,String source,@PathVariable String page) throws NumberFormatException, Exception {
+		   //分页搜索信息
+		   PageInfo<BaseUser> info =baseUserService.findAllByName(Integer.parseInt(page), 6, source);
+		   session.setAttribute("users", info); 
+		   return "pages/users_manager";
+		}
 	  
 }

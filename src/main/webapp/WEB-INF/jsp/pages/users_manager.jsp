@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     //传入点击的用户id，获取该用户信息并放入表单中
     function update(id, a) {
         //将提交表单的URL变为update
-        myUrl = 'oldmsg/edit';
+        myUrl = 'user/updateUser1';
         $("#userID").attr("value", id);
         if (!id) {
             alert('id错误');
@@ -177,6 +177,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     function setUrl() {
     	 myUrl = 'user/addUser';
          $('#form-data input').val("");
+      // 打开模态框禁用提交按钮
+         $('#modal_button').attr('disabled', true)
     }
     //提交表单
     function checkForm() {
@@ -187,7 +189,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         // ！！！！！
         // 此处绑定表单数据
          if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#userName,#password,#salary,#roleId').serializeArray();
+            formData = $('#userName,#password,#roleId,#userImg').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -231,11 +233,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="ownersettings" style="padding-top: 1em">
 	<div class="table_content" >
 	  			<div style="position: relative;bottom: .5em;">
-		  				<div style="position: absolute;">
-							<input id="queryInput1" type="text" placeholder="请输入查询内容" style="margin-top: -1em">
-							
-							<button class="btn btn-info btn-sm" id="btn_query1" style="margin-top: -.4em">确认</button>
-						</div>
+	  				 <form action="user/search/1" class="form-horizontal">
+                    <div class="col-sm-3">
+                        <input name="source" type="text" id="search" class="form-control">
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="submit" class="btn btn-primary">搜索</button>
+                    </div>
+                </form>
 						<div class="btns" style="float: right;">
 							
 							 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
@@ -339,7 +344,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <!-- 删除模态框结束 -->
         
 		 <!--添加更新模态框-->
-        <form method="post" name="user" class="form-horizontal" enctype="multipart/form-data"  role="form" id="form-data" style="margin: 20px;">
+        <form method="post" name="user" class="form-horizontal" enctype="form-data"  role="form" id="form-data" style="margin: 20px;">
             <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -394,6 +399,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                             </div>
                                         </label>
                                     </div>
+                                    <input type="text" id="userImg" name="userImg" hidden>
                                 </div>
                             </form>
                         </div>
@@ -401,7 +407,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                             <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                     所以把按钮类型改为input，再手动调用封装好的验证函数-->
-                            <button type="input" class="btn btn-primary" onclick="vali();">提交</button>
+                            <button id="modal_button" type="input" class="btn btn-primary" onclick="vali();">提交</button>
                             <span id="tip"></span>
                         </div>
                     </div>
@@ -474,6 +480,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     alert("图片上传成功！");
                     // 通过截取字符串获得图片路径
                     img_url = request.response.toString().split('url":')[1].slice(1, -2)
+                     $('#userImg').val(img_url)
+                    // 图片上传成功后启用提交按钮
+                    $('#modal_button').attr('disabled', false)
                 } else {
                     alert("图片上传失败！");
                 }

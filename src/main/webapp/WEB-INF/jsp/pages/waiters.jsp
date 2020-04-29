@@ -53,7 +53,7 @@
     //传入点击的用户id，获取该用户信息并放入表单中
     function update(id, a) {
         //将提交表单的URL变为update
-        myUrl = 'oldmsg/edit';
+        myUrl = 'nursworker/updateHuGong';
         $("#userID").attr("value", id);
         ;
         if (!id) {
@@ -65,11 +65,10 @@
         //获取当前行tr下的所有td
         var t = temp[0].cells;
         //模态框赋值
-        $('#username').val(t[2].innerHTML);
-        $('#age').val(t[4].innerHTML);
-        $('#gender').val(t[5].innerHTML);
-        $('#telphone').val(t[9].innerHTML);
-        $('#health').val(t[7].innerHTML);
+        $('#userName').val(t[2].innerHTML);
+        $('#password').val(t[3].innerHTML);
+        $('#salary').val(t[5].innerHTML);
+       
         //给姓名框设置只读
         //$('#username').attr("readonly", "readonly");
         //下面是使用ajax动态的放数据
@@ -150,11 +149,11 @@
         //username的校验只在添加操作时才需要
         //通过对username的readonly属性验证来判断是添加还是更新
         //
-        if ($('#username').attr("readonly") == undefined) {
-            $('#username').rules("add", {
+        if ($('#userName').attr("readonly") == undefined) {
+            /* $('#username').rules("add", {
                 required: true,
                 rangelength: [5, 20],
-                /* remote: {
+                 remote: {
                     type: "POST",
                     url: "/checkUsername",
                     data: {
@@ -169,13 +168,13 @@
                         else
                             return false;
                     }
-                }, */
+                }, 
                 messages: {
                     required: "请填写用户名",
-                    /*  remote: "用户名已存在", */
+                      remote: "用户名已存在",
                     rangelength: "用户名长度不符合规范"
                 }
-            });
+            }); */
         }
     }
     /*
@@ -185,9 +184,10 @@
         3.清空表单数据
      */
     function setUrl() {
-        myUrl = 'oldmsg/addOldmanMsg';
-        $('#username').removeAttr("readonly");
+        myUrl = 'nursworker/addHuGong';
         $('#form-data input').val("");
+        // 打开模态框禁用提交按钮
+           $('#modal_button').attr('disabled', true)
     }
     //提交表单
     function checkForm() {
@@ -198,7 +198,7 @@
         // ！！！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId').serializeArray();
+            formData = $('#userName,#password,#salary,#userImg').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -239,11 +239,10 @@
 </script>
 
 <body>
-    <div class="container-fluid">
-        <div class="tool">
-            <div class="row">
-                <br />
-                <form action="oldmsg/getMsgBySource" class="form-horizontal">
+    <div class="ownersettings" style="padding-top: 1em">
+    <div class="table_content" >
+        <div style="position: relative;bottom: .5em;">
+                <form action="nursworker/search/1" class="form-horizontal">
                     <div class="col-sm-3">
                         <input name="source" type="text" id="search" class="form-control">
                     </div>
@@ -254,11 +253,10 @@
                  <div class="btns" style="float: right;">
 							
 							 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
-                        onclick="setUrl()">添加用户</button>
+                        onclick="setUrl()">添加护工</button>
 							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">批量删除</button>
 						</div>
             </div>
-        </div>
         <br>
         <table class="table table-bordered table-hover">
             <thead>
@@ -296,6 +294,7 @@
                 </c:forEach>
             </tbody>
         </table>
+        </div>
         <!-- 分页开始 -->
         <div class="divcss5-left">
             <table width="461" height="24" cellpadding="0" cellspacing="0">
@@ -348,54 +347,25 @@
                                 <!--userid为隐藏的input，便于update时的传值-->
                                 <input type="text" id="userID" name="id" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">姓名</label>
+                                    <label for="userName" class="col-sm-3 control-label">姓名</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="username" name="oldmanName"
-                                            placeholder="姓名长度在5-18字符之间">
+                                        <input type="text" class="form-control" id="userName" name="userName"
+                                            placeholder="护工姓名">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">年龄</label>
+                                    <label for="password" class="col-sm-3 control-label">密码</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">
+                                        <input type="text" class="form-control" id="password" name="password" placeholder="请输入密码">
                                     </div>
-								</div>
+                                </div>
 								<div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">家庭住址</label>
+                                    <label for="password" class="col-sm-3 control-label">工资</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入家庭住址">
-                                    </div>
-								</div>
-								<div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">入职时间</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入入职时间">
+                                        <input type="text" class="form-control" id="salary" name="salary" placeholder="请输入工资">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="gender" class="col-sm-3 control-label">性别</label>
-                                    <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
-                                            data-live-search="false">
-                                            <option value="男">男</option>
-                                            <option value="女">女</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="health" class="col-sm-3 control-label">身份证号</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="health" name="health"
-                                            placeholder="请输入身份证号">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="telphone" class="col-sm-3 control-label">手机号</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="telphone" name="telphone"
-                                            placeholder="请输入手机号">
-                                    </div>
-                                </div>
+								
                                 <div class="form-group">
                                     <label for="username" class="col-sm-3 control-label">照片</label>
                                     <div class="col-sm-9">
@@ -408,6 +378,7 @@
                                             </div>
                                         </label>
                                     </div>
+                                    <input type="text" id="userImg" name="userImg" hidden>
                                 </div>
                             </form>
                         </div>
@@ -415,7 +386,7 @@
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                             <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                     所以把按钮类型改为input，再手动调用封装好的验证函数-->
-                            <button type="button" class="btn btn-primary" onclick="vali();">提交</button>
+                          <button id="modal_button" type="input" class="btn btn-primary" onclick="vali();">提交</button>
                             <span id="tip"></span>
                         </div>
                     </div>
@@ -486,9 +457,10 @@
 			}); 
         });
     })
-    // 上传图片
+     // 上传图片
     var file = document.getElementById('file');
     var image = document.querySelector("img");
+    var that = this;
     file.onchange = function () {
         var fileData = this.files[0];//获取到一个FileList对象中的第一个文件( File 对象),是我们上传的文件
         var pettern = /^image/;
@@ -497,15 +469,45 @@
             alert("图片格式不正确");
             return;
         }
-        var reader = new FileReader();
-        reader.readAsDataURL(fileData);//异步读取文件内容，结果用data:url的字符串形式表示
-        /*当读取操作成功完成时调用*/
-        reader.onload = function (e) {
-            console.log(e); //查看对象
-            console.log(this.result);//要的数据 这里的this指向FileReader（）对象的实例reader
-            // image.setAttribute("src", this.result)
+        that.upload(fileData);
+    }
+    function upload(img) {
+        // 表单数据对象
+        var formData = new FormData();
+        // 将文件数据添加到表单数据中
+        formData.append("file", img);
+        var myUrl = 'http://localhost:2333/commonJson/upload';
+        var request = createCORSRequest('post', myUrl);
+        if (request) {
+            request.onload = function () {
+                if (request.status == 200) {
+                    alert("图片上传成功！");
+                    // 通过截取字符串获得图片路径
+                    img_url = request.response.toString().split('url":')[1].slice(1, -2)
+                     $('#userImg').val(img_url)
+                    // 图片上传成功后启用提交按钮
+                    $('#modal_button').attr('disabled', false)
+                } else {
+                    alert("图片上传失败！");
+                }
+            };
+            // 上传表单数据
+            request.send(formData);
         }
     }
+    function createCORSRequest(method, url) {
+        var xhr = new XMLHttpRequest();
+        if ("withCredentials" in xhr) {
+            xhr.open(method, url, true);
+        } else if (typeof XDmainRequest != "undefined") { //兼容IE
+            xhr = new XDmainRequest();
+            xhr.open(method, url, true);
+        } else {
+            xhr = null;
+        }
+        return xhr;
+    }
+
 </script>
 
 </html>
