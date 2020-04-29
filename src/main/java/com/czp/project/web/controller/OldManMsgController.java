@@ -51,6 +51,7 @@ public class OldManMsgController {
 	@RequestMapping("/addOldmanMsg")
 	@ResponseBody
 	public String addOldManMsg(OldMan oldman) {
+		System.out.println(oldman);
 		oldman.setOldNumber(NumberProduct.getNumber());
 		oldimpl.addOldManMsg(oldman);	
 		return "ok";
@@ -59,6 +60,7 @@ public class OldManMsgController {
 	@RequestMapping("/edit")
 	@ResponseBody
 	public String editOldManMsg(OldMan oldman) {
+		
 		oldimpl.updateOldManMsg(oldman);
 		return "ok";
 	}

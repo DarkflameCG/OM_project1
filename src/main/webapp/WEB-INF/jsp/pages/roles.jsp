@@ -191,7 +191,7 @@
         //userid为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId').serializeArray();
+            formData = $('#powername,#desc').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -260,37 +260,19 @@
                 <tr>
                     <th></th>
                     <th>序号</th>
-                    <th>姓名</th>
-                    <th>照片</th>
-                    <th>年龄</th>
-                    <th>性别</th>
-                    <th>入住时间</th>
-                    <th>健康状况</th>
-                    <th>老人家属</th>
-                    <th>电话</th>
-                    <th>房间号</th>
-                    <th>护工姓名</th>
+                    <th>角色名称</th>
+            		<th>权限描述</th>>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <c:forEach items="${oldPages.list}" var="old">
-                    <tr th:each="user : ${userlist}">
+                    <tr>
                         <td><input type="checkbox" value="${old.id}"></td>
-                        <td th:text="${user.userID}">${old.id}</td>
-                        <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.password}"><img src="./" alt="没有图片"></td>
-                        <td th:text="${user.phone}">${old.age}</td>
-                        <td th:text="${user.email}">${old.gender}</td>
-                        <td th:text="${user.email}">
-                            <%-- ${old.checkintime} --%>
-                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
-                        </td>
-                        <td th:text="${user.email}">${old.health}</td>
-                        <td th:text="${user.email}">${old.familyMembersId}</td>
-                        <td th:text="${user.email}">${old.telphone}</td>
-                        <td th:text="${user.email}">${old.roomId}</td>
-                        <td th:text="${user.email}">${old.userId}</td>
+                        <td>${old.id}</td>
+                        <td>${old.oldmanName}</td>
+                        <td>${old.age}</td>
+                        <td>${old.gender}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
@@ -346,7 +328,7 @@
                                 &times;
                             </button>
                             <h4 class="modal-title" id="updateModalLabel">
-                                用户信息
+                                角色信息
                             </h4>
                         </div>
                         <div class="modal-body">
@@ -354,51 +336,16 @@
                                 <!--userid为隐藏的input，便于update时的传值-->
                                 <input type="text" id="userID" name="id" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">用户名</label>
+                                    <label for="username" class="col-sm-3 control-label">角色名称</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="username" name="oldmanName"
-                                            placeholder="用户名长度在5-18字符之间">
+                                        <input type="text" class="form-control" id="powername" name="oldmanName"
+                                            placeholder="角色名长度在2-10字符之间">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">年龄</label>
+                                    <label for="age" class="col-sm-3 control-label">权限描述</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="gender" class="col-sm-3 control-label">性别</label>
-                                    <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
-                                            data-live-search="false">
-                                            <option value="男">男</option>
-                                            <option value="女">女</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="health" class="col-sm-3 control-label">健康状况</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="health" name="health"
-                                            placeholder="请输入老人的健康状况">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="telphone" class="col-sm-3 control-label">手机号</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="telphone" name="telphone"
-                                            placeholder="请输入手机号">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">照片</label>
-                                    <div class="col-sm-9">
-                                        <label for="file">
-                                            <div class="panel updatepanel">
-                                                <div class="addbox"><span class="icon-add-50">+点击上传</span></div>
-                                                <input type="file" id="oldman_img" style="display: none" />
-                                            </div>
-                                        </label>
+                                        <input type="text" class="form-control" id="desc" name="age" placeholder="请输入权限描述">
                                     </div>
                                 </div>
                             </form>
@@ -479,25 +426,7 @@
             };
         });
     })
-    // 上传图片
-    $(".updatepanel").height($(".panel-info").height());
-    document.getElementById('file').onchange = function () {
-        add();
-        var imgFile = this.files[0];
-        var fr = new FileReader();
-        fr.onload = function () {
-            var imgs = document.getElementsByClassName('updateimg');
-            imgs[imgs.length - 1].src = fr.result;
-        };
-        fr.readAsDataURL(imgFile);
-    };
-    function add() {
-        var html = "<div class='col-sm-4'><div class='panel panel-info'><div class='panel-heading'><i class='fa fa-times'></i></div><div class='panel-body' style='text-align: center;'><div class='row'><div class='col-sm-12 col-md-12'><img class='updateimg img-responsive' src='img/p_big3.jpg' style='width: inherit;height: 210px;'/></div></div></div></div></div>";
-        $("#updatebox").before(html);
-    }
-    $(".fa-times").click(function () {
-        $(this).parent().parent().parent().remove();
-    });
+ 
 </script>
 
 </html>
