@@ -32,12 +32,35 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 
-   
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
+        rel="stylesheet">
+
+    <!-- <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script> -->
+    <!-- <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+    <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
     <style>
         .divcss5-left {
             float: right;
             width: 350px;
             height: 50px;
+        }
+
+        .myrow {
+            display: flex;
+            flex-direction: row;
+            /*margin-left:1em;*/
+        }
+
+        .dates {
+            height: 2px;
+            background: #999999;
+            margin-top: 16px;
+            width: 2em;
+            margin-left: 1em;
+            margin-right: 1em;
         }
     </style>
 </head>
@@ -193,7 +216,7 @@
         // ！！！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId').serializeArray();
+            formData = $('#username,#age,#gender,#health,#telphone,#time_1,#time_2').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -250,7 +273,7 @@
                 </div>
                 <div class="col-sm-4">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
-                        onclick="setUrl()">添加用户</button>
+                        onclick="setUrl()">添加外出</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                         th:onclick="">批量删除</button>
                 </div>
@@ -276,20 +299,20 @@
                 <c:forEach items="${oldPages.list}" var="old">
                     <tr th:each="user : ${userlist}">
                         <td><input type="checkbox" value="${old.id}"></td>
-                       	<th>1</th>
-	                    <th>张三</th>
-	                    <th>外出广场舞</th>
-	                    <td th:text="${user.email}">
+                        <th>1</th>
+                        <th>张三</th>
+                        <th>外出广场舞</th>
+                        <td th:text="${user.email}">
                             <%-- ${old.checkintime} --%>
                             <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
                         </td>
-	                    <td th:text="${user.email}">
+                        <td th:text="${user.email}">
                             <%-- ${old.checkintime} --%>
                             <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
                         </td>
-	                    <th>12345678901</th>
-	                    <th>小李</th>
-	                    <th>未返回</th>
+                        <th>12345678901</th>
+                        <th>小李</th>
+                        <th>未返回</th>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
@@ -390,6 +413,27 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="time" class="col-sm-3 control-label">外出时间</label>
+                                    <div class="col-sm-9">
+                                        <div class="myrow">
+                                            <div class='input-group date' style="width: 14em;" id='datetimepicker1'>
+                                                <input id="time_1" name="time_1" type='text' class="timeInput form-control" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                            <div class="dates">
+                                            </div>
+                                            <div class='input-group date' style="width: 14em;" id='datetimepicker2'>
+                                                <input id="time_2" name="time_2" type='text' class="timeInput form-control" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="username" class="col-sm-3 control-label">照片</label>
                                     <div class="col-sm-9">
                                         <label for="file">
@@ -480,16 +524,17 @@
     })
     // 上传图片
     $(".updatepanel").height($(".panel-info").height());
-    document.getElementById('file').onchange = function () {
-        add();
-        var imgFile = this.files[0];
-        var fr = new FileReader();
-        fr.onload = function () {
-            var imgs = document.getElementsByClassName('updateimg');
-            imgs[imgs.length - 1].src = fr.result;
-        };
-        fr.readAsDataURL(imgFile);
-    };
+    // 30日被cc注释
+    // document.getElementById('file').onchange = function () {
+    //     add();
+    //     var imgFile = this.files[0];
+    //     var fr = new FileReader();
+    //     fr.onload = function () {
+    //         var imgs = document.getElementsByClassName('updateimg');
+    //         imgs[imgs.length - 1].src = fr.result;
+    //     };
+    //     fr.readAsDataURL(imgFile);
+    // };
     function add() {
         var html = "<div class='col-sm-4'><div class='panel panel-info'><div class='panel-heading'><i class='fa fa-times'></i></div><div class='panel-body' style='text-align: center;'><div class='row'><div class='col-sm-12 col-md-12'><img class='updateimg img-responsive' src='img/p_big3.jpg' style='width: inherit;height: 210px;'/></div></div></div></div></div>";
         $("#updatebox").before(html);
@@ -497,6 +542,28 @@
     $(".fa-times").click(function () {
         $(this).parent().parent().parent().remove();
     });
+    //  日期选择框相关代码
+    $(function () {
+        $('#form1').hide();
+        var picker1 = $('#datetimepicker1').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn'),
+            minDate: '2016-7-1'//可选择的最小日期
+        });
+        var picker2 = $('#datetimepicker2').datetimepicker({
+            format: 'YYYY-MM-DD',
+            // locale: moment.locale('zh-cn')
+        });
+        //动态设置最小值
+        picker1.on('dp.change', function (e) {
+            picker2.data('DateTimePicker').minDate(e.date);
+        });
+        //动态设置最大值
+        picker2.on('dp.change', function (e) {
+            picker1.data('DateTimePicker').maxDate(e.date);
+        });
+    });
+    //  日期选择框相关代码结束
 </script>
 
 </html>
