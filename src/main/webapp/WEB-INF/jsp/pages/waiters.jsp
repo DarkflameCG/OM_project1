@@ -291,6 +291,7 @@
                             <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
                         </td>
                         <td th:text="${user.email}">${old.telphone}</td>
+                        <td th:text="${user.email}">${old.telphone}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"

@@ -261,7 +261,7 @@
                     <th></th>
                     <th>序号</th>
                     <th>角色名称</th>
-            		<th>权限描述</th>>
+            		<th>权限描述</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -272,7 +272,6 @@
                         <td>${old.id}</td>
                         <td>${old.oldmanName}</td>
                         <td>${old.age}</td>
-                        <td>${old.gender}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"

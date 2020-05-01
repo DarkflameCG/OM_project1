@@ -31,13 +31,31 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <!-- 时间选择器 -->
+    <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
-   
+
     <style>
         .divcss5-left {
             float: right;
             width: 350px;
             height: 50px;
+        }
+
+        .myrow {
+            display: flex;
+            flex-direction: row;
+            /*margin-left:1em;*/
+        }
+
+        .dates {
+            height: 2px;
+            background: #999999;
+            margin-top: 16px;
+            width: 2em;
+            margin-left: 1em;
+            margin-right: 1em;
         }
     </style>
 </head>
@@ -65,37 +83,6 @@
         $('#gender').val(t[5].innerHTML);
         $('#telphone').val(t[9].innerHTML);
         $('#health').val(t[7].innerHTML);
-        //给姓名框设置只读
-        //$('#username').attr("readonly", "readonly");
-        //下面是使用ajax动态的放数据
-        /*  $.ajax(
-             {
-                 url: "/toUpdateUser",
-                 data: { "id": id },
-                 type: "post",
-                 //解决编码问题
-                 scriptCharset: 'utf-8',
-                 beforeSend: function () {
-                     return true;
-                 },
-                 success: function (data) {
-                     if (data) {
-                         //解析json数据
-                         var data = data;
-                         var user = eval("(" + data + ")");
- 
-                         //赋值
-                         $('#userID').val(user.userID);
-                         $('#username').val(user.username);
-                         $('#password').val(user.password);
-                         $('#phone').val(user.phone);
-                         $('#email').val(user.email);
- 
-                         //在修改用户信息时，username不可修改
-                         $('#username').attr("readonly", "readonly");
-                     }
-                 }
-             }); */
     }
 
     //表单字段验证
@@ -149,25 +136,8 @@
             $('#username').rules("add", {
                 required: true,
                 rangelength: [5, 20],
-                /* remote: {
-                    type: "POST",
-                    url: "/checkUsername",
-                    data: {
-                        username: function () {
-                            return $("#username").val();
-                        }
-                    },
-                    dataType: "html",
-                    dataFilter: function (data) {
-                        if (data == "true")
-                            return true;
-                        else
-                            return false;
-                    }
-                }, */
                 messages: {
                     required: "请填写用户名",
-                    /*  remote: "用户名已存在", */
                     rangelength: "用户名长度不符合规范"
                 }
             });
@@ -187,13 +157,9 @@
     //提交表单
     function checkForm() {
         var formData;
-        //将表单内容序列化，即可得到相应对象，直接传到后台
-        // ！！！！！
-        //userid为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错！！！
-        // ！！！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId').serializeArray();
+            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId,#time_1,#time_2').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -283,7 +249,7 @@
                             <%-- ${old.checkintime} --%>
                             <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
                         </td>
-                         <td th:text="${user.email}">
+                        <td th:text="${user.email}">
                             <%-- ${old.checkintime} --%>
                             <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
                         </td>
@@ -362,33 +328,37 @@
                                 <div class="form-group">
                                     <label for="age" class="col-sm-3 control-label">原因</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入请假原因">
+                                        <input type="text" class="form-control" id="age" name="age"
+                                            placeholder="请输入请假原因">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="gender" class="col-sm-3 control-label">开始时间/label>
+                                    <label for="time" class="col-sm-3 control-label">外出时间</label>
                                     <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
-                                            data-live-search="false">
-                                            <option value="男">男</option>
-                                            <option value="女">女</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="gender" class="col-sm-3 control-label">结束时间/label>
-                                    <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
-                                            data-live-search="false">
-                                            <option value="男">男</option>
-                                            <option value="女">女</option>
-                                        </select>
+                                        <div class="myrow">
+                                            <div class='input-group date' style="width: 14em;" id='datetimepicker1'>
+                                                <input id="time_1" name="time_1" type='text'
+                                                    class="timeInput form-control" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                            <div class="dates">
+                                            </div>
+                                            <div class='input-group date' style="width: 14em;" id='datetimepicker2'>
+                                                <input id="time_2" name="time_2" type='text'
+                                                    class="timeInput form-control" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="health" class="col-sm-3 control-label">状态</label>
                                     <div class="col-sm-9">
-                                         <select id="gender" name="gender" class="selectpicker show-tick form-control"
+                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
                                             data-live-search="false">
                                             <option value="1">未审核</option>
                                             <option value="2">已审核</option>
@@ -482,16 +452,17 @@
     })
     // 上传图片
     $(".updatepanel").height($(".panel-info").height());
-    document.getElementById('file').onchange = function () {
-        add();
-        var imgFile = this.files[0];
-        var fr = new FileReader();
-        fr.onload = function () {
-            var imgs = document.getElementsByClassName('updateimg');
-            imgs[imgs.length - 1].src = fr.result;
-        };
-        fr.readAsDataURL(imgFile);
-    };
+    // 5月1号被cc注释
+    // document.getElementById('file').onchange = function () {
+    //     add();
+    //     var imgFile = this.files[0];
+    //     var fr = new FileReader();
+    //     fr.onload = function () {
+    //         var imgs = document.getElementsByClassName('updateimg');
+    //         imgs[imgs.length - 1].src = fr.result;
+    //     };
+    //     fr.readAsDataURL(imgFile);
+    // };
     function add() {
         var html = "<div class='col-sm-4'><div class='panel panel-info'><div class='panel-heading'><i class='fa fa-times'></i></div><div class='panel-body' style='text-align: center;'><div class='row'><div class='col-sm-12 col-md-12'><img class='updateimg img-responsive' src='img/p_big3.jpg' style='width: inherit;height: 210px;'/></div></div></div></div></div>";
         $("#updatebox").before(html);
@@ -499,6 +470,28 @@
     $(".fa-times").click(function () {
         $(this).parent().parent().parent().remove();
     });
+    //  日期选择框相关代码
+    $(function () {
+        $('#form1').hide();
+        var picker1 = $('#datetimepicker1').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn'),
+            minDate: '2016-7-1'//可选择的最小日期
+        });
+        var picker2 = $('#datetimepicker2').datetimepicker({
+            format: 'YYYY-MM-DD',
+            // locale: moment.locale('zh-cn')
+        });
+        //动态设置最小值
+        picker1.on('dp.change', function (e) {
+            picker2.data('DateTimePicker').minDate(e.date);
+        });
+        //动态设置最大值
+        picker2.on('dp.change', function (e) {
+            picker1.data('DateTimePicker').maxDate(e.date);
+        });
+    });
+    //  日期选择框相关代码结束
 </script>
 
 </html>
