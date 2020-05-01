@@ -17,5 +17,21 @@ public interface BedRoomService {
 	 * @return
 	 */
 	public List<Room> getRoomByLevelId(int lid);
+	/**
+	 * 获取所有的已使用床位
+	 * @return
+	 */
+	public List<Room> getRoomForUsed();
+	/**
+	 * 获取所有的空床位
+	 * @return
+	 */
+	public List<Room> getRoomForEmpty();
+	
+	/**
+	 * 根据roomid切换room的状态
+	 * @param room_id
+	 */
+	public void switchRoomStatus(int room_id);
 	
 }

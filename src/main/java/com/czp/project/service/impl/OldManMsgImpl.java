@@ -40,10 +40,18 @@ public class OldManMsgImpl implements OldManMsgService{
 	public List<OldMan> selectMsgByString(String name) {
 		
 		OldManExample example = new OldManExample();
-		example.createCriteria().andOldmanNameLike("%"+name+"%");
+		example.createCriteria().andOldmanNameLike("%"+name+"%").andOldNumberLike("%"+name+"%");
 		
 		return oldamanmapper.selectByExample(example);
 		
+	}
+	
+	@Override
+	public PageInfo<OldMan> fuzzyQueryByPage(String name, int currpage, int row) throws Exception {
+		PageHelper.startPage(currpage,row);
+		List<OldMan> templist = this.selectMsgByString(name);
+		PageInfo<OldMan> pi = new PageInfo<OldMan>(templist);
+		return pi;
 	}
 	
 	
@@ -74,5 +82,16 @@ public class OldManMsgImpl implements OldManMsgService{
 	public void updateOldManMsg(OldMan newmsg) {
 		System.out.println(oldamanmapper.updateByPrimaryKeySelective(newmsg));
 	}
+
+
+	@Override
+	public OldMan getOldmanByNumb(String numb) {
+		OldManExample example = new OldManExample();
+		example.createCriteria().andOldNumberEqualTo(numb);
+		return oldamanmapper.selectByExample(example).get(0);
+	}
+
+
+	
 
 }
