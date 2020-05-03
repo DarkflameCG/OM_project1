@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>用户列表</title>
+    <title>员工请假管理</title>
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -38,11 +38,6 @@
             float: right;
             width: 350px;
             height: 50px;
-        }
-        .warp {
-            display: inline-block;
-            vertical-align: bottom;
-            position: relative;
         }
     </style>
 </head>
@@ -193,12 +188,10 @@
     function checkForm() {
         var formData;
         //将表单内容序列化，即可得到相应对象，直接传到后台
-        // ！！！！！
         //userid为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错！！！
-        // ！！！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId').serializeArray();
+            formData = $('#powername,#desc').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -268,36 +261,23 @@
                     <th></th>
                     <th>序号</th>
                     <th>姓名</th>
-                    <th>照片</th>
-                    <th>年龄</th>
-                    <th>性别</th>
-                    <th>入住时间</th>
-                    <th>健康状况</th>
-                    <th>老人家属</th>
-                    <th>电话</th>
-                    <th>房间号</th>
-                    <th>护工姓名</th>
+                    <th>原因</th>
+            		<th>开始时间</th>
+            		<th>结束时间</th>
+            		<th>状态</th>
+            		<th>审核人</th>
+            		<th>备注</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <c:forEach items="${oldPages.list}" var="old">
-                    <tr th:each="user : ${userlist}">
+                    <tr>
                         <td><input type="checkbox" value="${old.id}"></td>
-                        <td th:text="${user.userID}">${old.id}</td>
-                        <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.password}"><img src="./" alt="没有图片"></td>
-                        <td th:text="${user.phone}">${old.age}</td>
-                        <td th:text="${user.email}">${old.gender}</td>
-                        <td th:text="${user.email}">
-                            <%-- ${old.checkintime} --%>
-                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
-                        </td>
-                        <td th:text="${user.email}">${old.health}</td>
-                        <td th:text="${user.email}">${old.familyMembersId}</td>
-                        <td th:text="${user.email}">${old.telphone}</td>
-                        <td th:text="${user.email}">${old.roomId}</td>
-                        <td th:text="${user.email}">${old.userId}</td>
+                        <td>${old.id}</td>
+                        <td>${old.oldmanName}</td>
+                        <td>${old.age}</td>
+                        <td>${old.gender}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
@@ -353,7 +333,7 @@
                                 &times;
                             </button>
                             <h4 class="modal-title" id="updateModalLabel">
-                                用户信息
+                                角色信息
                             </h4>
                         </div>
                         <div class="modal-body">
@@ -361,53 +341,16 @@
                                 <!--userid为隐藏的input，便于update时的传值-->
                                 <input type="text" id="userID" name="id" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">用户名</label>
+                                    <label for="username" class="col-sm-3 control-label">角色名称</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="username" name="oldmanName"
-                                            placeholder="用户名长度在5-18字符之间">
+                                        <input type="text" class="form-control" id="powername" name="oldmanName"
+                                            placeholder="角色名长度在2-10字符之间">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">年龄</label>
+                                    <label for="age" class="col-sm-3 control-label">权限描述</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="gender" class="col-sm-3 control-label">性别</label>
-                                    <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
-                                            data-live-search="false">
-                                            <option value="男">男</option>
-                                            <option value="女">女</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="health" class="col-sm-3 control-label">健康状况</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="health" name="health"
-                                            placeholder="请输入老人的健康状况">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="telphone" class="col-sm-3 control-label">手机号</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="telphone" name="telphone"
-                                            placeholder="请输入手机号">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">照片</label>
-                                    <div class="col-sm-9">
-                                        <label for="file">
-                                            <div class="fileBox">
-                                                <div class="warp">
-                                                    <input type="file" id="file" />
-                                                </div>
-                                                <img src="" />
-                                            </div>
-                                        </label>
+                                        <input type="text" class="form-control" id="desc" name="age" placeholder="请输入权限描述">
                                     </div>
                                 </div>
                             </form>
@@ -488,26 +431,7 @@
             };
         });
     })
-    // 上传图片
-    var file = document.getElementById('file');
-    var image = document.querySelector("img");
-    file.onchange = function () {
-        var fileData = this.files[0];//获取到一个FileList对象中的第一个文件( File 对象),是我们上传的文件
-        var pettern = /^image/;
-        console.info(fileData.type)
-        if (!pettern.test(fileData.type)) {
-            alert("图片格式不正确");
-            return;
-        }
-        var reader = new FileReader();
-        reader.readAsDataURL(fileData);//异步读取文件内容，结果用data:url的字符串形式表示
-        /*当读取操作成功完成时调用*/
-        reader.onload = function (e) {
-            console.log(e); //查看对象
-            console.log(this.result);//要的数据 这里的this指向FileReader（）对象的实例reader
-            // image.setAttribute("src", this.result)
-        }
-    }
+ 
 </script>
 
-</html>Í
+</html>

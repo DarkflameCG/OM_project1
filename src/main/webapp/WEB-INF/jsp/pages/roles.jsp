@@ -48,7 +48,7 @@
     //传入点击的用户id，获取该用户信息并放入表单中
     function update(id, a) {
         //将提交表单的URL变为update
-        myUrl = 'oldmsg/edit';
+        myUrl = 'powers/updatePower';
         $("#userID").attr("value", id);
         ;
         if (!id) {
@@ -60,11 +60,9 @@
         //获取当前行tr下的所有td
         var t = temp[0].cells;
         //模态框赋值
-        $('#username').val(t[2].innerHTML);
-        $('#age').val(t[4].innerHTML);
-        $('#gender').val(t[5].innerHTML);
-        $('#telphone').val(t[9].innerHTML);
-        $('#health').val(t[7].innerHTML);
+         $('#power').val(t[2].innerHTML);
+        $('#pDesc').val(t[3].innerHTML);
+        
         //给姓名框设置只读
         //$('#username').attr("readonly", "readonly");
         //下面是使用ajax动态的放数据
@@ -145,32 +143,11 @@
         //username的校验只在添加操作时才需要
         //通过对username的readonly属性验证来判断是添加还是更新
         //
-        if ($('#username').attr("readonly") == undefined) {
-            $('#username').rules("add", {
-                required: true,
-                rangelength: [5, 20],
-                /* remote: {
-                    type: "POST",
-                    url: "/checkUsername",
-                    data: {
-                        username: function () {
-                            return $("#username").val();
-                        }
-                    },
-                    dataType: "html",
-                    dataFilter: function (data) {
-                        if (data == "true")
-                            return true;
-                        else
-                            return false;
-                    }
-                }, */
-                messages: {
-                    required: "请填写用户名",
-                    /*  remote: "用户名已存在", */
-                    rangelength: "用户名长度不符合规范"
-                }
-            });
+        if ($('#power').attr("readonly") == undefined) {
+            /* $('#power').rules("add", {
+              
+               
+            }); */
         }
     }
     /*
@@ -180,8 +157,8 @@
         3.清空表单数据
      */
     function setUrl() {
-        myUrl = 'oldmsg/addOldmanMsg';
-        $('#username').removeAttr("readonly");
+        myUrl = 'powers/addPower';
+        $('#power').removeAttr("readonly");
         $('#form-data input').val("");
     }
     //提交表单
@@ -191,7 +168,7 @@
         //userid为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId').serializeArray();
+            formData = $('#power,#pDesc').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -232,11 +209,10 @@
 </script>
 
 <body>
-    <div class="container-fluid">
-        <div class="tool">
-            <div class="row">
-                <br />
-                <form action="oldmsg/getMsgBySource" class="form-horizontal">
+    <div class="ownersettings" style="padding-top: 1em">
+	<div class="table_content" >
+	  			<div style="position: relative;bottom: .5em;">
+	  				 <form action="powers/search/1" class="form-horizontal">
                     <div class="col-sm-3">
                         <input name="source" type="text" id="search" class="form-control">
                     </div>
@@ -244,14 +220,11 @@
                         <button type="submit" class="btn btn-primary">搜索</button>
                     </div>
                 </form>
-                <div class="col-sm-4">
-                </div>
-                <div class="col-sm-4">
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
-                        onclick="setUrl()">添加用户</button>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
-                        th:onclick="">批量删除</button>
-                </div>
+						<div class="btns" style="float: right;">
+                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
+                        onclick="setUrl()">添加角色</button>
+							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">批量删除</button>
+						</div>
             </div>
         </div>
         <br>
@@ -260,43 +233,24 @@
                 <tr>
                     <th></th>
                     <th>序号</th>
-                    <th>姓名</th>
-                    <th>照片</th>
-                    <th>年龄</th>
-                    <th>性别</th>
-                    <th>入住时间</th>
-                    <th>健康状况</th>
-                    <th>老人家属</th>
-                    <th>电话</th>
-                    <th>房间号</th>
-                    <th>护工姓名</th>
+                    <th>角色名称</th>
+            		<th>权限描述</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${oldPages.list}" var="old">
-                    <tr th:each="user : ${userlist}">
-                        <td><input type="checkbox" value="${old.id}"></td>
-                        <td th:text="${user.userID}">${old.id}</td>
-                        <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.password}"><img src="./" alt="没有图片"></td>
-                        <td th:text="${user.phone}">${old.age}</td>
-                        <td th:text="${user.email}">${old.gender}</td>
-                        <td th:text="${user.email}">
-                            <%-- ${old.checkintime} --%>
-                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
-                        </td>
-                        <td th:text="${user.email}">${old.health}</td>
-                        <td th:text="${user.email}">${old.familyMembersId}</td>
-                        <td th:text="${user.email}">${old.telphone}</td>
-                        <td th:text="${user.email}">${old.roomId}</td>
-                        <td th:text="${user.email}">${old.userId}</td>
+                <c:forEach items="${powerss.list}" var="power">
+                    <tr>
+                        <td><input type="checkbox" value="${power.id}"></td>
+                        <td>${power.id}</td>
+                        <td>${power.power}</td>
+                        <td>${power.pDesc}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
+                                data-target="#updateModal" onclick="update(${power.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                data-target="#deleteModal" data-orderId="${old.id}">删除</button>
+                                data-target="#deleteModal" data-orderId="${power.id}">删除</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -306,7 +260,7 @@
         <div class="divcss5-left">
             <table width="461" height="24" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td width="120">当前为第${oldPages.pageNum}页,共${oldPages.pages}页</td>
+                    <td width="120">当前为第${powerss.pageNum}页,共${powerss.pages}页</td>
                     <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
@@ -314,18 +268,18 @@
                 </td> -->
                     <td width="256">
                         <c:choose>
-                            <c:when test="${oldPages.hasPreviousPage}">
-                                <a href="oldmsg/getmsg/1">首页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pageNum -1 }">上一页</a>
+                            <c:when test="${powerss.hasPreviousPage}">
+                                <a href="powers/power/1">首页</a> |
+                                <a href="powers/power/${powerss.pageNum -1 }">上一页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
                         </c:choose>
 
                         <c:choose>
-                            <c:when test="${oldPages.hasNextPage}">
-                                <a href="oldmsg/getmsg/${oldPages.pageNum + 1 }">下一页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pages }">尾页</a>
+                            <c:when test="${powerss.hasNextPage}">
+                                <a href="powers/power/${powerss.pageNum + 1 }">下一页</a> |
+                                <a href="powers/power/${powerss.pages }">尾页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
@@ -346,7 +300,7 @@
                                 &times;
                             </button>
                             <h4 class="modal-title" id="updateModalLabel">
-                                用户信息
+                                角色信息
                             </h4>
                         </div>
                         <div class="modal-body">
@@ -354,51 +308,16 @@
                                 <!--userid为隐藏的input，便于update时的传值-->
                                 <input type="text" id="userID" name="id" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">用户名</label>
+                                    <label for="power" class="col-sm-3 control-label">角色名称</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="username" name="oldmanName"
-                                            placeholder="用户名长度在5-18字符之间">
+                                        <input type="text" class="form-control" id="power" name="power"
+                                            placeholder="角色名长度在2-10字符之间">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">年龄</label>
+                                    <label for="pDesc" class="col-sm-3 control-label">权限描述</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="gender" class="col-sm-3 control-label">性别</label>
-                                    <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
-                                            data-live-search="false">
-                                            <option value="男">男</option>
-                                            <option value="女">女</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="health" class="col-sm-3 control-label">健康状况</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="health" name="health"
-                                            placeholder="请输入老人的健康状况">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="telphone" class="col-sm-3 control-label">手机号</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="telphone" name="telphone"
-                                            placeholder="请输入手机号">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">照片</label>
-                                    <div class="col-sm-9">
-                                        <label for="file">
-                                            <div class="panel updatepanel">
-                                                <div class="addbox"><span class="icon-add-50">+点击上传</span></div>
-                                                <input type="file" id="oldman_img" style="display: none" />
-                                            </div>
-                                        </label>
+                                        <input type="text" class="form-control" id="pDesc" name="pDesc" placeholder="请输入权限描述">
                                     </div>
                                 </div>
                             </form>
@@ -431,7 +350,7 @@
                         </div>
                         <div class="modal-footer">
                             <!--  onclick="deletebyId()" -->
-                            <button id="tijiao" type="input" class="btn btn-danger">确定</button>
+                            <button id="tijiao" type="button" class="btn btn-danger">确定</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                             <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                       所以把按钮类型改为input，再手动调用封装好的验证函数-->
@@ -465,39 +384,21 @@
                 //根据id删除
                 idval = $(e.relatedTarget).data('orderid');
             }
-            //发送请求
-            var myUrl = 'http://localhost:2333/oldmsg/remove?id=' + idval;
-            var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
-            httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
-            httpRequest.send();//第三步：发送请求  将请求参数写在URL中
-            //结果处理
-            httpRequest.onreadystatechange = function () {
-                if (httpRequest.readyState == 4 && httpRequest.status == 200) {
-                    var str = httpRequest.responseText;
-                    alert(str);
-                }
-            };
-        });
-    })
-    // 上传图片
-    $(".updatepanel").height($(".panel-info").height());
-    document.getElementById('file').onchange = function () {
-        add();
-        var imgFile = this.files[0];
-        var fr = new FileReader();
-        fr.onload = function () {
-            var imgs = document.getElementsByClassName('updateimg');
-            imgs[imgs.length - 1].src = fr.result;
-        };
-        fr.readAsDataURL(imgFile);
-    };
-    function add() {
-        var html = "<div class='col-sm-4'><div class='panel panel-info'><div class='panel-heading'><i class='fa fa-times'></i></div><div class='panel-body' style='text-align: center;'><div class='row'><div class='col-sm-12 col-md-12'><img class='updateimg img-responsive' src='img/p_big3.jpg' style='width: inherit;height: 210px;'/></div></div></div></div></div>";
-        $("#updatebox").before(html);
-    }
-    $(".fa-times").click(function () {
-        $(this).parent().parent().parent().remove();
-    });
+          //发送请求
+            var myUrl = 'powers/deletePower?id=' + idval;
+           $.ajax({
+				type : "GET",
+				url : myUrl,
+				data : "null",
+				dataType : "text",
+				success : function(obj) {
+					window.location.href="powers/power/1";
+				}
+			}); 
+          
+       });
+   })
+ 
 </script>
 
 </html>

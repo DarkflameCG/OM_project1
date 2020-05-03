@@ -24,14 +24,11 @@
     <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
     <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
     <script src="js/lTable.js" type="text/javascript"></script>
-
     <!-- 下拉选择框相关 CSS -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
     <!-- 下拉选择框相关 JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-
-
     <style>
         .divcss5-left {
             float: right;
@@ -47,7 +44,6 @@
     </style>
 </head>
 <script>
-
     //定义一个变量用于存储添加和修改时不同的URL
     var myUrl;
     //传入点击的用户id，获取该用户信息并放入表单中
@@ -69,39 +65,7 @@
         $('#gender').val(t[5].innerHTML);
         $('#telphone').val(t[9].innerHTML);
         $('#health').val(t[7].innerHTML);
-        //给姓名框设置只读
-        //$('#username').attr("readonly", "readonly");
-        //下面是使用ajax动态的放数据
-        /*  $.ajax(
-             {
-                 url: "/toUpdateUser",
-                 data: { "id": id },
-                 type: "post",
-                 //解决编码问题
-                 scriptCharset: 'utf-8',
-                 beforeSend: function () {
-                     return true;
-                 },
-                 success: function (data) {
-                     if (data) {
-                         //解析json数据
-                         var data = data;
-                         var user = eval("(" + data + ")");
- 
-                         //赋值
-                         $('#userID').val(user.userID);
-                         $('#username').val(user.username);
-                         $('#password').val(user.password);
-                         $('#phone').val(user.phone);
-                         $('#email').val(user.email);
- 
-                         //在修改用户信息时，username不可修改
-                         $('#username').attr("readonly", "readonly");
-                     }
-                 }
-             }); */
     }
-
     //表单字段验证
     //如果按照一般验证的写法，只能调用整个表单的validate函数，而不能调用自定义的username验证，所以把两个函数封装成为一个，在点击按钮时调用
     function vali() {
@@ -112,33 +76,33 @@
             onsubmit: true,      //提交时验证（有效）
             onkeyup: false,
             rules: {
-                password: {
+                age: {
+                    digits: true,//数字
                     required: true,
-                    rangelength: [5, 20]
+                    rangelength: [1, 3]
                 },
-                phone: {
+                health: {
                     required: true,
-                    digits: true,
-                    rangelength: [11, 11]
                 },
-                email: {
+                telphone: {
                     required: true,
-                    email: true
+                    digits: true,//数字
+                    telphone: true
                 }
             },
             messages: {
-                password: {
-                    required: "请填写密码",
-                    rangelength: "密码长度不符合规范"
+                age: {
+                    required: "请填写年龄",
+                    digits: "请填写正确的年龄",
+                    rangelength: "年龄长度不符合规范"
                 },
-                phone: {
+                telphone: {
                     required: "请填写手机号",
                     digits: "请填写正确的手机号",
                     rangelength: "请填写正确的手机号"
                 },
-                email: {
-                    required: "请填写邮箱",
-                    email: "请填写正确的邮箱"
+                health: {
+                    required: "请填写健康状态",
                 }
             },
             submitHandler: function (form) {
@@ -193,9 +157,7 @@
     function checkForm() {
         var formData;
         //将表单内容序列化，即可得到相应对象，直接传到后台
-        // ！！！！！
         //userid为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错！！！
-        // ！！！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
             formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#oldmanImg').serializeArray();
@@ -227,9 +189,6 @@
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                // alert(XMLHttpRequest.status);//状态码
-                // alert(XMLHttpRequest.readyState);//状态
-                // alert(textStatus);//错误信息
                 alert("出错了");
             },
             complete: function () {
@@ -284,20 +243,20 @@
                 <c:forEach items="${oldPages.list}" var="old">
                     <tr th:each="user : ${userlist}">
                         <td><input type="checkbox" value="${old.id}"></td>
-                        <td th:text="${user.userID}">${old.id}</td>
-                        <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.password}"><img style="width: 50px;" src="${old.oldmanImg}" alt="没有图片"></td>
-                        <td th:text="${user.phone}">${old.age}</td>
-                        <td th:text="${user.email}">${old.gender}</td>
-                        <td th:text="${user.email}">
+                        <td>${old.id}</td>
+                        <td>${old.oldmanName}</td>
+                        <td><img style="width: 50px;" src="${old.oldmanImg}" alt="没有图片"></td>
+                        <td>${old.age}</td>
+                        <td>${old.gender}</td>
+                        <td>
                             <%-- ${old.checkintime} --%>
                             <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td th:text="${user.email}">${old.health}</td>
-                        <td th:text="${user.email}">${old.familyMembersId}</td>
-                        <td th:text="${user.email}">${old.telphone}</td>
-                        <td th:text="${user.email}">${old.roomId}</td>
-                        <td th:text="${user.email}">${old.userId}</td>
+                        <td>${old.health}</td>
+                        <td>${old.familyMembersId}</td>
+                        <td>${old.telphone}</td>
+                        <td>${old.roomId}</td>
+                        <td>${old.userId}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
