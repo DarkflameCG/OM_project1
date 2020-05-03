@@ -25,4 +25,36 @@ public class BedRoomImpl implements BedRoomService{
 		return roommapper.selectByExample(example);
 	}
 
+	@Override
+	public List<Room> getRoomForUsed() {
+		RoomExample example = new RoomExample();
+		example.createCriteria().andRoomStateEqualTo(1);
+		
+		return roommapper.selectByExample(example);
+	}
+
+	@Override
+	public List<Room> getRoomForEmpty() {
+		RoomExample example = new RoomExample();
+		example.createCriteria().andRoomStateEqualTo(2);
+		
+		return roommapper.selectByExample(example);
+	}
+
+	@Override
+	public void switchRoomStatus(int room_id) {
+		Room room = roommapper.selectByPrimaryKey(room_id);
+		if(room.getRoomState() == 1) {
+			room.setRoomState(2);
+			roommapper.updateByPrimaryKeySelective(room);
+			return;
+		}
+		if(room.getRoomState() == 2) {
+			room.setRoomState(1);
+			roommapper.updateByPrimaryKeySelective(room);
+			return;
+		}
+		
+	}
+
 }

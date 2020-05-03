@@ -40,18 +40,26 @@
 
 
 	<!-- 映射配置 -->
+<<<<<<< HEAD
 	<table tableName="power" domainObjectName="BasePower"></table>
    <!--  <table tableName="cost" domainObjectName="Cost" ></table> -->
     <!-- <table tableName="family_members" domainObjectName="FamilyMembers" ></table> -->
     <!-- <table tableName="charges" domainObjectName="Charges" ></table> -->
    <!--  <table tableName="oldman_ruzhu" domainObjectName="OldManRuZhu" ></table> -->
     <!-- <table tableName="Account" domainObjectName="Account" ></table> -->
+=======
+	<table tableName="oldman_zhuangfang" domainObjectName="OmZhuanfang" ></table>
+>>>>>>> c05e4642f6273137798505b9511408de64a83e75
     <!-- <table tableName="cost" domainObjectName="Cost" ></table> -->
     <!-- <table tableName="family_members" domainObjectName="FamilyMembers" ></table> -->
    <!--  <table tableName="Account" domainObjectName="Account" ></table> -->
     <!-- <table tableName="modular" domainObjectName="Modular" ></table>
     <table tableName="monitor" domainObjectName="Monitor" ></table> -->
+<<<<<<< HEAD
     <!-- <table tableName="old_man" domainObjectName="OldMan" ></table> -->
+=======
+   <!--  <table tableName="old_man" domainObjectName="OldMan" ></table> -->
+>>>>>>> c05e4642f6273137798505b9511408de64a83e75
   <!--   <table tableName="old_man_leave" domainObjectName="OldManLeave" ></table> 
     <table tableName="room" domainObjectName="Room" ></table>
     <table tableName="user_leave" domainObjectName="UserLeave" ></table>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czp.project.dao.extend.OmzfExtendMapper">
+
+  <select id="selectAll" resultMap="OmzfExtendResultMap">
+    SELECT * FROM oldman_zhuangfang
+  </select>
+
+  <select id="selectByName" parameterType="String" resultMap="OmzfExtendResultMap">
+    SELECT * FROM  oldman_zhuangfang
+    WHERE id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <resultMap id="OmzfExtendResultMap"
+             type="com.czp.project.common.bean.extend.ZhuanFangExtend"
+             extends="com.czp.project.dao.OmZhuanfangMapper.BaseResultMap">
+    <association
+            property="oldman"
+            column="oldman_id"
+            select="com.czp.project.dao.OldManMapper.selectByPrimaryKey"></association>
+  	<association
+            property="inRoom"
+            column="in_room_id"
+            select="com.czp.project.dao.RoomMapper.selectByPrimaryKey"></association>
+  	<association
+            property="outRoom"
+            column="out_room_id"
+            select="com.czp.project.dao.RoomMapper.selectByPrimaryKey"></association>
+  </resultMap>
+
+</mapper>

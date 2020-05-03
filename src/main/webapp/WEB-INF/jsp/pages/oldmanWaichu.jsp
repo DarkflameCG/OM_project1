@@ -36,8 +36,7 @@
     <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
         rel="stylesheet">
 
-    <!-- <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script> -->
-    <!-- <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+    <!-- 时间选择器 -->
     <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
@@ -299,20 +298,20 @@
                 <c:forEach items="${oldPages.list}" var="old">
                     <tr th:each="user : ${userlist}">
                         <td><input type="checkbox" value="${old.id}"></td>
-                        <th>1</th>
-                        <th>张三</th>
-                        <th>外出广场舞</th>
-                        <td th:text="${user.email}">
+                        <td>1</td>
+                        <td>张三</td>
+                        <td>外出广场舞</td>
+                        <td td:text="${user.email}">
                             <%-- ${old.checkintime} --%>
                             <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td th:text="${user.email}">
+                        <td td:text="${user.email}">
                             <%-- ${old.checkintime} --%>
                             <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <th>12345678901</th>
-                        <th>小李</th>
-                        <th>未返回</th>
+                        <td>12345678901</td>
+                        <td>小李</td>
+                        <td>未返回</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
@@ -417,7 +416,8 @@
                                     <div class="col-sm-9">
                                         <div class="myrow">
                                             <div class='input-group date' style="width: 14em;" id='datetimepicker1'>
-                                                <input id="time_1" name="time_1" type='text' class="timeInput form-control" />
+                                                <input id="time_1" name="time_1" type='text'
+                                                    class="timeInput form-control" />
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
@@ -425,7 +425,8 @@
                                             <div class="dates">
                                             </div>
                                             <div class='input-group date' style="width: 14em;" id='datetimepicker2'>
-                                                <input id="time_2" name="time_2" type='text' class="timeInput form-control" />
+                                                <input id="time_2" name="time_2" type='text'
+                                                    class="timeInput form-control" />
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>

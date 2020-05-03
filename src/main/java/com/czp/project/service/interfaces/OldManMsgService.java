@@ -33,6 +33,16 @@ public interface OldManMsgService {
 	 * @return
 	 */
 	public List<OldMan> selectMsgByString(String name); 
+	
+	/**
+	 * 根据名字做模糊查询，带分页
+	 * @param curPage 当前页数
+	 * @param row     每页的条数
+	 * @param name
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo<OldMan> fuzzyQueryByPage(String name,int currpage,int row) throws Exception;
 	/**
 	 * 添加老人信息
 	 * @param newmsg
@@ -53,5 +63,14 @@ public interface OldManMsgService {
 	 * @param newmsg
 	 */
 	public void updateOldManMsg(OldMan newmsg);
+	
+	/**
+	 * 根据老人编号（唯一）查询老人信息
+	 * @param numb
+	 * @return
+	 */
+	public OldMan getOldmanByNumb(String numb);
+	
+	
 	
 }

@@ -241,10 +241,17 @@
             <tbody>
                 <c:forEach items="${powerss.list}" var="power">
                     <tr>
+<<<<<<< HEAD
                         <td><input type="checkbox" value="${power.id}"></td>
                         <td>${power.id}</td>
                         <td>${power.power}</td>
                         <td>${power.pDesc}</td>
+=======
+                        <td><input type="checkbox" value="${old.id}"></td>
+                        <td>${old.id}</td>
+                        <td>${old.oldmanName}</td>
+                        <td>${old.age}</td>
+>>>>>>> c05e4642f6273137798505b9511408de64a83e75
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"

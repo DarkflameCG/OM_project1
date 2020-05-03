@@ -277,6 +277,10 @@
                         <td>${old.id}</td>
                         <td>${old.oldmanName}</td>
                         <td>${old.age}</td>
+                        <td>${old.age}</td>
+                        <td>${old.age}</td>
+                        <td>${old.age}</td>
+                        <td>${old.age}</td>
                         <td>${old.gender}</td>
                         <td>
                             <!--传入当前用户id-->

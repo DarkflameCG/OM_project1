@@ -4,9 +4,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<%
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
+%>
 <head>
-    <base href="http://localhost:2333/">
+    <base href="<%=basePath%>">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -43,61 +45,27 @@
 </head>
 <script>
 
-    //定义一个变量用于存储添加和修改时不同的URL
-    var myUrl;
-    //传入点击的用户id，获取该用户信息并放入表单中
-    function update(id, a) {
-        //将提交表单的URL变为update
-        myUrl = 'oldmsg/edit';
-        $("#userID").attr("value", id);
-        ;
-        if (!id) {
-            alert('id错误');
-            return false;
-        }
-        //获取当前控件的父控件 tr
-        var temp = $(a).parent().parent();
-        //获取当前行tr下的所有td
-        var t = temp[0].cells;
-        //模态框赋值
-        $('#username').val(t[2].innerHTML);
-        $('#age').val(t[4].innerHTML);
-        $('#gender').val(t[5].innerHTML);
-        $('#telphone').val(t[9].innerHTML);
-        $('#health').val(t[7].innerHTML);
-        //给姓名框设置只读
-        //$('#username').attr("readonly", "readonly");
-        //下面是使用ajax动态的放数据
-        /*  $.ajax(
-             {
-                 url: "/toUpdateUser",
-                 data: { "id": id },
-                 type: "post",
-                 //解决编码问题
-                 scriptCharset: 'utf-8',
-                 beforeSend: function () {
-                     return true;
-                 },
-                 success: function (data) {
-                     if (data) {
-                         //解析json数据
-                         var data = data;
-                         var user = eval("(" + data + ")");
- 
-                         //赋值
-                         $('#userID').val(user.userID);
-                         $('#username').val(user.username);
-                         $('#password').val(user.password);
-                         $('#phone').val(user.phone);
-                         $('#email').val(user.email);
- 
-                         //在修改用户信息时，username不可修改
-                         $('#username').attr("readonly", "readonly");
-                     }
-                 }
-             }); */
-    }
-
+	//定义一个变量用于存储添加和修改时不同的URL
+	var myUrl;
+	//传入点击的用户id，获取该用户信息并放入表单中
+	function update(id, a) {
+	    //将提交表单的URL变为update
+	    myUrl = 'zf/edit';
+	    $("#userID").attr("value", id);
+	    if (!id) {
+	        alert('id错误');
+	        return false;
+	    }
+	    //获取当前控件的父控件 tr
+	    var temp = $(a).parent().parent();
+	    //获取当前行tr下的所有td
+	    var t = temp[0].cells;
+	    //模态框赋值
+	    $('#outRoomId').val(t[4].innerHTML);
+	    $('#inRoomId').val(t[5].innerHTML);
+	    $('#backup').val(t[8].innerHTML);
+	    
+	}
     //表单字段验证
     //如果按照一般验证的写法，只能调用整个表单的validate函数，而不能调用自定义的username验证，所以把两个函数封装成为一个，在点击按钮时调用
     function vali() {
@@ -108,33 +76,33 @@
             onsubmit: true,      //提交时验证（有效）
             onkeyup: false,
             rules: {
-                password: {
+                age: {
+                    digits: true,//数字
                     required: true,
-                    rangelength: [5, 20]
+                    rangelength: [1, 3]
                 },
-                phone: {
+                health: {
                     required: true,
-                    digits: true,
-                    rangelength: [11, 11]
                 },
-                email: {
+                telphone: {
                     required: true,
-                    email: true
+                    digits: true,//数字
+                    telphone: true
                 }
             },
             messages: {
-                password: {
-                    required: "请填写密码",
-                    rangelength: "密码长度不符合规范"
+                age: {
+                    required: "请填写年龄",
+                    digits: "请填写正确的年龄",
+                    rangelength: "年龄长度不符合规范"
                 },
-                phone: {
+                telphone: {
                     required: "请填写手机号",
                     digits: "请填写正确的手机号",
                     rangelength: "请填写正确的手机号"
                 },
-                email: {
-                    required: "请填写邮箱",
-                    email: "请填写正确的邮箱"
+                health: {
+                    required: "请填写健康状态",
                 }
             },
             submitHandler: function (form) {
@@ -173,6 +141,7 @@
             });
         }
     }
+    
     /*
     点击添加用户时需要做的操作：
         1.修改提交表单的URL
@@ -180,8 +149,7 @@
         3.清空表单数据
      */
     function setUrl() {
-        myUrl = 'oldmsg/addOldmanMsg';
-        $('#username').removeAttr("readonly");
+        myUrl = '/zf/transfer';
         $('#form-data input').val("");
     }
     //提交表单
@@ -193,7 +161,7 @@
         // ！！！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId').serializeArray();
+            formData = $('#userID,#oldNumb,#outRoomId,#inRoomId,#backup').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -250,7 +218,7 @@
                 </div>
                 <div class="col-sm-4">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
-                        onclick="setUrl()">添加用户</button>
+                        onclick="setUrl()">转房</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                         th:onclick="">批量删除</button>
                 </div>
@@ -273,27 +241,22 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${oldPages.list}" var="old">
+                <c:forEach items="${oldzfPages.list}" var="zf">
                     <tr>
-                        <td><input type="checkbox" value="${old.id}"></td>
-                        <td>${old.id}</td>
-                        <td>${old.oldmanName}</td>
-                        <td><img src="./" alt="没有图片"></td>
-                        <td>${old.age}</td>
-                        <td>${old.gender}</td>
+                        <td><input type="checkbox" value="${zf.id}"></td>
+                        <td>${zf.id}</td>
+                        <td>${zf.oldman.oldmanName}</td>
+                        <td>${zf.oldman.gender}</td>
+                        <td>${zf.inRoom.roomNumb}</td>
+                        <td>${zf.outRoom.roomNumb}</td>
                         <td>
-                            <%-- ${old.checkintime} --%>
-                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
+                            <fmt:formatDate value="${zf.time}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td>${old.health}</td>
-                        <td>${old.familyMembersId}</td>
-                        <td>${old.telphone}</td>
-                        <td>${old.roomId}</td>
-                        <td>${old.userId}</td>
+                        <td>${zf.userLog}</td>
+                        <td>${zf.backup}</td>
+                     
                         <td>
                             <!--传入当前用户id-->
-                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${old.id}">删除</button>
                         </td>
@@ -305,7 +268,7 @@
         <div class="divcss5-left">
             <table width="461" height="24" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td width="120">当前为第${oldPages.pageNum}页,共${oldPages.pages}页</td>
+                    <td width="120">当前为第${oldzfPages.pageNum}页,共${oldzfPages.pages}页</td>
                     <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
@@ -313,18 +276,18 @@
                 </td> -->
                     <td width="256">
                         <c:choose>
-                            <c:when test="${oldPages.hasPreviousPage}">
+                            <c:when test="${oldzfPages.hasPreviousPage}">
                                 <a href="oldmsg/getmsg/1">首页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pageNum -1 }">上一页</a>
+                                <a href="oldmsg/getmsg/${oldzfPages.pageNum -1 }">上一页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
                         </c:choose>
 
                         <c:choose>
-                            <c:when test="${oldPages.hasNextPage}">
-                                <a href="oldmsg/getmsg/${oldPages.pageNum + 1 }">下一页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pages }">尾页</a>
+                            <c:when test="${oldzfPages.hasNextPage}">
+                                <a href="oldmsg/getmsg/${oldzfPages.pageNum + 1 }">下一页</a> |
+                                <a href="oldmsg/getmsg/${oldzfPages.pages }">尾页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
@@ -345,47 +308,46 @@
                                 &times;
                             </button>
                             <h4 class="modal-title" id="updateModalLabel">
-                                用户信息
+                                转房信息
                             </h4>
                         </div>
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="id" hidden>
+                                <input type="text" id="userID" name="userLog" value="${login.userName}" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">姓名</label>
+                                    <label for="oldNumb" class="col-sm-3 control-label">老人编号</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="username" name="oldmanName"
-                                            placeholder="用户名长度在5-18字符之间">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="gender" class="col-sm-3 control-label">性别</label>
-                                    <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
-                                            data-live-search="false">
-                                            <option value="男">男</option>
-                                            <option value="女">女</option>
-                                        </select>
+                                        <input type="text" class="form-control" id="oldNumb" name="oldNumb"
+                                            placeholder="编号为两位字母六位数字">
                                     </div>
                                 </div>
                                  <div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">转出房间号</label>
+                                    <label for="outRoomId" class="col-sm-3 control-label">转出房间号</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入转出房间号">
+	                                    <select id="outRoomId" name="outRoomId" class="selectpicker show-tick form-control"
+	                                            data-live-search="false">
+	                                            <c:forEach items="${usedRooms}" var="room">
+		                                            <option value="${room.id}">${room.roomNumb}</option>
+	                                            </c:forEach>
+	                                    </select>
                                     </div>
-                                </div> <div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">转入房间号</label>
-                                   	<select id="gender" name="gender" class="selectpicker show-tick form-control"
-                                            data-live-search="false">
-                                            <option value="101">101</option>
-                                            <option value="102">102</option>
-                                    </select>
+                                </div> 
+                                <div class="form-group">
+                                    <label for="inRoomId" class="col-sm-3 control-label">转入房间号</label>
+                                    <div class="col-sm-9">
+	                                    <select id="inRoomId" name="inRoomId" class="selectpicker show-tick form-control"
+	                                            data-live-search="false">
+	                                            <c:forEach items="${emptyRooms}" var="room">
+		                                            <option value="${room.id}">${room.roomNumb}</option>
+	                                            </c:forEach>
+	                                    </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="health" class="col-sm-3 control-label">备注</label>
+                                    <label for="backup" class="col-sm-3 control-label">备注</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="health" name="health"
+                                        <input type="text" class="form-control" id="backup" name="backup"
                                             placeholder="请输入备注">
                                     </div>
                                 </div>
@@ -454,7 +416,7 @@
                 idval = $(e.relatedTarget).data('orderid');
             }
             //发送请求
-            var myUrl = 'http://localhost:2333/oldmsg/remove?id=' + idval;
+            var myUrl ='<%=basePath%>zf/remove?id=' + idval;
             var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
             httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
             httpRequest.send();//第三步：发送请求  将请求参数写在URL中
@@ -467,25 +429,6 @@
             };
         });
     })
-    // 上传图片
-    $(".updatepanel").height($(".panel-info").height());
-    document.getElementById('file').onchange = function () {
-        add();
-        var imgFile = this.files[0];
-        var fr = new FileReader();
-        fr.onload = function () {
-            var imgs = document.getElementsByClassName('updateimg');
-            imgs[imgs.length - 1].src = fr.result;
-        };
-        fr.readAsDataURL(imgFile);
-    };
-    function add() {
-        var html = "<div class='col-sm-4'><div class='panel panel-info'><div class='panel-heading'><i class='fa fa-times'></i></div><div class='panel-body' style='text-align: center;'><div class='row'><div class='col-sm-12 col-md-12'><img class='updateimg img-responsive' src='img/p_big3.jpg' style='width: inherit;height: 210px;'/></div></div></div></div></div>";
-        $("#updatebox").before(html);
-    }
-    $(".fa-times").click(function () {
-        $(this).parent().parent().parent().remove();
-    });
 </script>
 
 </html>

@@ -273,6 +273,7 @@
                 </tr>
             </thead>
             <tbody>
+<<<<<<< HEAD
                 <c:forEach items="${users.list}" var="user">
                     <tr>
                         <td><input type="checkbox" value="${user.id}"></td>
@@ -283,6 +284,22 @@
                          <td>${user.salary}</td>
                         <td>${user.workTime}</td>
                         <td>${user.role.power}</td>
+=======
+                <c:forEach items="${oldPages.list}" var="old">
+                    <tr th:each="user : ${userlist}">
+                        <td><input type="checkbox" value="${old.id}"></td>
+                        <td th:text="${user.userID}">${old.id}</td>
+                        <td th:text="${user.username}">${old.oldmanName}</td>
+                        <td th:text="${user.password}"><img src="./" alt="没有图片"></td>
+                        <td th:text="${user.phone}">${old.age}</td>
+                        <td th:text="${user.email}">${old.gender}</td>
+                        <td th:text="${user.email}">
+                            <%-- ${old.checkintime} --%>
+                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
+                        </td>
+                        <td th:text="${user.email}">${old.telphone}</td>
+                        <td th:text="${user.email}">${old.telphone}</td>
+>>>>>>> c05e4642f6273137798505b9511408de64a83e75
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"

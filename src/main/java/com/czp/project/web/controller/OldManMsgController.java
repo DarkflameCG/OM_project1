@@ -31,9 +31,18 @@ public class OldManMsgController {
 	//分页查询全部
 	@RequestMapping("/getmsg/{page}")
 	public String getOldManMsg(HttpSession session,
+							  HttpServletRequest request,
 							  @PathVariable String page) throws NumberFormatException, Exception {
+		String source = request.getParameter("source");
+		PageInfo<OldMan> oldPages = null;
+		
+		if(source == null || source.equals("")) {
 //		List<OldMan> oldlist = oldimpl.selectAll(); //查询全部
-		PageInfo<OldMan> oldPages = oldimpl.selectMsgByPage(Integer.parseInt(page), 5);
+			oldPages = oldimpl.selectMsgByPage(Integer.parseInt(page), 5);
+		}else {
+			//模糊查询
+			oldPages = oldimpl.fuzzyQueryByPage(source, Integer.parseInt(page), 10);
+		}
 		session.setAttribute("oldPages", oldPages);
 		return "pages/oldManInfo";
 	}

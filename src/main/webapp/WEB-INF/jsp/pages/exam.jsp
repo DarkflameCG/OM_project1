@@ -283,6 +283,7 @@
                             <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
                         </td>
                         <td th:text="${user.index}">量血压</td>
+                        <td th:text="${user.index}">量血压</td>
                         <td th:text="${user.index}"><a href="#">下载</a></td>
                         <td>
                             <!--传入当前用户id-->
