@@ -7,9 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.czp.project.common.bean.OldMan;
 import com.czp.project.common.bean.OldManExample;
+import com.czp.project.common.bean.extend.OldManExtend;
 import com.czp.project.dao.OldManMapper;
+import com.czp.project.dao.extend.OldManMsgExtendMapper;
 import com.czp.project.service.interfaces.OldManMsgService;
-import com.czp.project.utils.PageUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -18,19 +19,20 @@ public class OldManMsgImpl implements OldManMsgService{
 
 	@Autowired
 	private OldManMapper oldamanmapper;
+	@Autowired
+	private OldManMsgExtendMapper oldmanExtendMapper;
 	
 	@Override
-	public List<OldMan> selectAll() {
-		
-		return oldamanmapper.selectByExample(new OldManExample());
+	public List<OldManExtend> selectAll(){
+		return oldmanExtendMapper.selectAll();
+		//return oldamanmapper.selectByExample(new OldManExample());
 	}
-	
 
 	@Override
-	public PageInfo<OldMan> selectMsgByPage(int currpage, int row) throws Exception {
+	public PageInfo<OldManExtend> selectMsgByPage(int currpage, int row) throws Exception {
 		PageHelper.startPage(currpage, row);
-		List<OldMan> templist = this.selectAll();
-		PageInfo<OldMan> pi = new PageInfo<OldMan>(templist);
+		List<OldManExtend> templist = this.selectAll();
+		PageInfo<OldManExtend> pi = new PageInfo<OldManExtend>(templist);
 		return pi;
 	}
 
@@ -41,7 +43,6 @@ public class OldManMsgImpl implements OldManMsgService{
 		
 		OldManExample example = new OldManExample();
 		example.createCriteria().andOldmanNameLike("%"+name+"%").andOldNumberLike("%"+name+"%");
-		
 		return oldamanmapper.selectByExample(example);
 		
 	}

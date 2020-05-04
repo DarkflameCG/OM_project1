@@ -2,9 +2,8 @@ package com.czp.project.service.interfaces;
 
 import java.util.List;
 
-import com.czp.project.common.bean.BaseUser;
 import com.czp.project.common.bean.OldMan;
-import com.czp.project.utils.PageUtil;
+import com.czp.project.common.bean.extend.OldManExtend;
 import com.github.pagehelper.PageInfo;
 
 /**
@@ -18,7 +17,7 @@ public interface OldManMsgService {
 	 * 查询全部老人信息
 	 * @return
 	 */
-	public List<OldMan> selectAll(); 
+	public List<OldManExtend> selectAll(); 
 	/**
 	 * 分页查询老人信息
 	 * @param curPage 当前页数
@@ -26,7 +25,7 @@ public interface OldManMsgService {
 	 * @return
 	 * @throws Exception
 	 */
-	public PageInfo<OldMan> selectMsgByPage(int currpage,int row) throws Exception; //分页查询
+	public PageInfo<OldManExtend> selectMsgByPage(int currpage,int row) throws Exception; //分页查询
 	/**
 	 * 根据名字做模糊查询
 	 * @param name

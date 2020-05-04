@@ -202,7 +202,7 @@
         <div class="tool">
             <div class="row">
                 <br />
-                <form action="oldmsg/getMsgBySource" class="form-horizontal">
+                <form action="oldmsg/getmsg/1" class="form-horizontal">
                     <div class="col-sm-3">
                         <input name="source" type="text" id="search" class="form-control">
                     </div>
@@ -255,8 +255,8 @@
                         <td>${old.health}</td>
                         <td>${old.familyMembersId}</td>
                         <td>${old.telphone}</td>
-                        <td>${old.roomId}</td>
-                        <td>${old.userId}</td>
+                        <td>${old.room.roomNumb}</td>
+                        <td>${old.hugong.userName}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"

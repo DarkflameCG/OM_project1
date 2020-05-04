@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.czp.project.common.bean.OldMan;
 import com.czp.project.common.bean.OmZhuanfang;
+import com.czp.project.common.bean.extend.ZhuanFangExtend;
 import com.czp.project.dao.OmZhuanfangMapper;
 import com.czp.project.dao.extend.OmzfExtendMapper;
 import com.czp.project.service.interfaces.OmzfService;
@@ -21,14 +22,14 @@ public class OmzfImpl implements OmzfService{
 	private OmZhuanfangMapper omzfMapper;
 
 	@Override
-	public List<OmZhuanfang> selectAll() {
+	public List<ZhuanFangExtend> selectAll() {
 		return omzfExtendMapper.selectAll();
 	}
 
 	@Override
-	public PageInfo<OmZhuanfang> selectAllByPage(int currpage, int row) {
+	public PageInfo<ZhuanFangExtend> selectAllByPage(int currpage, int row) {
 		PageHelper.startPage(currpage,row);
-		return new PageInfo<OmZhuanfang>(this.selectAll());
+		return new PageInfo<ZhuanFangExtend>(this.selectAll());
 	}
 
 	@Override

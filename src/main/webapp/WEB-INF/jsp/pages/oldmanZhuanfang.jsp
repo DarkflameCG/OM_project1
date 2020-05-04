@@ -258,7 +258,7 @@
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                data-target="#deleteModal" data-orderId="${old.id}">删除</button>
+                                data-target="#deleteModal" data-orderId="${zf.id}">删除</button>
                         </td>
                     </tr>
                 </c:forEach>

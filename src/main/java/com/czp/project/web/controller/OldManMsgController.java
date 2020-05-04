@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.czp.project.common.bean.OldMan;
+import com.czp.project.common.bean.extend.OldManExtend;
 import com.czp.project.service.impl.OldManMsgImpl;
 import com.czp.project.utils.NumberProduct;
 import com.github.pagehelper.PageInfo;
@@ -32,27 +33,21 @@ public class OldManMsgController {
 	@RequestMapping("/getmsg/{page}")
 	public String getOldManMsg(HttpSession session,
 							  HttpServletRequest request,
-							  @PathVariable String page) throws NumberFormatException, Exception {
-		String source = request.getParameter("source");
-		PageInfo<OldMan> oldPages = null;
-		
-		if(source == null || source.equals("")) {
-//		List<OldMan> oldlist = oldimpl.selectAll(); //查询全部
-			oldPages = oldimpl.selectMsgByPage(Integer.parseInt(page), 5);
-		}else {
+							  @PathVariable String page) throws Exception {
+		PageInfo<OldManExtend> oldPages = null;
+		oldPages = oldimpl.selectMsgByPage(Integer.parseInt(page), 5);
 			//模糊查询
-			oldPages = oldimpl.fuzzyQueryByPage(source, Integer.parseInt(page), 10);
-		}
 		session.setAttribute("oldPages", oldPages);
 		return "pages/oldManInfo";
 	}
 	//分页模糊查询
-	@RequestMapping("/getMsgBySource") 
+	@RequestMapping("/getMsgBySource/{page}") 
 	public String getOldManMsgByString(HttpSession session,
-									   HttpServletRequest request) {
+									   HttpServletRequest request,
+									   @PathVariable String page) throws Exception {
 		String source = request.getParameter("source");
-		List<OldMan> oldlist = oldimpl.selectMsgByString(source);
-		session.setAttribute("oldlist", oldlist);
+		PageInfo<OldMan> oldPages = oldimpl.fuzzyQueryByPage(source, Integer.parseInt(page), 20);
+		session.setAttribute("oldPages", oldPages);
 		
 		return "pages/oldManInfo";
 	}

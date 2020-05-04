@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.czp.project.common.bean.OldMan;
 import com.czp.project.common.bean.OmZhuanfang;
 import com.czp.project.common.bean.Room;
+import com.czp.project.common.bean.extend.ZhuanFangExtend;
 import com.czp.project.service.impl.BedRoomImpl;
 import com.czp.project.service.impl.OldManMsgImpl;
 import com.czp.project.service.impl.OmzfImpl;
@@ -38,7 +39,7 @@ public class OmzfController {
 										   HttpSession session,
 										   @PathVariable String page) {
 		String source = request.getParameter("source");
-		PageInfo<OmZhuanfang> oldzfPages = null;
+		PageInfo<ZhuanFangExtend> oldzfPages = null;
 		if(source == null || source.equals("")) {
 			oldzfPages = omzfImpl.selectAllByPage(Integer.parseInt(page), 5);
 			if(page.equals("1")) {

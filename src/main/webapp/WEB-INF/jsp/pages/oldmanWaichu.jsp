@@ -70,7 +70,7 @@
     //传入点击的用户id，获取该用户信息并放入表单中
     function update(id, a) {
         //将提交表单的URL变为update
-        myUrl = 'oldmsg/edit';
+        myUrl = 'wc/edit';
         $("#userID").attr("value", id);
         ;
         if (!id) {
@@ -202,7 +202,7 @@
         3.清空表单数据
      */
     function setUrl() {
-        myUrl = 'oldmsg/addOldmanMsg';
+        myUrl = 'wc/addOldmanMsg';
         $('#username').removeAttr("readonly");
         $('#form-data input').val("");
     }
@@ -272,7 +272,7 @@
                 </div>
                 <div class="col-sm-4">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
-                        onclick="setUrl()">添加外出</button>
+                        onclick="setUrl()">添加外出记录</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                         th:onclick="">批量删除</button>
                 </div>
@@ -289,29 +289,29 @@
                     <th>外出时间</th>
                     <th>返回时间</th>
                     <th>紧急联系电话</th>
-                    <th>登记人</th>
                     <th>状态</th>
+                    <th>登记人</th>
+                    <th>备注</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${oldPages.list}" var="old">
-                    <tr th:each="user : ${userlist}">
-                        <td><input type="checkbox" value="${old.id}"></td>
-                        <td>1</td>
-                        <td>张三</td>
-                        <td>外出广场舞</td>
-                        <td td:text="${user.email}">
-                            <%-- ${old.checkintime} --%>
-                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
+                <c:forEach items="${oldwcPages.list}" var="wc">
+                    <tr>
+                        <td><input type="checkbox" value="${wc.id}"></td>
+                        <td>${wc.id}</td>
+                        <td>${wc.oldman.oldmanName}</td>
+                        <td>${wc.event}</td>
+                        <td>
+                            <fmt:formatDate value="${wc.statTime}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td td:text="${user.email}">
-                            <%-- ${old.checkintime} --%>
-                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
+                        <td>
+                            <fmt:formatDate value="${wc.endTime}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td>12345678901</td>
-                        <td>小李</td>
-                        <td>未返回</td>
+                        <td>${wc.oldman.telphone}</td>
+                        <td>${wc.status}</td>
+                        <td>${wc.userLog}</td>
+                        <td>${wc.backup}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"

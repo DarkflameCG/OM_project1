@@ -6,9 +6,10 @@
 <generatorConfiguration>
 
 <!--  <classPathEntry location="D:\gg\repository\mysql\mysql-connector-java\8.0.18\mysql-connector-java-8.0.18.jar" />-->
-<classPathEntry location="D:\jar\mysql-connector-java-5.1.25-bin.jar" />
+<classPathEntry location="/Users/mastercgx/JavaEE_work_use/maven/maven_repo/mysql/mysql-connector-java/8.0.18/mysql-connector-java-8.0.18.jar" />
   <context id="DB2Tables" targetRuntime="MyBatis3">
-    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+
+    <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
         connectionURL="jdbc:mysql://203.195.246.58:3306/oldman"
         userId="root1"
         password="rootroot">
@@ -40,26 +41,13 @@
 
 
 	<!-- 映射配置 -->
-<<<<<<< HEAD
-	<table tableName="power" domainObjectName="BasePower"></table>
-   <!--  <table tableName="cost" domainObjectName="Cost" ></table> -->
-    <!-- <table tableName="family_members" domainObjectName="FamilyMembers" ></table> -->
-    <!-- <table tableName="charges" domainObjectName="Charges" ></table> -->
-   <!--  <table tableName="oldman_ruzhu" domainObjectName="OldManRuZhu" ></table> -->
-    <!-- <table tableName="Account" domainObjectName="Account" ></table> -->
-=======
-	<table tableName="oldman_zhuangfang" domainObjectName="OmZhuanfang" ></table>
->>>>>>> c05e4642f6273137798505b9511408de64a83e75
+	<table tableName="oldman_waichu" domainObjectName="OmWaichu" ></table>
     <!-- <table tableName="cost" domainObjectName="Cost" ></table> -->
     <!-- <table tableName="family_members" domainObjectName="FamilyMembers" ></table> -->
    <!--  <table tableName="Account" domainObjectName="Account" ></table> -->
     <!-- <table tableName="modular" domainObjectName="Modular" ></table>
     <table tableName="monitor" domainObjectName="Monitor" ></table> -->
-<<<<<<< HEAD
-    <!-- <table tableName="old_man" domainObjectName="OldMan" ></table> -->
-=======
    <!--  <table tableName="old_man" domainObjectName="OldMan" ></table> -->
->>>>>>> c05e4642f6273137798505b9511408de64a83e75
   <!--   <table tableName="old_man_leave" domainObjectName="OldManLeave" ></table> 
     <table tableName="room" domainObjectName="Room" ></table>
     <table tableName="user_leave" domainObjectName="UserLeave" ></table>
