@@ -6,10 +6,11 @@
 <generatorConfiguration>
 
 <!--  <classPathEntry location="D:\gg\repository\mysql\mysql-connector-java\8.0.18\mysql-connector-java-8.0.18.jar" />-->
-<classPathEntry location="/Users/mastercgx/JavaEE_work_use/maven/maven_repo/mysql/mysql-connector-java/8.0.18/mysql-connector-java-8.0.18.jar" />
+<!-- <classPathEntry location="/Users/mastercgx/JavaEE_work_use/maven/maven_repo/mysql/mysql-connector-java/8.0.18/mysql-connector-java-8.0.18.jar" /> -->
+<classPathEntry location="D:\jar\mysql-connector-java-5.1.25-bin.jar" />
   <context id="DB2Tables" targetRuntime="MyBatis3">
 
-    <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
         connectionURL="jdbc:mysql://203.195.246.58:3306/oldman"
         userId="root1"
         password="rootroot">
@@ -41,8 +42,9 @@
 
 
 	<!-- 映射配置 -->
-	<table tableName="monitor" domainObjectName="Monitor" ></table>
-    <table tableName="medical" domainObjectName="Medical" ></table>
+	<table tableName="user_leave" domainObjectName="UserLeave" ></table>
+	<!-- <table tableName="monitor" domainObjectName="Monitor" ></table>
+    <table tableName="medical" domainObjectName="Medical" ></table> -->
     <!-- <table tableName="cost" domainObjectName="Cost" ></table> -->
     <!-- <table tableName="family_members" domainObjectName="FamilyMembers" ></table> -->
    <!--  <table tableName="Account" domainObjectName="Account" ></table> -->
