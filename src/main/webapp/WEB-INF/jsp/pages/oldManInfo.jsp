@@ -446,6 +446,11 @@
                     var str = httpRequest.responseText;
                 }
             };
+            // 删除后关闭模态框
+            $("#deleteModal").modal('hide');
+            $(".modal-backdrop").remove();
+            // 删除后刷新页面
+            location.reload(true);
         });
     })
     // 上传图片
