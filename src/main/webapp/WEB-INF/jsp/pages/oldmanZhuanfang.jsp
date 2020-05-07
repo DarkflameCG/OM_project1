@@ -7,6 +7,7 @@
 <%
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
 %>
+
 <head>
     <base href="<%=basePath%>">
     <meta charset="UTF-8">
@@ -34,7 +35,7 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 
-   
+
     <style>
         .divcss5-left {
             float: right;
@@ -45,27 +46,27 @@
 </head>
 <script>
 
-	//定义一个变量用于存储添加和修改时不同的URL
-	var myUrl;
-	//传入点击的用户id，获取该用户信息并放入表单中
-	function update(id, a) {
-	    //将提交表单的URL变为update
-	    myUrl = 'zf/edit';
-	    $("#userID").attr("value", id);
-	    if (!id) {
-	        alert('id错误');
-	        return false;
-	    }
-	    //获取当前控件的父控件 tr
-	    var temp = $(a).parent().parent();
-	    //获取当前行tr下的所有td
-	    var t = temp[0].cells;
-	    //模态框赋值
-	    $('#outRoomId').val(t[4].innerHTML);
-	    $('#inRoomId').val(t[5].innerHTML);
-	    $('#backup').val(t[8].innerHTML);
-	    
-	}
+    //定义一个变量用于存储添加和修改时不同的URL
+    var myUrl;
+    //传入点击的用户id，获取该用户信息并放入表单中
+    function update(id, a) {
+        //将提交表单的URL变为update
+        myUrl = 'zf/edit';
+        $("#userID").attr("value", id);
+        if (!id) {
+            alert('id错误');
+            return false;
+        }
+        //获取当前控件的父控件 tr
+        var temp = $(a).parent().parent();
+        //获取当前行tr下的所有td
+        var t = temp[0].cells;
+        //模态框赋值
+        $('#outRoomId').val(t[4].innerHTML);
+        $('#inRoomId').val(t[5].innerHTML);
+        $('#backup').val(t[8].innerHTML);
+
+    }
     //表单字段验证
     //如果按照一般验证的写法，只能调用整个表单的validate函数，而不能调用自定义的username验证，所以把两个函数封装成为一个，在点击按钮时调用
     function vali() {
@@ -141,7 +142,7 @@
             });
         }
     }
-    
+
     /*
     点击添加用户时需要做的操作：
         1.修改提交表单的URL
@@ -254,7 +255,7 @@
                         </td>
                         <td>${zf.userLog}</td>
                         <td>${zf.backup}</td>
-                     
+
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
@@ -322,26 +323,26 @@
                                             placeholder="编号为两位字母六位数字">
                                     </div>
                                 </div>
-                                 <div class="form-group">
+                                <div class="form-group">
                                     <label for="outRoomId" class="col-sm-3 control-label">转出房间号</label>
                                     <div class="col-sm-9">
-	                                    <select id="outRoomId" name="outRoomId" class="selectpicker show-tick form-control"
-	                                            data-live-search="false">
-	                                            <c:forEach items="${usedRooms}" var="room">
-		                                            <option value="${room.id}">${room.roomNumb}</option>
-	                                            </c:forEach>
-	                                    </select>
+                                        <select id="outRoomId" name="outRoomId"
+                                            class="selectpicker show-tick form-control" data-live-search="false">
+                                            <c:forEach items="${usedRooms}" var="room">
+                                                <option value="${room.id}">${room.roomNumb}</option>
+                                            </c:forEach>
+                                        </select>
                                     </div>
-                                </div> 
+                                </div>
                                 <div class="form-group">
                                     <label for="inRoomId" class="col-sm-3 control-label">转入房间号</label>
                                     <div class="col-sm-9">
-	                                    <select id="inRoomId" name="inRoomId" class="selectpicker show-tick form-control"
-	                                            data-live-search="false">
-	                                            <c:forEach items="${emptyRooms}" var="room">
-		                                            <option value="${room.id}">${room.roomNumb}</option>
-	                                            </c:forEach>
-	                                    </select>
+                                        <select id="inRoomId" name="inRoomId"
+                                            class="selectpicker show-tick form-control" data-live-search="false">
+                                            <c:forEach items="${emptyRooms}" var="room">
+                                                <option value="${room.id}">${room.roomNumb}</option>
+                                            </c:forEach>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -416,7 +417,7 @@
                 idval = $(e.relatedTarget).data('orderid');
             }
             //发送请求
-            var myUrl ='<%=basePath%>zf/remove?id=' + idval;
+            var myUrl = '<%=basePath%>zf/remove?id=' + idval;
             var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
             httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
             httpRequest.send();//第三步：发送请求  将请求参数写在URL中
@@ -427,6 +428,11 @@
                     alert(str);
                 }
             };
+            // 删除后关闭模态框
+            $("#deleteModal").modal('hide');
+            $(".modal-backdrop").remove();
+            // 删除后刷新页面
+            location.reload(true);
         });
     })
 </script>

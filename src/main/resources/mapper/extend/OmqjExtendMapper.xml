@@ -6,10 +6,9 @@
     SELECT * FROM old_man_leave
   </select>
 
-<!--   <select id="selectByName" parameterType="String" resultMap="OmzfExtendResultMap">
-    SELECT * FROM  oldman_zhuangfang
-    WHERE id = #{id,jdbcType=BIGINT}
-  </select> -->
+  <select id="selectByParameter" parameterType="String" resultMap="OmqjExtendResultMap">
+   SELECT * FROM old_man_leave WHERE oldman_name LIKE CONCAT(CONCAT('%', #{text}), '%')
+  </select>
 
   <resultMap id="OmqjExtendResultMap"
              type="com.czp.project.common.bean.extend.QingjiaExtend"

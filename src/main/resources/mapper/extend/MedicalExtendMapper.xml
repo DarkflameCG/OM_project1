@@ -6,14 +6,15 @@
     SELECT * FROM medical
   </select>
 
-<!--   <select id="selectByName" parameterType="String" resultMap="OmzfExtendResultMap">
-    SELECT * FROM  oldman_zhuangfang
-    WHERE id = #{id,jdbcType=BIGINT}
-  </select> -->
+  <select id="selectByParameter" parameterType="String" resultMap="MedicalExtendResultMap">
+   SELECT * FROM medical WHERE oldman_name LIKE CONCAT(CONCAT('%', #{text}), '%')
+  </select>
 
   <resultMap id="MedicalExtendResultMap"
              type="com.czp.project.common.bean.extend.MedicalExtend"
              extends="com.czp.project.dao.MedicalMapper.BaseResultMap">
+
+
     <association
             property="oldman"
             column="old_man_id"

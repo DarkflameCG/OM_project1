@@ -202,7 +202,7 @@
         <div class="tool">
             <div class="row">
                 <br />
-                <form action="oldmsg/getMsgBySourceg/1" class="form-horizontal">
+                <form action="oldmsg/getMsgBySource/1" class="form-horizontal">
                     <div class="col-sm-3">
                         <input name="source" type="text" id="search" class="form-control">
                     </div>
@@ -446,6 +446,11 @@
                     var str = httpRequest.responseText;
                 }
             };
+            // 删除后关闭模态框
+            $("#deleteModal").modal('hide');
+            $(".modal-backdrop").remove();
+            // 删除后刷新页面
+            location.reload(true);
         });
     })
     // 上传图片

@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>用户列表</title>
+    <title>会员卡充值</title>
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -268,36 +268,29 @@
                     <th></th>
                     <th>序号</th>
                     <th>姓名</th>
-                    <th>照片</th>
-                    <th>年龄</th>
-                    <th>性别</th>
-                    <th>入住时间</th>
-                    <th>健康状况</th>
-                    <th>老人家属</th>
-                    <th>电话</th>
-                    <th>房间号</th>
-                    <th>护工姓名</th>
+                    <th>卡号</th>
+                    <th>余额</th>
+                    <th>办卡家属</th>
+                    <th>办理时间</th>
+                    <th>办理人员</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <c:forEach items="${oldPages.list}" var="old">
-                    <tr th:each="user : ${userlist}">
+                    <tr>
                         <td><input type="checkbox" value="${old.id}"></td>
-                        <td th:text="${user.userID}">${old.id}</td>
-                        <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.password}"><img src="./" alt="没有图片"></td>
-                        <td th:text="${user.phone}">${old.age}</td>
-                        <td th:text="${user.email}">${old.gender}</td>
-                        <td th:text="${user.email}">
-                            <%-- ${old.checkintime} --%>
+                        <td>${old.id}</td>
+                        <td>${old.oldmanName}</td>
+                        <td><img src="./" alt="没有图片"></td>
+                        <td>${old.age}</td>
+                        <td>
+                                <%-- ${old.checkintime} --%>
                             <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td th:text="${user.email}">${old.health}</td>
-                        <td th:text="${user.email}">${old.familyMembersId}</td>
-                        <td th:text="${user.email}">${old.telphone}</td>
-                        <td th:text="${user.email}">${old.roomId}</td>
-                        <td th:text="${user.email}">${old.userId}</td>
+                        <td></td>
+                        <td></td>
+
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"

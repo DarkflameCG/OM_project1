@@ -112,7 +112,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="dropdown">
 							<div class="exit">
 								<a href="javascript:void(0)" data-toggle="dropdown">
-									<img src="${login.userImg }" alt="图片丢失了"
+									<img src="${login.userImg}" alt="图片丢失了"
 										style="border-radius: 50%;width: 36px;height: 36px; margin-bottom: 7px;">
 								</a>
 								<div class="hidden_exit">

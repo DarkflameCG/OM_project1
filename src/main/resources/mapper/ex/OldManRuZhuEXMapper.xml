@@ -25,6 +25,10 @@
 		</select> 
 <select id="findAllOldManRuZhuEX" resultMap="BaseResultMap"> 
 			select * from oldman_ruzhu
-	</select> 
+	</select>
+
+    <select id="selectByParameter" parameterType="String" resultMap="BaseResultMap">
+   SELECT * FROM oldman_ruzhu WHERE oldman_name LIKE CONCAT(CONCAT('%', #{text}), '%')
+  </select>
   
 </mapper>

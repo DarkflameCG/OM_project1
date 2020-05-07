@@ -22,5 +22,7 @@ public interface OldManMsgExtendMapper {
 	 * @return
 	 */
 	public OldManExtend selectById(String id);
+
+	public List<OldManExtend> selectByParameter(String text);
 	
 }
