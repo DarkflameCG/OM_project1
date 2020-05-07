@@ -1,4 +1,5 @@
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/service/interfaces/BedRoomService.java
+/Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/dao/extend/OmqjExtendMapper.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/utils/DateAndStringUtil.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/service/impl/OldManMsgImpl.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/dao/OmZhuanfangMapper.java
@@ -9,10 +10,12 @@
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/ModularExample.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/web/controller/BedRoomController.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/OmZhuanfang.java
+/Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/extend/QingjiaExtend.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/web/controller/OldManActivityController.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/Modular.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/BasePower.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/Charges.java
+/Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/service/impl/OmqjImpl.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/dao/BasePowerMapper.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/service/interfaces/PowerService.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/OldManRuZhuExample.java
@@ -30,12 +33,14 @@
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/utils/NumberProduct.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/web/controller/PowerController.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/dao/FamilyMembersMapper.java
+/Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/service/interfaces/OmqjService.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/service/interfaces/AccountService.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/web/controller/CommonJsonController.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/CostExample.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/web/filter/BasePathFilter.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/dao/ex/OldManRuZhuEXMapper.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/OldManLeave.java
+/Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/dao/OmQingjiaMapper.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/BaseUser.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/service/interfaces/OldManRuZhuService.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/web/controller/NursingworkersController.java
@@ -62,6 +67,7 @@
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/AccountExample.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/service/interfaces/IndexService.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/dao/extend/OmzfExtendMapper.java
+/Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/web/controller/OmqjController.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/FamilyMembersExample.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/web/controller/OldManMsgController.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/OldManRuZhu.java
@@ -91,7 +97,9 @@
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/service/impl/IndexImpl.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/OldMan.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/PayExample.java
+/Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/OmQingjiaExample.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/OmZhuanfangExample.java
+/Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/common/bean/OmQingjia.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/dao/RoomMapper.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/dao/extend/OmwcExtendMapper.java
 /Users/mastercgx/eclipse/macwork/OM_project/src/main/java/com/czp/project/dao/OmWaichuMapper.java

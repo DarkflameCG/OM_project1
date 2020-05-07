@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czp.project.dao.extend.MonitorExtendMapper">
+
+  <select id="selectAll" resultMap="MonitorExtendResultMap">
+    SELECT * FROM monitor
+  </select>
+
+<!--   <select id="selectByName" parameterType="String" resultMap="OmzfExtendResultMap">
+    SELECT * FROM  oldman_zhuangfang
+    WHERE id = #{id,jdbcType=BIGINT}
+  </select> -->
+
+  <resultMap id="MonitorExtendResultMap"
+             type="com.czp.project.common.bean.extend.MonitorExtend"
+             extends="com.czp.project.dao.MonitorMapper.BaseResultMap">
+    <association
+            property="oldman"
+            column="old_man_id"
+            select="com.czp.project.dao.extend.OldManMsgExtendMapper.selectById"></association>
+    <association
+            property="user"
+            column="user_id"
+            select="com.czp.project.dao.BaseUserMapper.selectByPrimaryKey"></association>
+
+  </resultMap>
+
+</mapper>

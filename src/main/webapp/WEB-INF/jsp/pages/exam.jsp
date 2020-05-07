@@ -5,8 +5,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+<%
+    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
+%>
 <head>
-    <base href="http://localhost:2333/">
+    <base href="<%=basePath%>">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,7 +51,7 @@
     //传入点击的用户id，获取该用户信息并放入表单中
     function update(id, a) {
         //将提交表单的URL变为update
-        myUrl = 'oldmsg/edit';
+        myUrl = 'exam/edit';
         $("#userID").attr("value", id);
         alert(id);
         if (!id) {
@@ -180,8 +183,7 @@
         3.清空表单数据
      */
     function setUrl() {
-        myUrl = 'oldmsg/addOldmanMsg';
-        $('#username').removeAttr("readonly");
+        myUrl = 'exam/add';
         $('#form-data input').val("");
     }
     //提交表单
@@ -264,33 +266,36 @@
                     <th>序号</th>
                     <th>姓名</th>
                     <th>性别</th>
-                    <th>时间</th>
                     <th>项目</th>
                     <th>体检时间</th>
                     <th>体检报告</th>
+                    <th>时间</th>
+                    <th>操作人</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${oldPages.list}" var="old">
-                    <tr th:each="user : ${userlist}">
-                        <td><input type="checkbox" value="${old.id}"></td>
-                        <td th:text="${user.userID}">${old.id}</td>
-                        <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.gender}">${old.gender}</td>
-                        <td th:text="${user.date}">
-                            <%-- ${old.checkintime} --%>
-                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
+                <c:forEach items="${monitorPages.list}" var="exam">
+                    <tr">
+                        <td><input type="checkbox" value="${exam.id}"></td>
+                        <td>${exam.id}</td>
+                        <td>${exam.oldman.oldmanName}</td>
+                        <td>${exam.oldman.gender}</td>
+                        <td>量血压</td>
+                        <td>
+                            <fmt:formatDate value="${exam.examTime}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td th:text="${user.index}">量血压</td>
-                        <td th:text="${user.index}">量血压</td>
-                        <td th:text="${user.index}"><a href="#">下载</a></td>
+                        <td><a href="#">下载</a></td>
+                        <td>
+                            <fmt:formatDate value="${exam.time}" pattern="yyyy年MM月dd日" />
+                        </td>
+                        <td>${exam.user.userName}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
+                                data-target="#updateModal" onclick="update(${exam.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                data-target="#deleteModal" data-orderId="${old.id}">删除</button>
+                                data-target="#deleteModal" data-orderId="${exam.id}">删除</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -300,26 +305,26 @@
         <div class="divcss5-left">
             <table width="461" height="24" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td width="120">当前为第${oldPages.pageNum}页,共${oldPages.pages}页</td>
+                    <td width="120">当前为第${monitorPages.pageNum}页,共${monitorPages.pages}页</td>
                     <!-- <td width="199">
-                    <c:forEach items="${oldPages.navigatepageNums}" var="p">
+                    <c:forEach items="${monitorPages.navigatepageNums}" var="p">
                         <a>${p }</a>
                     </c:forEach>
                 </td> -->
                     <td width="256">
                         <c:choose>
-                            <c:when test="${oldPages.hasPreviousPage}">
-                                <a href="oldmsg/getmsg/1">首页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pageNum -1 }">上一页</a>
+                            <c:when test="${monitorPages.hasPreviousPage}">
+                                <a href="exam/get/1">首页</a> |
+                                <a href="exam/get/${monitorPages.pageNum -1 }">上一页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
                         </c:choose>
 
                         <c:choose>
-                            <c:when test="${oldPages.hasNextPage}">
-                                <a href="oldmsg/getmsg/${oldPages.pageNum + 1 }">下一页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pages }">尾页</a>
+                            <c:when test="${monitorPages.hasNextPage}">
+                                <a href="exam/get/${monitorPages.pageNum + 1 }">下一页</a> |
+                                <a href="exam/get/${monitorPages.pages }">尾页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
@@ -340,61 +345,41 @@
                                 &times;
                             </button>
                             <h4 class="modal-title" id="updateModalLabel">
-                                用户信息
+                                添加体检信息
                             </h4>
                         </div>
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="id" hidden>
+                                <input type="text" id="userID" name="userLog" value="${login.id}" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">用户名</label>
+                                    <label for="oldNumb" class="col-sm-3 control-label">老人编号</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="username" name="oldmanName"
-                                            placeholder="用户名长度在5-18字符之间">
+                                        <input type="text" class="form-control" id="oldNumb" name="oldNumb"
+                                               placeholder="编号为两位字母六位数字">
+                                    </div>
+                                </div>
+                                <!--这个地方可能需要一个选择框-->
+                                <div class="form-group">
+                                    <label for="modular" class="col-sm-3 control-label">体检项目</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="modular" name="modular" placeholder="请输入备注">
+                                    </div>
+                                </div>
+                                <!--这个地方需要一个时间控件，就一个-->
+                                <div class="form-group">
+                                    <label for="examTime" class="col-sm-3 control-label">体检时间</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="examTime" name="examTime" placeholder="请输入备注">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">年龄</label>
+                                    <label for="backup" class="col-sm-3 control-label">备注</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">
+                                        <input type="text" class="form-control" id="backup" name="backup" placeholder="请输入备注">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="gender" class="col-sm-3 control-label">性别</label>
-                                    <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
-                                            data-live-search="false">
-                                            <option value="男">男</option>
-                                            <option value="女">女</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="health" class="col-sm-3 control-label">健康状况</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="health" name="health"
-                                            placeholder="请输入老人的健康状况">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="telphone" class="col-sm-3 control-label">手机号</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="telphone" name="telphone"
-                                            placeholder="请输入手机号">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">照片</label>
-                                    <div class="col-sm-9">
-                                        <label for="file">
-                                            <div class="panel updatepanel">
-                                                <div class="addbox"><span class="icon-add-50">+点击上传</span></div>
-                                                <input type="file" id="oldman_img" style="display: none" />
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
+
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -460,7 +445,7 @@
                 idval = $(e.relatedTarget).data('orderid');
             }
             //发送请求
-            var myUrl = 'http://localhost:2333/oldmsg/remove?id=' + idval;
+            var myUrl = '<%=basePath%>exam/remove?id=' + idval;
             var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
             httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
             httpRequest.send();//第三步：发送请求  将请求参数写在URL中

@@ -4,9 +4,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<%
+    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
+%>
 <head>
-    <base href="http://localhost:2333/">
+    <base href="<%=basePath%>">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -66,7 +68,7 @@
     //传入点击的用户id，获取该用户信息并放入表单中
     function update(id, a) {
         //将提交表单的URL变为update
-        myUrl = 'oldmsg/edit';
+        myUrl = 'qj/edit';
         $("#userID").attr("value", id);
         ;
         if (!id) {
@@ -150,8 +152,7 @@
         3.清空表单数据
      */
     function setUrl() {
-        myUrl = 'oldmsg/addOldmanMsg';
-        $('#username').removeAttr("readonly");
+        myUrl = 'qj/add';
         $('#form-data input').val("");
     }
     //提交表单
@@ -234,34 +235,36 @@
                     <th>结束时间</th>
                     <th>状态</th>
                     <th>登记人</th>
+                    <th>登记时间</th>
                     <th>管理员备注</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${oldPages.list}" var="old">
-                    <tr th:each="user : ${userlist}">
-                        <td><input type="checkbox" value="${old.id}"></td>
-                        <td th:text="${user.userID}">序号</td>
-                        <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.phone}">原因</td>
-                        <td th:text="${user.email}">
-                            <%-- ${old.checkintime} --%>
-                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
+                <c:forEach items="${oldqjPages.list}" var="qj">
+                    <tr>
+                        <td><input type="checkbox" value="${qj.id}"></td>
+                        <td>${qj.id}</td>
+                        <td>${qj.oldman.oldmanName}</td>
+                        <td>${qj.reson}</td>
+                        <td>
+                            <fmt:formatDate value="${qj.startTime}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td th:text="${user.email}">
-                            <%-- ${old.checkintime} --%>
-                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
+                        <td>
+                            <fmt:formatDate value="${qj.endTime}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td th:text="${user.email}">${old.health}</td>
-                        <td th:text="${user.email}">${old.familyMembersId}</td>
-                        <td th:text="${user.email}">${old.telphone}</td>
+                        <td>${qj.state}</td>
+                        <td>${qj.userLog}</td>
+                        <td>
+                            <fmt:formatDate value="${qj.time}" pattern="yyyy年MM月dd日" />
+                        </td>
+                        <td>${qj.bakcup}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
+                                data-target="#updateModal" onclick="update(${qj.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                data-target="#deleteModal" data-orderId="${old.id}">删除</button>
+                                data-target="#deleteModal" data-orderId="${qj.id}">删除</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -271,7 +274,7 @@
         <div class="divcss5-left">
             <table width="461" height="24" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td width="120">当前为第${oldPages.pageNum}页,共${oldPages.pages}页</td>
+                    <td width="120">当前为第${oldqjPages.pageNum}页,共${oldqjPages.pages}页</td>
                     <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
@@ -279,18 +282,18 @@
                 </td> -->
                     <td width="256">
                         <c:choose>
-                            <c:when test="${oldPages.hasPreviousPage}">
-                                <a href="oldmsg/getmsg/1">首页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pageNum -1 }">上一页</a>
+                            <c:when test="${oldqjPages.hasPreviousPage}">
+                                <a href="qj/get/1">首页</a> |
+                                <a href="qj/get/${oldqjPages.pageNum -1 }">上一页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
                         </c:choose>
 
                         <c:choose>
-                            <c:when test="${oldPages.hasNextPage}">
-                                <a href="oldmsg/getmsg/${oldPages.pageNum + 1 }">下一页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pages }">尾页</a>
+                            <c:when test="${oldqjPages.hasNextPage}">
+                                <a href="qj/get/${oldqjPages.pageNum + 1 }">下一页</a> |
+                                <a href="qj/get/${oldqjPages.pages }">尾页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
@@ -317,12 +320,12 @@
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="id" hidden>
+                                <input type="text" id="userID" name="userLog" value="${login.userName}" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">姓名</label>
+                                    <label for="oldNumb" class="col-sm-3 control-label">老人编号</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="username" name="oldmanName"
-                                            placeholder="用户名长度在5-18字符之间">
+                                        <input type="text" class="form-control" id="oldNumb" name="oldNumb"
+                                               placeholder="编号为两位字母六位数字">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -333,7 +336,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="time" class="col-sm-3 control-label">外出时间</label>
+                                    <label for="time" class="col-sm-3 control-label">请假时间</label>
                                     <div class="col-sm-9">
                                         <div class="myrow">
                                             <div class='input-group date' style="width: 14em;" id='datetimepicker1'>
@@ -437,7 +440,7 @@
                 idval = $(e.relatedTarget).data('orderid');
             }
             //发送请求
-            var myUrl = 'http://localhost:2333/oldmsg/remove?id=' + idval;
+            var myUrl = '<%=basePath%>qj/remove?id=' + idval;
             var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
             httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
             httpRequest.send();//第三步：发送请求  将请求参数写在URL中

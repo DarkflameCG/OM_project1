@@ -5,8 +5,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+<%
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
+%>
 <head>
-    <base href="http://localhost:2333/">
+    <base href="<%=basePath%>">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -202,8 +205,7 @@
         3.清空表单数据
      */
     function setUrl() {
-        myUrl = 'wc/addOldmanMsg';
-        $('#username').removeAttr("readonly");
+        myUrl = 'wc/add';
         $('#form-data input').val("");
     }
     //提交表单
@@ -215,7 +217,7 @@
         // ！！！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#telphone,#time_1,#time_2').serializeArray();
+            formData = $('#userID,#oldNumb,#event,#time_1,#time_2').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -315,9 +317,9 @@
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
+                                data-target="#updateModal" onclick="update(${wc.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                data-target="#deleteModal" data-orderId="${old.id}">删除</button>
+                                data-target="#deleteModal" data-orderId="${wc.id}">删除</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -327,7 +329,7 @@
         <div class="divcss5-left">
             <table width="461" height="24" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td width="120">当前为第${oldPages.pageNum}页,共${oldPages.pages}页</td>
+                    <td width="120">当前为第${oldwcPages.pageNum}页,共${oldwcPages.pages}页</td>
                     <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
@@ -335,18 +337,18 @@
                 </td> -->
                     <td width="256">
                         <c:choose>
-                            <c:when test="${oldPages.hasPreviousPage}">
-                                <a href="oldmsg/getmsg/1">首页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pageNum -1 }">上一页</a>
+                            <c:when test="${oldwcPages.hasPreviousPage}">
+                                <a href="wc/get/1">首页</a> |
+                                <a href="wc/get/${oldwcPages.pageNum -1 }">上一页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
                         </c:choose>
 
                         <c:choose>
-                            <c:when test="${oldPages.hasNextPage}">
-                                <a href="oldmsg/getmsg/${oldPages.pageNum + 1 }">下一页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pages }">尾页</a>
+                            <c:when test="${oldwcPages.hasNextPage}">
+                                <a href="wc/get/${oldwcPages.pageNum + 1 }">下一页</a> |
+                                <a href="wc/get/${oldwcPages.pages }">尾页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
@@ -367,48 +369,24 @@
                                 &times;
                             </button>
                             <h4 class="modal-title" id="updateModalLabel">
-                                用户信息
+                                外出信息
                             </h4>
                         </div>
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="id" hidden>
+                                <input type="text" id="userID" name="userLog" value="${login.userName}" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">用户名</label>
+                                    <label for="oldNumb" class="col-sm-3 control-label">老人编号</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="username" name="oldmanName"
-                                            placeholder="用户名长度在5-18字符之间">
+                                        <input type="text" class="form-control" id="oldNumb" name="oldNumb"
+                                            placeholder="编号为两位字母六位数字">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">年龄</label>
+                                    <label for="event" class="col-sm-3 control-label">事项</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="gender" class="col-sm-3 control-label">性别</label>
-                                    <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
-                                            data-live-search="false">
-                                            <option value="男">男</option>
-                                            <option value="女">女</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="health" class="col-sm-3 control-label">健康状况</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="health" name="health"
-                                            placeholder="请输入老人的健康状况">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="telphone" class="col-sm-3 control-label">手机号</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="telphone" name="telphone"
-                                            placeholder="请输入手机号">
+                                        <input type="text" class="form-control" id="event" name="event" placeholder="请输入事由">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -510,7 +488,7 @@
                 idval = $(e.relatedTarget).data('orderid');
             }
             //发送请求
-            var myUrl = 'http://localhost:2333/oldmsg/remove?id=' + idval;
+            var myUrl = '<%=basePath%>wc/remove?id=' + idval;
             var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
             httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
             httpRequest.send();//第三步：发送请求  将请求参数写在URL中

@@ -4,13 +4,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<%
+    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
+%>
 <head>
-    <base href="http://localhost:2333/">
+    <base href="<%=basePath%>">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>体检记录</title>
+    <title>外出就医</title>
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -48,7 +50,7 @@
     //传入点击的用户id，获取该用户信息并放入表单中
     function update(id, a) {
         //将提交表单的URL变为update
-        myUrl = 'oldmsg/edit';
+        myUrl = 'seek/edit';
         $("#userID").attr("value", id);
         alert(id);
         if (!id) {
@@ -180,8 +182,7 @@
         3.清空表单数据
      */
     function setUrl() {
-        myUrl = 'oldmsg/addOldmanMsg';
-        $('#username').removeAttr("readonly");
+        myUrl = 'seek/add';
         $('#form-data input').val("");
     }
     //提交表单
@@ -274,27 +275,26 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${oldPages.list}" var="old">
-                    <tr th:each="user : ${userlist}">
-                        <td><input type="checkbox" value="${old.id}"></td>
-                        <td th:text="${user.userID}">${old.id}</td>
-                        <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.date}">
-                            <%-- ${old.checkintime} --%>
-                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
+                <c:forEach items="${medicalPages.list}" var="medical">
+                    <tr>
+                        <td><input type="checkbox" value="${medical.id}"></td>
+                        <td>${medical.id}</td>
+                        <td>${medical.oldman.oldmanName}</td>
+                        <td>
+                            <fmt:formatDate value="${medical.time}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td th:text="${user.index}">是</td>
-                        <td th:text="${user.index}">是</td>
-                        <td th:text="${user.index}">是</td>
-                        <td th:text="${user.index}">仁和医院</td>
-                        <td th:text="${user.index}">登记人</td>
-                        <td th:text="${user.index}">备注</td>
+                        <td>${medical.isfamily}</td>
+                        <td>${medical.isworker}</td>
+                        <td>${medical.iscar}</td>
+                        <td>${medical.hospital}</td>
+                        <td>${medical.userLog}</td>
+                        <td>${medical.backup}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
+                                data-target="#updateModal" onclick="update(${medical.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                data-target="#deleteModal" data-orderId="${old.id}">删除</button>
+                                data-target="#deleteModal" data-orderId="${medical.id}">删除</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -304,26 +304,26 @@
         <div class="divcss5-left">
             <table width="461" height="24" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td width="120">当前为第${oldPages.pageNum}页,共${oldPages.pages}页</td>
+                    <td width="120">当前为第${medicalPages.pageNum}页,共${medicalPages.pages}页</td>
                     <!-- <td width="199">
-                    <c:forEach items="${oldPages.navigatepageNums}" var="p">
+                    <c:forEach items="${medicalPages.navigatepageNums}" var="p">
                         <a>${p }</a>
                     </c:forEach>
                 </td> -->
                     <td width="256">
                         <c:choose>
-                            <c:when test="${oldPages.hasPreviousPage}">
-                                <a href="oldmsg/getmsg/1">首页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pageNum -1 }">上一页</a>
+                            <c:when test="${medicalPages.hasPreviousPage}">
+                                <a href="seek/get/1">首页</a> |
+                                <a href="seek/get/${medicalPages.pageNum -1 }">上一页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
                         </c:choose>
 
                         <c:choose>
-                            <c:when test="${oldPages.hasNextPage}">
-                                <a href="oldmsg/getmsg/${oldPages.pageNum + 1 }">下一页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pages }">尾页</a>
+                            <c:when test="${medicalPages.hasNextPage}">
+                                <a href="seek/get/${medicalPages.pageNum + 1 }">下一页</a> |
+                                <a href="seek/get/${medicalPages.pages }">尾页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
@@ -465,7 +465,7 @@
                 idval = $(e.relatedTarget).data('orderid');
             }
             //发送请求
-            var myUrl = 'http://localhost:2333/oldmsg/remove?id=' + idval;
+            var myUrl = '<%=basePath%>seek/remove?id=' + idval;
             var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
             httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
             httpRequest.send();//第三步：发送请求  将请求参数写在URL中
