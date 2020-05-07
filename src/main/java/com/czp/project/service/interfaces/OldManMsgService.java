@@ -41,7 +41,7 @@ public interface OldManMsgService {
 	 * @return
 	 * @throws Exception
 	 */
-	public PageInfo<OldMan> fuzzyQueryByPage(String name,int currpage,int row) throws Exception;
+	public PageInfo<OldManExtend> fuzzyQueryByPage(String name,int currpage,int row) throws Exception;
 	/**
 	 * 添加老人信息
 	 * @param newmsg

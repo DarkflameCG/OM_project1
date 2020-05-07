@@ -46,7 +46,8 @@ public class OldManMsgController {
 									   HttpServletRequest request,
 									   @PathVariable String page) throws Exception {
 		String source = request.getParameter("source");
-		PageInfo<OldMan> oldPages = oldimpl.fuzzyQueryByPage(source, Integer.parseInt(page), 20);
+		PageInfo<OldManExtend> oldPages = oldimpl.fuzzyQueryByPage(source, Integer.parseInt(page), 20);
+
 		session.setAttribute("oldPages", oldPages);
 		
 		return "pages/oldManInfo";

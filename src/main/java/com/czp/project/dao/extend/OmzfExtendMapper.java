@@ -3,6 +3,7 @@ package com.czp.project.dao.extend;
 import java.util.List;
 
 import com.czp.project.common.bean.OmZhuanfang;
+import com.czp.project.common.bean.extend.WaichuExtend;
 import com.czp.project.common.bean.extend.ZhuanFangExtend;
 
 public interface OmzfExtendMapper {
@@ -12,4 +13,5 @@ public interface OmzfExtendMapper {
 	 * @return
 	 */
 	public List<ZhuanFangExtend> selectAll();
+	public List<ZhuanFangExtend> selectByParameter(String text);
 }

@@ -6,9 +6,8 @@
     SELECT * FROM oldman_zhuangfang
   </select>
 
-  <select id="selectByName" parameterType="String" resultMap="OmzfExtendResultMap">
-    SELECT * FROM  oldman_zhuangfang
-    WHERE id = #{id,jdbcType=BIGINT}
+  <select id="selectByParameter" parameterType="String" resultMap="OmzfExtendResultMap">
+   SELECT * FROM oldman_zhuangfang WHERE oldman_name LIKE CONCAT(CONCAT('%', #{text}), '%')
   </select>
 
   <resultMap id="OmzfExtendResultMap"

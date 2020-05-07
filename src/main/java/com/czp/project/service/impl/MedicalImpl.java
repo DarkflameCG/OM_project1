@@ -50,6 +50,6 @@ public class MedicalImpl implements MedicalService {
 
     @Override
     public void updateMedical(Medical newmsg) {
-        medicalMapper.updateByExampleSelective(newmsg);
+        medicalMapper.updateByPrimaryKeySelective(newmsg);
     }
 }

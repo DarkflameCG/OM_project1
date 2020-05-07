@@ -10,4 +10,6 @@ public interface MedicalExtendMapper {
 	 * @return
 	 */
 	public List<MedicalExtend> selectAll();
+
+	public List<MedicalExtend> selectByParameter(String text);
 }

@@ -11,6 +11,11 @@
     WHERE id = #{id,jdbcType=BIGINT}
   </select>
 
+  <select id="selectByParameter" parameterType="String" resultMap="OldManMsgExtendResultMap">
+   SELECT * FROM old_man WHERE oldman_name LIKE CONCAT(CONCAT('%', #{text}), '%')
+  </select>
+
+
   <resultMap id="OldManMsgExtendResultMap"
              type="com.czp.project.common.bean.extend.OldManExtend"
              extends="com.czp.project.dao.OldManMapper.BaseResultMap">
