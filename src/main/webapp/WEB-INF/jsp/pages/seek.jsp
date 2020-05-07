@@ -350,36 +350,36 @@
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="id" hidden>
+                                <input type="text" id="userID" name="userLog" value="${login.userName}" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">姓名</label>
+                                    <label for="oldNumb" class="col-sm-3 control-label">老人编号</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="username" name="oldmanName"
-                                            placeholder="用户名长度在5-18字符之间">
+                                        <input type="text" class="form-control" id="oldNumb" name="oldNumb"
+                                               placeholder="编号为两位字母六位数字">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="gender" class="col-sm-3 control-label">是否有家属陪同</label>
+                                    <label for="isfamily" class="col-sm-3 control-label">是否有家属陪同</label>
                                     <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
+                                        <select id="isfamily" name="isfamily" class="selectpicker show-tick form-control"
                                             data-live-search="false">
                                             <option value="是">是</option>
                                             <option value="否">否</option>
                                         </select>
                                     </div>
                                 </div><div class="form-group">
-                                    <label for="gender" class="col-sm-3 control-label">是否有护工陪同</label>
+                                    <label for="isworker" class="col-sm-3 control-label">是否有护工陪同</label>
                                     <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
+                                        <select id="isworker" name="isworker" class="selectpicker show-tick form-control"
                                             data-live-search="false">
                                             <option value="是">是</option>
                                             <option value="否">否</option>
                                         </select>
                                     </div>
                                 </div><div class="form-group">
-                                    <label for="gender" class="col-sm-3 control-label">是否使用车辆</label>
+                                    <label for="iscar" class="col-sm-3 control-label">是否使用车辆</label>
                                     <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
+                                        <select id="iscar" name="iscar" class="selectpicker show-tick form-control"
                                             data-live-search="false">
                                             <option value="是">是</option>
                                             <option value="否">否</option>

@@ -18,6 +18,10 @@
             property="oldman"
             column="old_man_id"
             select="com.czp.project.dao.extend.OldManMsgExtendMapper.selectById"></association>
+    <association
+            property="user"
+            column="user_id"
+            select="com.czp.project.dao.BaseUserMapper.selectByPrimaryKey"></association>
 
   </resultMap>
 
