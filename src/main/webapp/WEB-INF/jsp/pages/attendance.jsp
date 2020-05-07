@@ -68,7 +68,7 @@
     //传入点击的用户id，获取该用户信息并放入表单中
     function update(id, a) {
         //将提交表单的URL变为update
-        myUrl = 'qj/edit';
+        myUrl = 'nursworker/updateAttend';
         $("#userID").attr("value", id);
         ;
         if (!id) {
@@ -80,11 +80,11 @@
         //获取当前行tr下的所有td
         var t = temp[0].cells;
         //模态框赋值
-        $('#username').val(t[2].innerHTML);
-        $('#age').val(t[4].innerHTML);
-        $('#gender').val(t[5].innerHTML);
-        $('#telphone').val(t[9].innerHTML);
-        $('#health').val(t[7].innerHTML);
+        $('#userId').val(t[3].innerHTML);
+        $('#reson').val(t[4].innerHTML);
+        $('#time1').val(t[5].innerHTML);
+        $('#time2').val(t[6].innerHTML);
+        $('#backup').val(t[9].innerHTML);
     }
 
     //表单字段验证
@@ -134,7 +134,7 @@
         //username的校验只在添加操作时才需要
         //通过对username的readonly属性验证来判断是添加还是更新
         //
-        if ($('#username').attr("readonly") == undefined) {
+       /*  if ($('#username').attr("readonly") == undefined) {
             $('#username').rules("add", {
                 required: true,
                 rangelength: [5, 20],
@@ -143,7 +143,7 @@
                     rangelength: "用户名长度不符合规范"
                 }
             });
-        }
+        } */
     }
     /*
     点击添加用户时需要做的操作：
@@ -152,7 +152,7 @@
         3.清空表单数据
      */
     function setUrl() {
-        myUrl = 'qj/add';
+        myUrl = 'nursworker/addAttend';
         $('#form-data input').val("");
     }
     //提交表单
@@ -160,7 +160,7 @@
         var formData;
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId,#time_1,#time_2').serializeArray();
+            formData = $('#userId,#reson,#time1,#time2,#state,#backup').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -205,7 +205,7 @@
     <div class="tool">
         <div class="row">
             <br />
-            <form action="oldmsg/getMsgBySource" class="form-horizontal">
+            <form action="nursworker/searchAttend/1" class="form-horizontal">
                 <div class="col-sm-3">
                     <input name="source" type="text" id="search" class="form-control">
                 </div>
@@ -217,7 +217,7 @@
             </div>
             <div class="col-sm-4">
                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
-                        onclick="setUrl()">添加用户</button>
+                        onclick="setUrl()">添加考勤</button>
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                         th:onclick="">批量删除</button>
             </div>
@@ -240,30 +240,36 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${oldqjPages.list}" var="qj">
+        <c:forEach items="${userLeaves.list}" var="userLeave">
             <tr>
-                <td><input type="checkbox" value="${qj.id}"></td>
-                <td>${qj.id}</td>
-                <td>${qj.oldman.oldmanName}</td>
-                <td>${qj.reson}</td>
+                <td><input type="checkbox" value="${userLeave.id}"></td>
+                <td>${userLeave.id}</td>
+                <td>${userLeave.baseUser.userName}</td>
+                <td style="display: none;">${userLeave.baseUser.id}</td>
+                <td>${userLeave.reson}</td>
                 <td>
-                    <fmt:formatDate value="${qj.startTime}" pattern="yyyy年MM月dd日" />
+                    <fmt:formatDate value="${userLeave.startTime}" pattern="yyyy-MM-dd" />
                 </td>
                 <td>
-                    <fmt:formatDate value="${qj.endTime}" pattern="yyyy年MM月dd日" />
+                    <fmt:formatDate value="${userLeave.endTime}" pattern="yyyy-MM-dd" />
                 </td>
-                <td>${qj.state}</td>
-                <td>${qj.userLog}</td>
-                <td>
-                    <fmt:formatDate value="${qj.time}" pattern="yyyy年MM月dd日" />
-                </td>
-                <td>${qj.bakcup}</td>
+                <c:if test="${userLeave.state==0}">
+                 <td>未审核</td>
+                </c:if>
+               <c:if test="${userLeave.state==1}">
+                 <td>审核通过</td>
+                </c:if>
+                <c:if test="${userLeave.state==2}">
+                 <td>审核不通过</td>
+                </c:if>
+                <td>${userLeave.userManager}</td>
+                <td>${userLeave.backup}</td>
                 <td>
                     <!--传入当前用户id-->
                     <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                            data-target="#updateModal" onclick="update(${qj.id},this)">编辑</button>
+                            data-target="#updateModal" onclick="update(${userLeave.id},this)">编辑</button>
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                            data-target="#deleteModal" data-orderId="${qj.id}">删除</button>
+                            data-target="#deleteModal" data-orderId="${userLeave.id}">删除</button>
                 </td>
             </tr>
         </c:forEach>
@@ -273,7 +279,7 @@
     <div class="divcss5-left">
         <table width="461" height="24" cellpadding="0" cellspacing="0">
             <tr>
-                <td width="120">当前为第${oldqjPages.pageNum}页,共${oldqjPages.pages}页</td>
+                <td width="120">当前为第${userLeaves.pageNum}页,共${userLeaves.pages}页</td>
                 <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
@@ -281,18 +287,18 @@
                 </td> -->
                 <td width="256">
                     <c:choose>
-                        <c:when test="${oldqjPages.hasPreviousPage}">
-                            <a href="qj/get/1">首页</a> |
-                            <a href="qj/get/${oldqjPages.pageNum -1 }">上一页</a>
+                        <c:when test="${userLeaves.hasPreviousPage}">
+                            <a href="nursworker/attendance/1">首页</a> |
+                            <a href="nursworker/attendance/${userLeaves.pageNum -1 }">上一页</a>
                         </c:when>
                         <c:otherwise>
                         </c:otherwise>
                     </c:choose>
 
                     <c:choose>
-                        <c:when test="${oldqjPages.hasNextPage}">
-                            <a href="qj/get/${oldqjPages.pageNum + 1 }">下一页</a> |
-                            <a href="qj/get/${oldqjPages.pages }">尾页</a>
+                        <c:when test="${userLeaves.hasNextPage}">
+                            <a href="nursworker/attendance/${userLeaves.pageNum + 1 }">下一页</a> |
+                            <a href="nursworker/attendance/${userLeaves.pages }">尾页</a>
                         </c:when>
                         <c:otherwise>
                         </c:otherwise>
@@ -319,18 +325,18 @@
                     <div class="modal-body">
                         <form action="" class="form-horizontal">
                             <!--userid为隐藏的input，便于update时的传值-->
-                            <input type="text" id="userID" name="userLog" value="${login.userName}" hidden>
+                            <input type="text" id="userID" name="id" hidden>
                             <div class="form-group">
-                                <label for="oldNumb" class="col-sm-3 control-label">护工工号</label>
+                                <label for="userName" class="col-sm-3 control-label">护工编号</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="oldNumb" name="oldNumb"
-                                           placeholder="编号为两位字母六位数字">
+                                    <input type="text" class="form-control" id="userId" name="userId"
+                                           placeholder="编号为id">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="age" class="col-sm-3 control-label">原因</label>
+                                <label for="reson" class="col-sm-3 control-label">原因</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="age" name="age"
+                                    <input type="text" class="form-control" id="reson" name="reson"
                                            placeholder="请输入请假原因">
                                 </div>
                             </div>
@@ -339,7 +345,7 @@
                                 <div class="col-sm-9">
                                     <div class="myrow">
                                         <div class='input-group date' style="width: 14em;" id='datetimepicker1'>
-                                            <input id="time_1" name="time_1" type='text'
+                                            <input id="time1" name="time1" type='text'
                                                    class="timeInput form-control" />
                                             <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
@@ -348,7 +354,7 @@
                                         <div class="dates">
                                         </div>
                                         <div class='input-group date' style="width: 14em;" id='datetimepicker2'>
-                                            <input id="time_2" name="time_2" type='text'
+                                            <input id="time2" name="time2" type='text'
                                                    class="timeInput form-control" />
                                             <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
@@ -360,17 +366,18 @@
                             <div class="form-group">
                                 <label for="health" class="col-sm-3 control-label">状态</label>
                                 <div class="col-sm-9">
-                                    <select id="gender" name="gender" class="selectpicker show-tick form-control"
+                                    <select id="state" name="state" class="selectpicker show-tick form-control"
                                             data-live-search="false">
-                                        <option value="1">未审核</option>
-                                        <option value="2">已审核</option>
+                                        <option value="0">未审核</option>
+                                        <option value="1">审核通过</option>
+                                         <option value="2">审核不通过</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="telphone" class="col-sm-3 control-label">备注</label>
+                                <label for="backup" class="col-sm-3 control-label">备注</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="telphone" name="telphone"
+                                    <input type="text" class="form-control" id="backup" name="backup"
                                            placeholder="请输入备注">
                                 </div>
                             </div>
@@ -404,7 +411,7 @@
                     </div>
                     <div class="modal-footer">
                         <!--  onclick="deletebyId()" -->
-                        <button id="tijiao" type="input" class="btn btn-danger">确定</button>
+                        <button id="tijiao" type="button" class="btn btn-danger">确定</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                   所以把按钮类型改为input，再手动调用封装好的验证函数-->
@@ -439,19 +446,19 @@
                 idval = $(e.relatedTarget).data('orderid');
             }
             //发送请求
-            var myUrl = '<%=basePath%>qj/remove?id=' + idval;
-            var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
-            httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
-            httpRequest.send();//第三步：发送请求  将请求参数写在URL中
-            //结果处理
-            httpRequest.onreadystatechange = function () {
-                if (httpRequest.readyState == 4 && httpRequest.status == 200) {
-                    var str = httpRequest.responseText;
-                    alert(str);
-                }
-            };
-        });
-    })
+            var myUrl = 'nursworker/removeAttendance?id=' + idval;
+           $.ajax({
+				type : "GET",
+				url : myUrl,
+				data : "null",
+				dataType : "text",
+				success : function(obj) {
+					window.location.href="nursworker/attendance/1";
+				}
+			}); 
+          
+       });
+   })
     // 上传图片
     $(".updatepanel").height($(".panel-info").height());
     // 5月1号被cc注释

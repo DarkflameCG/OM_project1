@@ -299,4 +299,12 @@ public class UserLeave {
     public void setBackup(String backup) {
         this.backup = backup == null ? null : backup.trim();
     }
+
+	@Override
+	public String toString() {
+		return "UserLeave [id=" + id + ", startTime=" + startTime + ", endTime=" + endTime + ", state=" + state
+				+ ", reson=" + reson + ", time=" + time + ", userId=" + userId + ", userManager=" + userManager
+				+ ", backup=" + backup + "]";
+	}
+    
 }

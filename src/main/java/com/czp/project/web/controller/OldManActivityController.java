@@ -14,16 +14,15 @@ import com.github.pagehelper.PageInfo;
 @Controller
 @RequestMapping("/activity")
 public class OldManActivityController {
-@Autowired
-private OldManRuZhuService oldManRuZhuService;
+	@Autowired
+	private OldManRuZhuService oldManRuZhuService;
 
-@RequestMapping("/ruzhu/{page}")
-public String getBaseUser(HttpSession session,
-						  @PathVariable String page) throws NumberFormatException, Exception {
-   
- //分页入住信息
-	PageInfo<OldManRuZhuEX> info = oldManRuZhuService.findAllOldManRuZhuEX(Integer.parseInt(page), 2);
-  session.setAttribute("ruzhus", info); 
-	return "pages/oldManRuzhu";
-}
+	@RequestMapping("/ruzhu/{page}")
+	public String getBaseUser(HttpSession session, @PathVariable String page) throws NumberFormatException, Exception {
+
+		// 分页入住信息
+		PageInfo<OldManRuZhuEX> info = oldManRuZhuService.findAllOldManRuZhuEX(Integer.parseInt(page), 2);
+		session.setAttribute("ruzhus", info);
+		return "pages/oldManRuzhu";
+	}
 }
