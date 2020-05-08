@@ -253,7 +253,7 @@
                 </form>
                 <div style="float: right;margin-right: 15px;">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
-                        onclick="setUrl()">添加用户</button>
+                        onclick="setUrl()">添加充值记录</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                         th:onclick="">批量删除</button>
                 </div>
@@ -352,53 +352,23 @@
                                 <!--userid为隐藏的input，便于update时的传值-->
                                 <input type="text" id="userID" name="id" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">用户名</label>
+                                    <label for="username" class="col-sm-3 control-label">姓名</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="username" name="oldmanName"
                                             placeholder="用户名长度在5-18字符之间">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">年龄</label>
+                                    <label for="age" class="col-sm-3 control-label">卡号</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="gender" class="col-sm-3 control-label">性别</label>
-                                    <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
-                                            data-live-search="false">
-                                            <option value="男">男</option>
-                                            <option value="女">女</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="health" class="col-sm-3 control-label">健康状况</label>
+                                    <label for="health" class="col-sm-3 control-label">余额</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="health" name="health"
                                             placeholder="请输入老人的健康状况">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="telphone" class="col-sm-3 control-label">手机号</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="telphone" name="telphone"
-                                            placeholder="请输入手机号">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">照片</label>
-                                    <div class="col-sm-9">
-                                        <label for="file">
-                                            <div class="fileBox">
-                                                <div class="warp">
-                                                    <input type="file" id="file" />
-                                                </div>
-                                                <img src="" />
-                                            </div>
-                                        </label>
                                     </div>
                                 </div>
                             </form>

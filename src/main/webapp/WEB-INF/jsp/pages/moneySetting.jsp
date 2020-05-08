@@ -82,34 +82,26 @@
             onsubmit: true,      //提交时验证（有效）
             onkeyup: false,
             rules: {
-                password: {
+                indexName: {
                     required: true,
-                    rangelength: [5, 20]
+                    rangelength: [2, 10]
                 },
-                phone: {
+                amountOfMoney: {
                     required: true,
                     digits: true,
-                    rangelength: [11, 11]
+                    rangelength: [1, 5]
                 },
-                email: {
-                    required: true,
-                    email: true
-                }
             },
             messages: {
-                password: {
-                    required: "请填写密码",
-                    rangelength: "密码长度不符合规范"
+                indexName: {
+                    required: "请填写项目名",
+                    rangelength: "项目名长度不符合规范"
                 },
-                phone: {
-                    required: "请填写手机号",
-                    digits: "请填写正确的手机号",
-                    rangelength: "请填写正确的手机号"
+                amountOfMoney: {
+                    required: "请填写项目费用",
+                    digits: "请填写正确的项目费用",
+                    rangelength: "请填写正确的项目费用"
                 },
-                email: {
-                    required: "请填写邮箱",
-                    email: "请填写正确的邮箱"
-                }
             },
             submitHandler: function (form) {
                 checkForm();
@@ -341,14 +333,14 @@
                                         <label for="indexName" class="col-sm-3 control-label">项目</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="indexName" name="indexName"
-                                                placeholder="输入项目名">
+                                                placeholder="项目名长度在2-10字符之间">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="age" class="col-sm-3 control-label">费用</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="amountOfMoney"
-                                                name="amountOfMoney" placeholder="请输入费用">
+                                                name="amountOfMoney" placeholder="费用必须为正整数">
                                         </div>
                                     </div>
                                 </form>
