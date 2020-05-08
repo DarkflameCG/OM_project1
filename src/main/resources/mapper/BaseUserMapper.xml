@@ -85,8 +85,9 @@
     </where>
   </sql>
   <resultMap type="com.czp.project.common.bean.BasePower" id="PowerResult"> 
-		  <id property="id" column="id" /> 
+		  <id property="id" column="pid" /> 
 		  <result property="power" column="power" /> 
+		  <result property="pDesc" column="p_desc" /> 
 		</resultMap>
 		<resultMap type="com.czp.project.common.bean.BaseUser" id="BaseUserResult"> 
 		  <id property="id" column="id" /> 
@@ -107,7 +108,7 @@
     id, user_img, user_name, password, salary, work_time, title, role_id
   </sql>
   <select id="findAll" parameterType="int" resultMap="BaseUserResult"> 
-			select b.id, user_img, user_name, password,salary,work_time,title,p.id, p.power
+			select b.id, user_img, user_name, password,salary,work_time,title,p.id pid, p.power
 			from base_user_info b left outer join power p on  
 			b.role_id=p.id order by b.id
 			 limit #{param1},#{param2}
@@ -124,14 +125,14 @@
 	</select>
 	
 <select id="selectByName" parameterType="java.lang.String" resultMap="BaseUserResult"> 
-			select b.id, user_img, user_name, password,salary,work_time,title,p.id, p.power
+			select b.id, user_img, user_name, password,salary,work_time,title,p.id pid, p.power
 			from base_user_info b left outer join power p on  
 			b.role_id=p.id 
 			 where user_name=#{name}
 		</select> 
 <select id="selectLogin" parameterType="com.czp.project.common.bean.BaseUser" resultMap="BaseUserResult"> 
-			select b.id, user_img, user_name, password,salary,work_time,title,p.id, p.power
-			from base_user_info b left outer join power p on  
+			select b.id, user_img, user_name, password,salary,work_time,title,p.id pid, p.power,p.p_desc
+			 from base_user_info b left outer join power p on  
 			b.role_id=p.id 
 			 where b.user_name=#{userName} and b.password=#{password}
 		</select> 
@@ -155,7 +156,7 @@
     </if>
   </select>
   <select id="findRoleById" parameterType="int" resultType="com.czp.project.common.bean.BasePower"> 
-			select * from power where id=#{id} 
+			select * from power where id=#{role_id} 
 		</select> 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--

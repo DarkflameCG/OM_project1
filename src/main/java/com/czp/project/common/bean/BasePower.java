@@ -99,4 +99,10 @@ public class BasePower {
     public void setpDesc(String pDesc) {
         this.pDesc = pDesc == null ? null : pDesc.trim();
     }
+
+	@Override
+	public String toString() {
+		return "BasePower [id=" + id + ", power=" + power + ", pDesc=" + pDesc + "]";
+	}
+    
 }

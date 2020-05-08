@@ -53,7 +53,7 @@
     //传入点击的用户id，获取该用户信息并放入表单中
     function update(id, a) {
         //将提交表单的URL变为update
-        myUrl = 'oldmsg/edit';
+        myUrl = 'index/updateCost';
         $("#userID").attr("value", id);
         ;
         if (!id) {
@@ -65,11 +65,9 @@
         //获取当前行tr下的所有td
         var t = temp[0].cells;
         //模态框赋值
-        $('#username').val(t[2].innerHTML);
-        $('#age').val(t[4].innerHTML);
-        $('#gender').val(t[5].innerHTML);
-        $('#telphone').val(t[9].innerHTML);
-        $('#health').val(t[7].innerHTML);
+        $('#userid').val(t[1].innerHTML);
+        $('#oldManName').val(t[2].innerHTML);
+        $('#payType').val(t[5].innerHTML);
         //给姓名框设置只读
         //$('#username').attr("readonly", "readonly");
         //下面是使用ajax动态的放数据
@@ -150,33 +148,18 @@
         //username的校验只在添加操作时才需要
         //通过对username的readonly属性验证来判断是添加还是更新
         //
-        if ($('#username').attr("readonly") == undefined) {
-            $('#username').rules("add", {
+       /*  if ($('#username').attr("readonly") == undefined) {
+             $('#username').rules("add", {
                 required: true,
                 rangelength: [5, 20],
-                /* remote: {
-                    type: "POST",
-                    url: "/checkUsername",
-                    data: {
-                        username: function () {
-                            return $("#username").val();
-                        }
-                    },
-                    dataType: "html",
-                    dataFilter: function (data) {
-                        if (data == "true")
-                            return true;
-                        else
-                            return false;
-                    }
-                }, */
+              
                 messages: {
                     required: "请填写用户名",
-                    /*  remote: "用户名已存在", */
+                      remote: "用户名已存在",
                     rangelength: "用户名长度不符合规范"
                 }
             });
-        }
+        } */
     }
     /*
     点击添加用户时需要做的操作：
@@ -185,8 +168,7 @@
         3.清空表单数据
      */
     function setUrl() {
-        myUrl = 'oldmsg/addOldmanMsg';
-        $('#username').removeAttr("readonly");
+        myUrl = 'index/addCost';
         $('#form-data input').val("");
     }
     //提交表单
@@ -198,7 +180,7 @@
         // ！！！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId').serializeArray();
+            formData = $('#userid,#oldManName,#indexId,#payType').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -243,9 +225,9 @@
         <div class="tool">
             <div class="row">
                 <br />
-                <form action="oldmsg/getMsgBySource" class="form-horizontal">
+                <form action="index/searchCost/1" class="form-horizontal">
                     <div class="col-sm-3">
-                        <input name="source" type="text" id="search" class="form-control">
+                        <input name="source" type="text" id="search" class="form-control" placeholder="请输入老人全名">
                     </div>
                     <div class="col-sm-1">
                         <button type="submit" class="btn btn-primary">搜索</button>
@@ -253,7 +235,7 @@
                 </form>
                 <div style="float: right;margin-right: 15px;">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
-                        onclick="setUrl()">添加用户</button>
+                        onclick="setUrl()">添加缴费</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                         th:onclick="">批量删除</button>
                 </div>
@@ -266,41 +248,33 @@
                     <th></th>
                     <th>序号</th>
                     <th>姓名</th>
-                    <th>时间</th>
                     <th>项目</th>
                     <th>金额</th>
                     <th>支付方式</th>
                     <th>支付时间</th>
                     <th>操作人</th>
-                    <th>备注</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${oldPages.list}" var="old">
-                    <tr th:each="user : ${userlist}">
-                        <td><input type="checkbox" value="${old.id}"></td>
-                        <td th:text="${user.userID}">${old.id}</td>
-                        <td th:text="${user.username}">${old.oldmanName}</td>
-                        <td th:text="${user.email}">
-                            <%-- ${old.checkintime} --%>
-                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
+                <c:forEach items="${costs.list}" var="cost">
+                    <tr>
+                        <td><input type="checkbox" value="${cost.id}"></td>
+                        <td>${cost.id}</td>
+                        <td>${cost.oldMan.oldmanName}</td>
+                        <td>${cost.charges.indexName}</td>
+                        <td>${cost.charges.amountOfMoney}</td>
+                         <td>${cost.payType}</td>
+                         <td>
+                            <fmt:formatDate value="${cost.payTime}" pattern="yyyy-MM-dd" />
                         </td>
-                        <td th:text="${user.phone}">${old.age}</td>
-                        <td th:text="${user.email}">${old.gender}</td>
-                        <td th:text="${user.email}">${old.health}</td>
-                        <td th:text="${user.email}">
-                            <%-- ${old.checkintime} --%>
-                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
-                        </td>
-                        <td th:text="${user.email}">${old.familyMembersId}</td>
-                        <td th:text="${user.email}">${old.telphone}</td>
+                        <td>${cost.baseUser.userName}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
+                                data-target="#updateModal" onclick="update(${cost.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                data-target="#deleteModal" data-orderId="${old.id}">删除</button>
+                                data-target="#deleteModal" data-orderId="${cost.id}">删除</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -310,7 +284,7 @@
         <div class="divcss5-left">
             <table width="461" height="24" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td width="120">当前为第${oldPages.pageNum}页,共${oldPages.pages}页</td>
+                    <td width="120">当前为第${costs.pageNum}页,共${costs.pages}页</td>
                     <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
@@ -318,18 +292,18 @@
                 </td> -->
                     <td width="256">
                         <c:choose>
-                            <c:when test="${oldPages.hasPreviousPage}">
-                                <a href="oldmsg/getmsg/1">首页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pageNum -1 }">上一页</a>
+                            <c:when test="${costs.hasPreviousPage}">
+                                <a href="index/cost/1">首页</a> |
+                                <a href="index/cost/${costs.pageNum -1 }">上一页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
                         </c:choose>
 
                         <c:choose>
-                            <c:when test="${oldPages.hasNextPage}">
-                                <a href="oldmsg/getmsg/${oldPages.pageNum + 1 }">下一页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pages }">尾页</a>
+                            <c:when test="${costs.hasNextPage}">
+                                <a href="index/cost/${costs.pageNum + 1 }">下一页</a> |
+                                <a href="index/cost/${costs.pages }">尾页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
@@ -356,55 +330,37 @@
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="id" hidden>
+                                <input type="text" id="userid" name="userid" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">姓名</label>
+                                    <label for="oldManName" class="col-sm-3 control-label">姓名</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="username" name="oldmanName"
+                                        <input type="text" class="form-control" id="oldManName" name="oldManName"
                                             placeholder="用户名长度在5-18字符之间">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">时间</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入时间">
-                                    </div>
-                                </div>
+                               
                                 <div class="form-group">
                                     <label for="gender" class="col-sm-3 control-label">项目</label>
                                     <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
+                                         <select id="indexId" name="indexId" class="selectpicker show-tick form-control"
+                                        data-live-search="false">
+                                        <c:forEach items="${list}" var="charges">
+                                            <option value="${charges.id }">${charges.indexName }</option>
+                                        </c:forEach>
+                                    </select>
+                                    </div>
+                                </div>
+                               
+                                <div class="form-group">
+                                    <label for="payType" class="col-sm-3 control-label">支付方式</label>
+                                    <div class="col-sm-9">
+                                         <select id="payType" name="payType" class="selectpicker show-tick form-control"
                                             data-live-search="false">
-                                            <!-- 需要查询收费项目进行遍历 -->
-                                            <option value="男">男</option>
-                                            <option value="女">女</option>
+                                            <option value="微信">微信</option>
+                                            <option value="支付宝">支付宝</option>
+                                            <option value="现金">现金</option>
+                                            <option value="银行卡">银行卡</option>
                                         </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="health" class="col-sm-3 control-label">金额</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="health" name="health"
-                                            placeholder="请输入金额">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="telphone" class="col-sm-3 control-label">支付方式</label>
-                                    <div class="col-sm-9">
-                                         <select id="gender" name="gender" class="selectpicker show-tick form-control"
-                                            data-live-search="false">
-                                            <option value="1">微信</option>
-                                            <option value="2">支付宝</option>
-                                            <option value="3">现金</option>
-                                            <option value="4">银行卡</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="telphone" class="col-sm-3 control-label">支付时间</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="telphone" name="telphone"
-                                            placeholder="请输入支付时间">
                                     </div>
                                 </div>
                             </form>
@@ -437,7 +393,7 @@
                         </div>
                         <div class="modal-footer">
                             <!--  onclick="deletebyId()" -->
-                            <button id="tijiao" type="input" class="btn btn-danger">确定</button>
+                            <button id="tijiao" type="button" class="btn btn-danger">确定</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                             <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                       所以把按钮类型改为input，再手动调用封装好的验证函数-->
@@ -471,40 +427,21 @@
                 //根据id删除
                 idval = $(e.relatedTarget).data('orderid');
             }
-            //发送请求
-            var myUrl = 'http://localhost:2333/oldmsg/remove?id=' + idval;
-            var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
-            httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
-            httpRequest.send();//第三步：发送请求  将请求参数写在URL中
-            //结果处理
-            httpRequest.onreadystatechange = function () {
-                if (httpRequest.readyState == 4 && httpRequest.status == 200) {
-                    var str = httpRequest.responseText;
-                    alert(str);
+          //发送请求
+            var myUrl = 'index/removeCost?id=' + idval;
+            $.ajax({
+                type: "GET",
+                url: myUrl,
+                data: "null",
+                dataType: "text",
+                success: function (obj) {
+                    window.location.href = "index/cost/1";
                 }
-            };
+            });
+
         });
     })
-    // 上传图片
-    var file = document.getElementById('file');
-    var image = document.querySelector("img");
-    file.onchange = function () {
-        var fileData = this.files[0];//获取到一个FileList对象中的第一个文件( File 对象),是我们上传的文件
-        var pettern = /^image/;
-        console.info(fileData.type)
-        if (!pettern.test(fileData.type)) {
-            alert("图片格式不正确");
-            return;
-        }
-        var reader = new FileReader();
-        reader.readAsDataURL(fileData);//异步读取文件内容，结果用data:url的字符串形式表示
-        /*当读取操作成功完成时调用*/
-        reader.onload = function (e) {
-            console.log(e); //查看对象
-            console.log(this.result);//要的数据 这里的this指向FileReader（）对象的实例reader
-            // image.setAttribute("src", this.result)
-        }
-    }
+    
 </script>
 
 </html>

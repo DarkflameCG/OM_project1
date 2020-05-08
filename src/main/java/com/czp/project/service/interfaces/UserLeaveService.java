@@ -26,5 +26,10 @@ public interface UserLeaveService {
 	 * @param index
 	 */
 	public void updateAttend(UserLeave userLeave);
+	/**
+	 * 通过或拒绝考勤
+	 * @param index
+	 */
+	public void updateAttend2(int state,int id);
 	public PageInfo<UserLeaveEX> findAllByName(int currpage, int row, String source);
 }

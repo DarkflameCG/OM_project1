@@ -47,8 +47,8 @@ public class IndexImpl implements IndexService{
 
 	@Override
 	public List<Charges> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Charges> list = chargesMapper.selectByExample(new ChargesExample());
+		return list;
 	}
 
 	@Override

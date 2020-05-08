@@ -2,7 +2,9 @@ package com.czp.project.service.interfaces;
 
 import java.util.List;
 
+import com.czp.project.common.bean.BaseUser;
 import com.czp.project.common.bean.Cost;
+import com.czp.project.common.bean.extend.CostEX;
 import com.github.pagehelper.PageInfo;
 
 /**
@@ -16,6 +18,7 @@ public interface CostService {
 	 * @param cost
 	 */
 	public void addCost(Cost cost);
+	
 	/**
 	 * 通过id删除缴费记录
 	 * @param id
@@ -25,7 +28,7 @@ public interface CostService {
 	 * 批量删除缴费记录
 	 * @param ids
 	 */
-	public void removeCostByIds(String ids);
+	public void removeCostByIds(String[] ids);
 	/**
 	 * 修改缴费记录
 	 * @param cost
@@ -42,5 +45,6 @@ public interface CostService {
 	 * @param row
 	 * @return
 	 */
-	public PageInfo<Cost> findAllForPage(int currpage , int row);
+	public PageInfo<CostEX> findAllForPage(int currpage , int row);
+	public PageInfo<CostEX> findAllByName(int currpage, int row, String source);
 }
