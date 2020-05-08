@@ -106,34 +106,24 @@
             onsubmit: true,      //提交时验证（有效）
             onkeyup: false,
             rules: {
-                password: {
+                power: {
                     required: true,
-                    rangelength: [5, 20]
+                    rangelength: [2, 10]
                 },
-                phone: {
+                pDesc: {
                     required: true,
-                    digits: true,
-                    rangelength: [11, 11]
+                    rangelength: [2, 10]
                 },
-                email: {
-                    required: true,
-                    email: true
-                }
             },
             messages: {
-                password: {
-                    required: "请填写密码",
-                    rangelength: "密码长度不符合规范"
+                power: {
+                    required: "请填写角色名称",
+                    rangelength: "角色名称长度不符合规范"
                 },
-                phone: {
-                    required: "请填写手机号",
-                    digits: "请填写正确的手机号",
-                    rangelength: "请填写正确的手机号"
+                pDesc: {
+                    required: "请填写权限描述",
+                    rangelength: "权限描述长度不符合规范"
                 },
-                email: {
-                    required: "请填写邮箱",
-                    email: "请填写正确的邮箱"
-                }
             },
             submitHandler: function (form) {
                 checkForm();
@@ -320,7 +310,7 @@
                                 <label for="pDesc" class="col-sm-3 control-label">权限描述</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="pDesc" name="pDesc"
-                                        placeholder="请输入权限描述">
+                                        placeholder="权限描述长度在2-10字符之间">
                                 </div>
                             </div>
                         </form>
