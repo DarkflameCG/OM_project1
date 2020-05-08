@@ -97,6 +97,7 @@ public class UserController {
 				return "login";
 			}
 			session.setAttribute("login", login);
+			System.out.println(login);
 			session.setAttribute("powers", powers);
 			return "index";
 		} catch (Exception e) {

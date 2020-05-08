@@ -265,15 +265,17 @@
                         <td>${userLeave.backup}</td>
                         <td>
                             <!--传入当前用户id-->
+                            <c:if test="${userLeave.state==0}">
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                 data-target="#updateModal" onclick="update(${userLeave.id},this)">编辑</button>
+                                </c:if>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${userLeave.id}">删除</button>
                             <c:if test="${userLeave.state==0}">
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                    data-target="#updateModal" onclick="update(${userLeave.id},this)">通过</button>
+                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                    data-target="#okModal" data-orderId="${userLeave.id}">通过</button>
                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                    data-target="#deleteModal" data-orderId="${userLeave.id}">拒绝</button>
+                                    data-target="#noOkModal" data-orderId="${userLeave.id}">拒绝</button>
                             </c:if>
                         </td>
                     </tr>
@@ -427,9 +429,103 @@
             </div>
         </form>
         <!-- 删除模态框结束 -->
+        <!--通过模态框-->
+        <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
+            <div class="modal fade bs-example-modal-sm" id="okModal" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="">
+                                警告：确认通过？
+                            </h4>
+                        </div>
+                        <div class="modal-footer">
+                            <!--  onclick="deletebyId()" -->
+                            <button id="tongguo" type="button" class="btn btn-danger">确定</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
+                  所以把按钮类型改为input，再手动调用封装好的验证函数-->
+                            <span id="tip"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- 通过模态框结束 -->
+         <!--拒绝模态框-->
+        <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
+            <div class="modal fade bs-example-modal-sm" id="noOkModal" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="">
+                                警告：确认通过？
+                            </h4>
+                        </div>
+                        <div class="modal-footer">
+                            <!--  onclick="deletebyId()" -->
+                            <button id="jujue" type="button" class="btn btn-danger">确定</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
+                  所以把按钮类型改为input，再手动调用封装好的验证函数-->
+                            <span id="tip"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- 拒绝模态框结束 -->
     </div>
 </body>
 <script type="text/javascript">
+$("#okModal").on("shown.bs.modal", function (e) {
+    $("#tongguo").on("click", function () {
+        //定义url
+        var idval = "";
+            idval = $(e.relatedTarget).data('orderid');
+       
+        //发送请求
+        var myUrl = 'nursworker/updateAttend2?state=1&id=' + idval;
+        $.ajax({
+            type: "GET",
+            url: myUrl,
+            data: "null",
+            dataType: "text",
+            success: function (obj) {
+                window.location.href = "nursworker/attendance/1";
+            }
+        });
+
+    });
+})
+$("#noOkModal").on("shown.bs.modal", function (e) {
+    $("#jujue").on("click", function () {
+        //定义url
+        var idval = "";
+            idval = $(e.relatedTarget).data('orderid');
+       
+        //发送请求
+        var myUrl = 'nursworker/updateAttend2?state=2&id=' + idval;
+        $.ajax({
+            type: "GET",
+            url: myUrl,
+            data: "null",
+            dataType: "text",
+            success: function (obj) {
+                window.location.href = "nursworker/attendance/1";
+            }
+        });
+
+    });
+})
     //删除
     $("#deleteModal").on("shown.bs.modal", function (e) {
         $("#tijiao").on("click", function () {

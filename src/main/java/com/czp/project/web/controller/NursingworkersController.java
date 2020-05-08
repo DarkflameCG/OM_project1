@@ -19,6 +19,7 @@ import com.czp.project.common.bean.BaseUser;
 import com.czp.project.common.bean.UserLeave;
 import com.czp.project.common.bean.extend.UserLeaveEX;
 import com.czp.project.service.interfaces.BaseUserService;
+import com.czp.project.service.interfaces.CostService;
 import com.czp.project.service.interfaces.NursWorkService;
 import com.czp.project.service.interfaces.UserLeaveService;
 import com.czp.project.utils.DateAndStringUtil;
@@ -34,6 +35,7 @@ public class NursingworkersController {
 	private BaseUserService baseUserService;
 	@Autowired
 	private UserLeaveService userLeaveServiceImpl;
+	
 	//获取角色和员工信息
 		@RequestMapping("/selectnursworker/{page}")
 	    public String selectPower(HttpSession session,
@@ -169,4 +171,17 @@ public class NursingworkersController {
 				   session.setAttribute("userLeaves", info); 
 				   return "pages/attendance";
 				}
+			   //拒绝或通过考勤
+			   @RequestMapping("/updateAttend2")
+			   @ResponseBody
+		       public String updateAttend2(HttpServletRequest req,HttpSession session,int state,int id) {
+				   try {
+					   userLeaveServiceImpl.updateAttend2(state,id);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+						
+		     	  return "ok";
+		       }    
 }

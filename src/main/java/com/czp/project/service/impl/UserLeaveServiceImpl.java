@@ -57,5 +57,10 @@ private UserLeaveMapper userLeaveMapper;
 		PageInfo<UserLeaveEX> pi = new PageInfo<UserLeaveEX>(list);
 		return pi;
 	}
+	@Override
+	public void updateAttend2(int state,int id) {
+		userLeaveMapper.updateByPrimaryKey2(state,id);
+		
+	}
 
 }

@@ -93,4 +93,5 @@ public interface UserLeaveMapper {
      * @mbg.generated Thu May 07 18:51:13 CST 2020
      */
     int updateByPrimaryKey(UserLeave record);
+    int updateByPrimaryKey2(@Param("state")int state,@Param("id")int id);
 }

@@ -233,4 +233,11 @@ public class Cost {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
+
+	@Override
+	public String toString() {
+		return "Cost [id=" + id + ", money=" + money + ", payType=" + payType + ", indexId=" + indexId + ", oldmanId="
+				+ oldmanId + ", payTime=" + payTime + ", userId=" + userId + "]";
+	}
+    
 }

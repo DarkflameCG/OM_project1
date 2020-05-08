@@ -42,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                                     style="border-radius: 50%;width: 200px;height: 200px; margin-bottom: 7px;">
                                                 <div class="fileBox">
                                                     <div class="warp">
-                                                        <input type="file" id="file" />
+                                                        <input type="file" id="image" name="image" />
                                                     </div>
                                                     <img src="" />
                                                 </div>
@@ -68,24 +68,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>手机号</label>
-                                                <input class="form-control" name="password" type="password"
-                                                    value="${login.password }" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>邮箱</label>
-                                                <input class="form-control" name="password" type="password"
-                                                    value="${login.password }" />
-                                            </div>
-                                        </div>
-                                    </div>
                                     
                                     <div class="row">
                                         <div class="col-lg-12">
@@ -93,27 +75,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <div class="col-lg-3 col-xl-3 border-left">
-                                    <b>Latest activity</b>: Dec 06 2017, 22:23
-                                    <br />
-                                    <b>Register date: </b>: Nov 24 2017, 20:32
-                                    <br />
-                                    <b>Register IP: </b>: 123.456.789
-                                    <div class="m-b-10"></div>
-                                    <div id="avatar_image">
-                                        <img alt="image" style="max-width:100px; height:auto;"
-                                            src="assets/images/avatars/admin.png" />
-                                        <br />
-                                        <i class="fa fa-trash-o fa-fw"></i> <a class="delete_image" href="#">Remove
-                                            avatar</a>
-                                    </div>
-                                    <div id="image_deleted_text"></div>
-                                    <div class="m-b-10"></div>
-                                    <div class="form-group">
-                                        <label>Change avatar</label>
-                                        <input type="file" name="image" class="form-control">
-                                    </div>
-                                </div> -->
                             </div>
                         </form>
                     </div>
