@@ -34,6 +34,8 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
     <!-- 时间选择器 -->
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
+    rel="stylesheet">
     <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
@@ -213,9 +215,7 @@
                         <button type="submit" class="btn btn-primary">搜索</button>
                     </div>
                 </form>
-                <div class="col-sm-4">
-                </div>
-                <div class="col-sm-4">
+                <div style="float: right;margin-right: 15px;">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加用户</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
@@ -265,6 +265,11 @@
                                 data-target="#updateModal" onclick="update(${qj.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${qj.id}">删除</button>
+                                <c:set var="flag" scope="session" value="男" />
+                            <c:if test="${flag eq '男'}">
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                    data-target="#updateModal" onclick="">按钮</button>
+                            </c:if>
                         </td>
                     </tr>
                 </c:forEach>
@@ -491,7 +496,7 @@
         });
         //动态设置最大值
         picker2.on('dp.change', function (e) {
-            picker1.data('DateTimePicker').maxDate(e.date);
+            // picker1.data('DateTimePicker').maxDate(e.date);
         });
     });
     //  日期选择框相关代码结束

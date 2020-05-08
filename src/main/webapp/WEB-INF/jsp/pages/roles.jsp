@@ -220,7 +220,7 @@
                         <button type="submit" class="btn btn-primary">搜索</button>
                     </div>
                 </form>
-						<div class="btns" style="float: right;">
+						<div class="btns" style="float: right;margin-right: 15px;">
                      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加角色</button>
 							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">批量删除</button>

@@ -251,9 +251,7 @@
                         <button type="submit" class="btn btn-primary">搜索</button>
                     </div>
                 </form>
-                <div class="col-sm-4">
-                </div>
-                <div class="col-sm-4">
+                <div style="float: right;margin-right: 15px;">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加用户</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
