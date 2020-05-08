@@ -34,11 +34,11 @@
 
 
     <style>
-        .divcss5-left {
+        /* .divcss5-left {
             float: right;
             width: 350px;
             height: 50px;
-        }
+        } */
 
         .warp {
             display: inline-block;
@@ -240,9 +240,10 @@
 </script>
 
 <body>
-    <div class="ownersettings" style="padding-top: 1em">
-        <div class="table_content">
-            <div style="position: relative;bottom: .5em;">
+    <div class="container-fluid">
+        <div class="tool">
+            <div class="row">
+                <br />
                 <form action="nursworker/search/1" class="form-horizontal">
                     <div class="col-sm-3">
                         <input name="source" type="text" id="search" class="form-control">
@@ -252,83 +253,80 @@
                     </div>
                 </form>
                 <div class="btns" style="float: right;margin-right: 15px;">
-
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加护工</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal"
                         data-target="#deleteModal">批量删除</button>
                 </div>
             </div>
-            <br>
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>工号</th>
-                        <th>姓名</th>
-                        <th>密码</th>
-                        <th>照片</th>
-                        <th>工资</th>
-                        <th>入职时间</th>
-                        <th>角色</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach items="${users.list}" var="user">
-                        <tr>
-                            <td><input type="checkbox" value="${user.id}"></td>
-                            <td>${user.id}</td>
-                            <td>${user.userName}</td>
-                            <td>${user.password}</td>
-                            <td><img style="width: 50px;" src="${user.userImg}" alt="没有图片"></td>
-                            <td>${user.salary}</td>
-                            <td>${user.workTime}</td>
-                            <td>${user.role.power}</td>
-                            <td>
-                                <!--传入当前用户id-->
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                    data-target="#updateModal" onclick="update(${user.id},this)">编辑</button>
-                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                    data-target="#deleteModal" data-orderId="${user.id}">删除</button>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
         </div>
-        <!-- 分页开始 -->
-        <div class="divcss5-left">
-            <table width="461" height="24" cellpadding="0" cellspacing="0">
+        <br>
+        <table class="table table-bordered table-hover">
+            <thead>
                 <tr>
-                    <td width="120">当前为第${users.pageNum}页,共${users.pages}页</td>
-                    <!-- <td width="199">
+                    <th></th>
+                    <th>工号</th>
+                    <th>姓名</th>
+                    <th>密码</th>
+                    <th>照片</th>
+                    <th>工资</th>
+                    <th>入职时间</th>
+                    <th>角色</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${users.list}" var="user">
+                    <tr>
+                        <td><input type="checkbox" value="${user.id}"></td>
+                        <td>${user.id}</td>
+                        <td>${user.userName}</td>
+                        <td>${user.password}</td>
+                        <td><img style="width: 50px;" src="${user.userImg}" alt="没有图片"></td>
+                        <td>${user.salary}</td>
+                        <td>${user.workTime}</td>
+                        <td>${user.role.power}</td>
+                        <td>
+
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                data-target="#updateModal" onclick="update(${user.id},this)">编辑</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                data-target="#deleteModal" data-orderId="${user.id}">删除</button>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+        <!-- 分页开始 -->
+        <table width="461" height="24" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="120">当前为第${users.pageNum}页,共${users.pages}页</td>
+                <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
                     </c:forEach>
                 </td> -->
-                    <td width="256">
-                        <c:choose>
-                            <c:when test="${users.hasPreviousPage}">
-                                <a href="nursworker/selectnursworker/1">首页</a> |
-                                <a href="nursworker/selectnursworker/${users.pageNum -1 }">上一页</a>
-                            </c:when>
-                            <c:otherwise>
-                            </c:otherwise>
-                        </c:choose>
+                <td width="256">
+                    <c:choose>
+                        <c:when test="${users.hasPreviousPage}">
+                            <a href="nursworker/selectnursworker/1">首页</a> |
+                            <a href="nursworker/selectnursworker/${users.pageNum -1 }">上一页</a>
+                        </c:when>
+                        <c:otherwise>
+                        </c:otherwise>
+                    </c:choose>
 
-                        <c:choose>
-                            <c:when test="${users.hasNextPage}">
-                                <a href="nursworker/selectnursworker/${users.pageNum + 1 }">下一页</a> |
-                                <a href="nursworker/selectnursworker/${users.pages }">尾页</a>
-                            </c:when>
-                            <c:otherwise>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                </tr>
-            </table>
-        </div>
+                    <c:choose>
+                        <c:when test="${users.hasNextPage}">
+                            <a href="nursworker/selectnursworker/${users.pageNum + 1 }">下一页</a> |
+                            <a href="nursworker/selectnursworker/${users.pages }">尾页</a>
+                        </c:when>
+                        <c:otherwise>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+        </table>
         <!-- 分页结束 -->
         <!--模态框-->
         <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">

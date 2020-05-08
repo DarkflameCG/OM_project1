@@ -7,6 +7,7 @@
 <%
     String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
 %>
+
 <head>
     <base href="<%=basePath%>">
     <meta charset="UTF-8">
@@ -17,11 +18,11 @@
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
     <!--validate验证表单插件-->
     <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
     <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
@@ -29,7 +30,7 @@
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
@@ -134,16 +135,16 @@
         //username的校验只在添加操作时才需要
         //通过对username的readonly属性验证来判断是添加还是更新
         //
-       /*  if ($('#username').attr("readonly") == undefined) {
-            $('#username').rules("add", {
-                required: true,
-                rangelength: [5, 20],
-                messages: {
-                    required: "请填写用户名",
-                    rangelength: "用户名长度不符合规范"
-                }
-            });
-        } */
+        /*  if ($('#username').attr("readonly") == undefined) {
+             $('#username').rules("add", {
+                 required: true,
+                 rangelength: [5, 20],
+                 messages: {
+                     required: "请填写用户名",
+                     rangelength: "用户名长度不符合规范"
+                 }
+             });
+         } */
     }
     /*
     点击添加用户时需要做的操作：
@@ -201,228 +202,232 @@
 </script>
 
 <body>
-<div class="container-fluid">
-    <div class="tool">
-        <div class="row">
-            <br />
-            <form action="nursworker/searchAttend/1" class="form-horizontal">
-                <div class="col-sm-3">
-                    <input name="source" type="text" id="search" class="form-control">
-                </div>
-                <div class="col-sm-1">
-                    <button type="submit" class="btn btn-primary">搜索</button>
-                </div>
-            </form>
-            <div class="col-sm-4">
-            </div>
-            <div class="col-sm-4">
-                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
-                        onclick="setUrl()">添加考勤</button>
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
+    <div class="container-fluid">
+        <div class="tool">
+            <div class="row">
+                <br />
+                <form action="nursworker/searchAttend/1" class="form-horizontal">
+                    <div class="col-sm-3">
+                        <input name="source" type="text" id="search" class="form-control">
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="submit" class="btn btn-primary">搜索</button>
+                    </div>
+                </form>
+                <div style="float: right;padding-right: 15px;">
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
+                        onclick="setUrl()">添加考勤记录</button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                         th:onclick="">批量删除</button>
+                </div>
             </div>
         </div>
-    </div>
-    <br>
-    <table class="table table-bordered table-hover">
-        <thead>
-        <tr>
-            <th></th>
-            <th>序号</th>
-            <th>姓名</th>
-            <th>原因</th>
-            <th>开始时间</th>
-            <th>结束时间</th>
-            <th>状态</th>
-            <th>审核人</th>
-            <th>备注</th>
-            <th>操作</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${userLeaves.list}" var="userLeave">
-            <tr>
-                <td><input type="checkbox" value="${userLeave.id}"></td>
-                <td>${userLeave.id}</td>
-                <td>${userLeave.baseUser.userName}</td>
-                <td style="display: none;">${userLeave.baseUser.id}</td>
-                <td>${userLeave.reson}</td>
-                <td>
-                    <fmt:formatDate value="${userLeave.startTime}" pattern="yyyy-MM-dd" />
-                </td>
-                <td>
-                    <fmt:formatDate value="${userLeave.endTime}" pattern="yyyy-MM-dd" />
-                </td>
-                <c:if test="${userLeave.state==0}">
-                 <td>未审核</td>
-                </c:if>
-               <c:if test="${userLeave.state==1}">
-                 <td>审核通过</td>
-                </c:if>
-                <c:if test="${userLeave.state==2}">
-                 <td>审核不通过</td>
-                </c:if>
-                <td>${userLeave.userManager}</td>
-                <td>${userLeave.backup}</td>
-                <td>
-                    <!--传入当前用户id-->
-                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                            data-target="#updateModal" onclick="update(${userLeave.id},this)">编辑</button>
-                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                            data-target="#deleteModal" data-orderId="${userLeave.id}">删除</button>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-    <!-- 分页开始 -->
-    <div class="divcss5-left">
-        <table width="461" height="24" cellpadding="0" cellspacing="0">
-            <tr>
-                <td width="120">当前为第${userLeaves.pageNum}页,共${userLeaves.pages}页</td>
-                <!-- <td width="199">
+        <br>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>原因</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>状态</th>
+                    <th>审核人</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${userLeaves.list}" var="userLeave">
+                    <tr>
+                        <td><input type="checkbox" value="${userLeave.id}"></td>
+                        <td>${userLeave.id}</td>
+                        <td>${userLeave.baseUser.userName}</td>
+                        <td style="display: none;">${userLeave.baseUser.id}</td>
+                        <td>${userLeave.reson}</td>
+                        <td>
+                            <fmt:formatDate value="${userLeave.startTime}" pattern="yyyy-MM-dd" />
+                        </td>
+                        <td>
+                            <fmt:formatDate value="${userLeave.endTime}" pattern="yyyy-MM-dd" />
+                        </td>
+                        <c:if test="${userLeave.state==0}">
+                            <td>未审核</td>
+                        </c:if>
+                        <c:if test="${userLeave.state==1}">
+                            <td>审核通过</td>
+                        </c:if>
+                        <c:if test="${userLeave.state==2}">
+                            <td>审核不通过</td>
+                        </c:if>
+                        <td>${userLeave.userManager}</td>
+                        <td>${userLeave.backup}</td>
+                        <td>
+                            <!--传入当前用户id-->
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                data-target="#updateModal" onclick="update(${userLeave.id},this)">编辑</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                data-target="#deleteModal" data-orderId="${userLeave.id}">删除</button>
+                            <c:if test="${userLeave.state==0}">
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                    data-target="#updateModal" onclick="update(${userLeave.id},this)">通过</button>
+                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                    data-target="#deleteModal" data-orderId="${userLeave.id}">拒绝</button>
+                            </c:if>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+        <!-- 分页开始 -->
+        <div class="divcss5-left">
+            <table width="461" height="24" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td width="120">当前为第${userLeaves.pageNum}页,共${userLeaves.pages}页</td>
+                    <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
                     </c:forEach>
                 </td> -->
-                <td width="256">
-                    <c:choose>
-                        <c:when test="${userLeaves.hasPreviousPage}">
-                            <a href="nursworker/attendance/1">首页</a> |
-                            <a href="nursworker/attendance/${userLeaves.pageNum -1 }">上一页</a>
-                        </c:when>
-                        <c:otherwise>
-                        </c:otherwise>
-                    </c:choose>
+                    <td width="256">
+                        <c:choose>
+                            <c:when test="${userLeaves.hasPreviousPage}">
+                                <a href="nursworker/attendance/1">首页</a> |
+                                <a href="nursworker/attendance/${userLeaves.pageNum -1 }">上一页</a>
+                            </c:when>
+                            <c:otherwise>
+                            </c:otherwise>
+                        </c:choose>
 
-                    <c:choose>
-                        <c:when test="${userLeaves.hasNextPage}">
-                            <a href="nursworker/attendance/${userLeaves.pageNum + 1 }">下一页</a> |
-                            <a href="nursworker/attendance/${userLeaves.pages }">尾页</a>
-                        </c:when>
-                        <c:otherwise>
-                        </c:otherwise>
-                    </c:choose>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <!-- 分页结束 -->
-    <!--模态框-->
-    <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
-        <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
-                        <h4 class="modal-title" id="updateModalLabel">
-                            护工请假
-                        </h4>
-                    </div>
-                    <div class="modal-body">
-                        <form action="" class="form-horizontal">
-                            <!--userid为隐藏的input，便于update时的传值-->
-                            <input type="text" id="userID" name="id" hidden>
-                            <div class="form-group">
-                                <label for="userName" class="col-sm-3 control-label">护工编号</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="userId" name="userId"
-                                           placeholder="编号为id">
+                        <c:choose>
+                            <c:when test="${userLeaves.hasNextPage}">
+                                <a href="nursworker/attendance/${userLeaves.pageNum + 1 }">下一页</a> |
+                                <a href="nursworker/attendance/${userLeaves.pages }">尾页</a>
+                            </c:when>
+                            <c:otherwise>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- 分页结束 -->
+        <!--模态框-->
+        <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
+            <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="updateModalLabel">
+                                护工请假
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" class="form-horizontal">
+                                <!--userid为隐藏的input，便于update时的传值-->
+                                <input type="text" id="userID" name="id" hidden>
+                                <div class="form-group">
+                                    <label for="userName" class="col-sm-3 control-label">护工编号</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="userId" name="userId"
+                                            placeholder="编号为id">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="reson" class="col-sm-3 control-label">原因</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="reson" name="reson"
-                                           placeholder="请输入请假原因">
+                                <div class="form-group">
+                                    <label for="reson" class="col-sm-3 control-label">原因</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="reson" name="reson"
+                                            placeholder="请输入请假原因">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="time" class="col-sm-3 control-label">请假时间</label>
-                                <div class="col-sm-9">
-                                    <div class="myrow">
-                                        <div class='input-group date' style="width: 14em;" id='datetimepicker1'>
-                                            <input id="time1" name="time1" type='text'
-                                                   class="timeInput form-control" />
-                                            <span class="input-group-addon">
+                                <div class="form-group">
+                                    <label for="time" class="col-sm-3 control-label">请假时间</label>
+                                    <div class="col-sm-9">
+                                        <div class="myrow">
+                                            <div class='input-group date' style="width: 14em;" id='datetimepicker1'>
+                                                <input id="time1" name="time1" type='text'
+                                                    class="timeInput form-control" />
+                                                <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
-                                        </div>
-                                        <div class="dates">
-                                        </div>
-                                        <div class='input-group date' style="width: 14em;" id='datetimepicker2'>
-                                            <input id="time2" name="time2" type='text'
-                                                   class="timeInput form-control" />
-                                            <span class="input-group-addon">
+                                            </div>
+                                            <div class="dates">
+                                            </div>
+                                            <div class='input-group date' style="width: 14em;" id='datetimepicker2'>
+                                                <input id="time2" name="time2" type='text'
+                                                    class="timeInput form-control" />
+                                                <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="health" class="col-sm-3 control-label">状态</label>
-                                <div class="col-sm-9">
-                                    <select id="state" name="state" class="selectpicker show-tick form-control"
+                                <div class="form-group">
+                                    <label for="health" class="col-sm-3 control-label">状态</label>
+                                    <div class="col-sm-9">
+                                        <select id="state" name="state" class="selectpicker show-tick form-control"
                                             data-live-search="false">
-                                        <option value="0">未审核</option>
-                                        <option value="1">审核通过</option>
-                                         <option value="2">审核不通过</option>
-                                    </select>
+                                            <option value="0">未审核</option>
+                                            <option value="1">审核通过</option>
+                                            <option value="2">审核不通过</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="backup" class="col-sm-3 control-label">备注</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="backup" name="backup"
-                                           placeholder="请输入备注">
+                                <div class="form-group">
+                                    <label for="backup" class="col-sm-3 control-label">备注</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="backup" name="backup"
+                                            placeholder="请输入备注">
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                 所以把按钮类型改为input，再手动调用封装好的验证函数-->
-                        <button type="input" class="btn btn-primary" onclick="vali();">提交</button>
-                        <span id="tip"></span>
+                            <button type="input" class="btn btn-primary" onclick="vali();">提交</button>
+                            <span id="tip"></span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-    <!--删除模态框-->
-    <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
-        <div class="modal fade bs-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog"
-             aria-labelledby="mySmallModalLabel">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
-                        <h4 class="modal-title" id="">
-                            警告：确认删除？
-                        </h4>
-                    </div>
-                    <div class="modal-footer">
-                        <!--  onclick="deletebyId()" -->
-                        <button id="tijiao" type="button" class="btn btn-danger">确定</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
+        <!--删除模态框-->
+        <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
+            <div class="modal fade bs-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="">
+                                警告：确认删除？
+                            </h4>
+                        </div>
+                        <div class="modal-footer">
+                            <!--  onclick="deletebyId()" -->
+                            <button id="tijiao" type="button" class="btn btn-danger">确定</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                   所以把按钮类型改为input，再手动调用封装好的验证函数-->
-                        <span id="tip"></span>
+                            <span id="tip"></span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
-    <!-- 删除模态框结束 -->
-</div>
+        </form>
+        <!-- 删除模态框结束 -->
+    </div>
 </body>
 <script type="text/javascript">
     //删除
@@ -447,18 +452,18 @@
             }
             //发送请求
             var myUrl = 'nursworker/removeAttendance?id=' + idval;
-           $.ajax({
-				type : "GET",
-				url : myUrl,
-				data : "null",
-				dataType : "text",
-				success : function(obj) {
-					window.location.href="nursworker/attendance/1";
-				}
-			}); 
-          
-       });
-   })
+            $.ajax({
+                type: "GET",
+                url: myUrl,
+                data: "null",
+                dataType: "text",
+                success: function (obj) {
+                    window.location.href = "nursworker/attendance/1";
+                }
+            });
+
+        });
+    })
     // 上传图片
     $(".updatepanel").height($(".panel-info").height());
     // 5月1号被cc注释
