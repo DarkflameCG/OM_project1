@@ -217,7 +217,7 @@
         // ！！！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#userID,#oldNumb,#event,#time_1,#time_2').serializeArray();
+            formData = $('#userID,#oldNumb,#event,#time_1,#time_2,#backup').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -334,7 +334,7 @@
                 <tr>
                     <td width="120">当前为第${oldwcPages.pageNum}页,共${oldwcPages.pages}页</td>
                     <!-- <td width="199">
-                    <c:forEach items="${oldPages.navigatepageNums}" var="p">
+                    <c:forEach items="${oldwcPages.navigatepageNums}" var="p">
                         <a>${p }</a>
                     </c:forEach>
                 </td> -->
@@ -417,16 +417,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">照片</label>
+                                    <label for="backup" class="col-sm-3 control-label">备注</label>
                                     <div class="col-sm-9">
-                                        <label for="file">
-                                            <div class="panel updatepanel">
-                                                <div class="addbox"><span class="icon-add-50">+点击上传</span></div>
-                                                <input type="file" id="oldman_img" style="display: none" />
-                                            </div>
-                                        </label>
+                                        <input type="text" class="form-control" id="backup" name="backup"
+                                               placeholder="请输入备注">
                                     </div>
                                 </div>
+
                             </form>
                         </div>
                         <div class="modal-footer">

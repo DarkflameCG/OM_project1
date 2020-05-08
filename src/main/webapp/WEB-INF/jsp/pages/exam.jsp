@@ -283,7 +283,7 @@
                         <td>
                             <fmt:formatDate value="${exam.examTime}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td><a href="#">下载</a></td>
+                        <td><a>下载</a></td>
                         <td>
                             <fmt:formatDate value="${exam.time}" pattern="yyyy年MM月dd日" />
                         </td>
