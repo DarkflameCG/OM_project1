@@ -210,9 +210,7 @@
                         <button type="submit" class="btn btn-primary">搜索</button>
                     </div>
                 </form>
-                <div class="col-sm-4">
-                </div>
-                <div class="col-sm-4">
+                <div style="float: right;margin-right: 15px;">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加用户</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
@@ -263,6 +261,15 @@
                                 data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${old.id}">删除</button>
+                            <c:set var="flag" scope="session" value="${old.gender}" />
+                            <c:if test="${flag eq '男'}">
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                    data-target="#updateModal" onclick="update(${old.id},this)">入住</button>
+                            </c:if>
+                            <c:if test="${flag eq '女'}">
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                    data-target="#updateModal" onclick="update(${old.id},this)">转房</button>
+                            </c:if>
                         </td>
                     </tr>
                 </c:forEach>

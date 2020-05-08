@@ -246,11 +246,9 @@
                         <button type="submit" class="btn btn-primary">搜索</button>
                     </div>
                 </form>
-                <div class="col-sm-4">
-                </div>
-                <div class="col-sm-4">
+                <div style="float: right;margin-right: 15px;">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
-                        onclick="setUrl()">添加用户</button>
+                        onclick="setUrl()">添加入住记录</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                         th:onclick="">批量删除</button>
                 </div>
@@ -280,8 +278,8 @@
                         <td>
                             <fmt:formatDate value="${ruzhu.time}" pattern="yyyy年MM月dd日" />
                         </td>
-                        <td>${ruzhu.userLog}</td>
                         <td>${ruzhu.inRoomId}</td>
+                        <td>${ruzhu.userLog}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"

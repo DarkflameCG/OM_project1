@@ -32,7 +32,7 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 
-   
+
     <style>
         .divcss5-left {
             float: right;
@@ -60,9 +60,9 @@
         //获取当前行tr下的所有td
         var t = temp[0].cells;
         //模态框赋值
-         $('#power').val(t[2].innerHTML);
+        $('#power').val(t[2].innerHTML);
         $('#pDesc').val(t[3].innerHTML);
-        
+
         //给姓名框设置只读
         //$('#username').attr("readonly", "readonly");
         //下面是使用ajax动态的放数据
@@ -209,10 +209,11 @@
 </script>
 
 <body>
-    <div class="ownersettings" style="padding-top: 1em">
-	<div class="table_content" >
-	  			<div style="position: relative;bottom: .5em;">
-	  				 <form action="powers/search/1" class="form-horizontal">
+    <div class="container-fluid">
+        <div class="tool">
+            <div class="row">
+                <br />
+                <form action="powers/search/1" class="form-horizontal">
                     <div class="col-sm-3">
                         <input name="source" type="text" id="search" class="form-control">
                     </div>
@@ -220,147 +221,149 @@
                         <button type="submit" class="btn btn-primary">搜索</button>
                     </div>
                 </form>
-						<div class="btns" style="float: right;">
-                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
+                <div class="btns" style="float: right;margin-right: 15px;">
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加角色</button>
-							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">批量删除</button>
-						</div>
+                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                        data-target="#deleteModal">批量删除</button>
+                </div>
             </div>
         </div>
-        <br>
-        <table class="table table-bordered table-hover">
-            <thead>
+    <br>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>序号</th>
+                <th>角色名称</th>
+                <th>权限描述</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach items="${powerss.list}" var="power">
                 <tr>
-                    <th></th>
-                    <th>序号</th>
-                    <th>角色名称</th>
-            		<th>权限描述</th>
-                    <th>操作</th>
+                    <td><input type="checkbox" value="${power.id}"></td>
+                    <td>${power.id}</td>
+                    <td>${power.power}</td>
+                    <td>${power.pDesc}</td>
+                    <td>
+                        <!--传入当前用户id-->
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#updateModal"
+                            onclick="update(${power.id},this)">编辑</button>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                            data-target="#deleteModal" data-orderId="${power.id}">删除</button>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                <c:forEach items="${powerss.list}" var="power">
-                    <tr>
-                        <td><input type="checkbox" value="${power.id}"></td>
-                        <td>${power.id}</td>
-                        <td>${power.power}</td>
-                        <td>${power.pDesc}</td>
-                        <td>
-                            <!--传入当前用户id-->
-                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${power.id},this)">编辑</button>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                data-target="#deleteModal" data-orderId="${power.id}">删除</button>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-        <!-- 分页开始 -->
-        <div class="divcss5-left">
-            <table width="461" height="24" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td width="120">当前为第${powerss.pageNum}页,共${powerss.pages}页</td>
-                    <!-- <td width="199">
+            </c:forEach>
+        </tbody>
+    </table>
+    <!-- 分页开始 -->
+    <div class="divcss5-left">
+        <table width="461" height="24" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="120">当前为第${powerss.pageNum}页,共${powerss.pages}页</td>
+                <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
                     </c:forEach>
                 </td> -->
-                    <td width="256">
-                        <c:choose>
-                            <c:when test="${powerss.hasPreviousPage}">
-                                <a href="powers/power/1">首页</a> |
-                                <a href="powers/power/${powerss.pageNum -1 }">上一页</a>
-                            </c:when>
-                            <c:otherwise>
-                            </c:otherwise>
-                        </c:choose>
+                <td width="256">
+                    <c:choose>
+                        <c:when test="${powerss.hasPreviousPage}">
+                            <a href="powers/power/1">首页</a> |
+                            <a href="powers/power/${powerss.pageNum -1 }">上一页</a>
+                        </c:when>
+                        <c:otherwise>
+                        </c:otherwise>
+                    </c:choose>
 
-                        <c:choose>
-                            <c:when test="${powerss.hasNextPage}">
-                                <a href="powers/power/${powerss.pageNum + 1 }">下一页</a> |
-                                <a href="powers/power/${powerss.pages }">尾页</a>
-                            </c:when>
-                            <c:otherwise>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <!-- 分页结束 -->
-        <!--模态框-->
-        <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
-            <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                &times;
-                            </button>
-                            <h4 class="modal-title" id="updateModalLabel">
-                                角色信息
-                            </h4>
-                        </div>
-                        <div class="modal-body">
-                            <form action="" class="form-horizontal">
-                                <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="id" hidden>
-                                <div class="form-group">
-                                    <label for="power" class="col-sm-3 control-label">角色名称</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="power" name="power"
-                                            placeholder="角色名长度在2-10字符之间">
-                                    </div>
+                    <c:choose>
+                        <c:when test="${powerss.hasNextPage}">
+                            <a href="powers/power/${powerss.pageNum + 1 }">下一页</a> |
+                            <a href="powers/power/${powerss.pages }">尾页</a>
+                        </c:when>
+                        <c:otherwise>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- 分页结束 -->
+    <!--模态框-->
+    <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
+        <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="updateModalLabel">
+                            角色信息
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" class="form-horizontal">
+                            <!--userid为隐藏的input，便于update时的传值-->
+                            <input type="text" id="userID" name="id" hidden>
+                            <div class="form-group">
+                                <label for="power" class="col-sm-3 control-label">角色名称</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="power" name="power"
+                                        placeholder="角色名长度在2-10字符之间">
                                 </div>
-                                <div class="form-group">
-                                    <label for="pDesc" class="col-sm-3 control-label">权限描述</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="pDesc" name="pDesc" placeholder="请输入权限描述">
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="pDesc" class="col-sm-3 control-label">权限描述</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="pDesc" name="pDesc"
+                                        placeholder="请输入权限描述">
                                 </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                     所以把按钮类型改为input，再手动调用封装好的验证函数-->
-                            <button type="input" class="btn btn-primary" onclick="vali();">提交</button>
-                            <span id="tip"></span>
-                        </div>
+                        <button type="input" class="btn btn-primary" onclick="vali();">提交</button>
+                        <span id="tip"></span>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
+    </form>
 
-        <!--删除模态框-->
-        <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
-            <div class="modal fade bs-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog"
-                aria-labelledby="mySmallModalLabel">
-                <div class="modal-dialog modal-sm" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                &times;
-                            </button>
-                            <h4 class="modal-title" id="">
-                                警告：确认删除？
-                            </h4>
-                        </div>
-                        <div class="modal-footer">
-                            <!--  onclick="deletebyId()" -->
-                            <button id="tijiao" type="button" class="btn btn-danger">确定</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
+    <!--删除模态框-->
+    <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
+        <div class="modal fade bs-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog"
+            aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="">
+                            警告：确认删除？
+                        </h4>
+                    </div>
+                    <div class="modal-footer">
+                        <!--  onclick="deletebyId()" -->
+                        <button id="tijiao" type="button" class="btn btn-danger">确定</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                       所以把按钮类型改为input，再手动调用封装好的验证函数-->
-                            <span id="tip"></span>
-                        </div>
+                        <span id="tip"></span>
                     </div>
                 </div>
             </div>
-        </form>
-        <!-- 删除模态框结束 -->
+        </div>
+    </form>
+    <!-- 删除模态框结束 -->
     </div>
 </body>
 <script type="text/javascript">
@@ -384,21 +387,21 @@
                 //根据id删除
                 idval = $(e.relatedTarget).data('orderid');
             }
-          //发送请求
+            //发送请求
             var myUrl = 'powers/deletePower?id=' + idval;
-           $.ajax({
-				type : "GET",
-				url : myUrl,
-				data : "null",
-				dataType : "text",
-				success : function(obj) {
-					window.location.href="powers/power/1";
-				}
-			}); 
-          
-       });
-   })
- 
+            $.ajax({
+                type: "GET",
+                url: myUrl,
+                data: "null",
+                dataType: "text",
+                success: function (obj) {
+                    window.location.href = "powers/power/1";
+                }
+            });
+
+        });
+    })
+
 </script>
 
 </html>

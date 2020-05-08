@@ -24,7 +24,7 @@
     <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
     <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
     <script src="js/lTable.js" type="text/javascript"></script>
-	<script type="text/javascript" src="js/ajaxfileupload.js"></script>
+    <script type="text/javascript" src="js/ajaxfileupload.js"></script>
     <!-- 下拉选择框相关 CSS -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
@@ -37,6 +37,7 @@
             width: 350px;
             height: 50px;
         }
+
         .warp {
             display: inline-block;
             vertical-align: bottom;
@@ -220,156 +221,156 @@
                         <button type="submit" class="btn btn-primary">搜索</button>
                     </div>
                 </form>
-               
-               <div class="btns" style="float: right;">
-							
-							 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
+                <div class="btns" style="float: right;margin-right: 15px;">
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加项目</button>
-							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">批量删除</button>
-						</div>
-        </div>
-        <br>
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>序号</th>
-                    <th>项目</th>
-                    <th>费用</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach items="${indexs.list}" var="index">
+                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                        data-target="#deleteModal">批量删除</button>
+                </div>
+            </div>
+            <br>
+            <table class="table table-bordered table-hover">
+                <thead>
                     <tr>
-                        <td><input type="checkbox" value="${index.id}"></td>
-                        <td>${index.id}</td>
-                        <td>${index.indexName}</td>
-                        <td>${index.amountOfMoney}</td>
-                        <td>
-                            <!--传入当前用户id-->
-                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${index.id},this)">编辑</button>
-                           <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                data-target="#deleteModal" data-orderId="${index.id}">删除</button>
-                        </td>
+                        <th></th>
+                        <th>序号</th>
+                        <th>项目</th>
+                        <th>费用</th>
+                        <th>操作</th>
                     </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-        <!-- 分页开始 -->
-        <div class="divcss5-left">
-            <table width="461" height="24" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td width="120">当前为第${indexs.pageNum}页,共${indexs.pages}页</td>
-                    <!-- <td width="199">
+                </thead>
+                <tbody>
+                    <c:forEach items="${indexs.list}" var="index">
+                        <tr>
+                            <td><input type="checkbox" value="${index.id}"></td>
+                            <td>${index.id}</td>
+                            <td>${index.indexName}</td>
+                            <td>${index.amountOfMoney}</td>
+                            <td>
+                                <!--传入当前用户id-->
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                    data-target="#updateModal" onclick="update(${index.id},this)">编辑</button>
+                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                    data-target="#deleteModal" data-orderId="${index.id}">删除</button>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+            <!-- 分页开始 -->
+            <div class="divcss5-left">
+                <table width="461" height="24" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="120">当前为第${indexs.pageNum}页,共${indexs.pages}页</td>
+                        <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
                     </c:forEach>
                 </td> -->
-                    <td width="256">
-                        <c:choose>
-                            <c:when test="${indexs.hasPreviousPage}">
-                                <a href="index/finance/1">首页</a> |
-                                <a href="index/finance/${indexs.pageNum -1 }">上一页</a>
-                            </c:when>
-                            <c:otherwise>
-                            </c:otherwise>
-                        </c:choose>
+                        <td width="256">
+                            <c:choose>
+                                <c:when test="${indexs.hasPreviousPage}">
+                                    <a href="index/finance/1">首页</a> |
+                                    <a href="index/finance/${indexs.pageNum -1 }">上一页</a>
+                                </c:when>
+                                <c:otherwise>
+                                </c:otherwise>
+                            </c:choose>
 
-                        <c:choose>
-                            <c:when test="${indexs.hasNextPage}">
-                                <a href="index/finance/${indexs.pageNum + 1 }">下一页</a> |
-                                <a href="index/finance/${indexs.pages }">尾页</a>
-                            </c:when>
-                            <c:otherwise>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <!-- 分页结束 -->
-        
-        
-         <!--删除模态框-->
-        <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
-            <div class="modal fade bs-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog"
-                aria-labelledby="mySmallModalLabel">
-                <div class="modal-dialog modal-sm" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                &times;
-                            </button>
-                            <h4 class="modal-title" id="">
-                                警告：确认删除？
-                            </h4>
-                        </div>
-                        <div class="modal-footer">
-                            <!--  onclick="deletebyId()" -->
-                            <button id="tijiao" type="button"  class="btn btn-danger">确定</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
+                            <c:choose>
+                                <c:when test="${indexs.hasNextPage}">
+                                    <a href="index/finance/${indexs.pageNum + 1 }">下一页</a> |
+                                    <a href="index/finance/${indexs.pages }">尾页</a>
+                                </c:when>
+                                <c:otherwise>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!-- 分页结束 -->
+
+
+            <!--删除模态框-->
+            <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
+                <div class="modal fade bs-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog"
+                    aria-labelledby="mySmallModalLabel">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title" id="">
+                                    警告：确认删除？
+                                </h4>
+                            </div>
+                            <div class="modal-footer">
+                                <!--  onclick="deletebyId()" -->
+                                <button id="tijiao" type="button" class="btn btn-danger">确定</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                       所以把按钮类型改为input，再手动调用封装好的验证函数-->
-                            <span id="tip"></span>
+                                <span id="tip"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
-        <!-- 删除模态框结束 -->
-        <!--模态框-->
-        <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
-            <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                &times;
-                            </button>
-                            <h4 class="modal-title" id="updateModalLabel">
-                               项目信息
-                            </h4>
-                        </div>
-                        <div class="modal-body">
-                            <form action="" class="form-horizontal">
-                                <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="id" name="id" hidden>
-                                <div class="form-group">
-                                    <label for="indexName" class="col-sm-3 control-label">项目</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="indexName" name="indexName"
-                                            placeholder="输入项目名">
+            </form>
+            <!-- 删除模态框结束 -->
+            <!--模态框-->
+            <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
+                <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title" id="updateModalLabel">
+                                    项目信息
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="" class="form-horizontal">
+                                    <!--userid为隐藏的input，便于update时的传值-->
+                                    <input type="text" id="id" name="id" hidden>
+                                    <div class="form-group">
+                                        <label for="indexName" class="col-sm-3 control-label">项目</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="indexName" name="indexName"
+                                                placeholder="输入项目名">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">费用</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="amountOfMoney" name="amountOfMoney" placeholder="请输入费用">
+                                    <div class="form-group">
+                                        <label for="age" class="col-sm-3 control-label">费用</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="amountOfMoney"
+                                                name="amountOfMoney" placeholder="请输入费用">
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                     所以把按钮类型改为input，再手动调用封装好的验证函数-->
-                            <button type="input" class="btn btn-primary" onclick="vali();">提交</button>
-                            <span id="tip"></span>
+                                <button type="input" class="btn btn-primary" onclick="vali();">提交</button>
+                                <span id="tip"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
 
-    </div>
+        </div>
 </body>
 <script type="text/javascript">
     //删除
     $("#deleteModal").on("shown.bs.modal", function (e) {
-    	
+
         $("#tijiao").on("click", function () {
             //定义url
             var idval = "";
@@ -388,18 +389,18 @@
                 //根据id删除
                 idval = $(e.relatedTarget).data('orderid');
             }
-          //发送请求
-             var myUrl = 'index/deleteIndex?id=' + idval;
+            //发送请求
+            var myUrl = 'index/deleteIndex?id=' + idval;
             $.ajax({
-				type : "GET",
-				url : myUrl,
-				data : "null",
-				dataType : "text",
-				success : function(obj) {
-					window.location.href="index/finance/1";
-				}
-			}); 
-           
+                type: "GET",
+                url: myUrl,
+                data: "null",
+                dataType: "text",
+                success: function (obj) {
+                    window.location.href = "index/finance/1";
+                }
+            });
+
         });
     })
     // 上传图片

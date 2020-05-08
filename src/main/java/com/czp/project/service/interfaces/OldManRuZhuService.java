@@ -8,6 +8,8 @@ import com.czp.project.common.bean.extend.WaichuExtend;
 import com.github.pagehelper.PageInfo;
 
 public interface OldManRuZhuService {
+
+
 	/**
 	 * 分页及联查询
 	 * @param currpage
