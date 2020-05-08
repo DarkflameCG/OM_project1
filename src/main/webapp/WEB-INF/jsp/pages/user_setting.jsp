@@ -93,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-xl-3 border-left">
+                                <!-- <div class="col-lg-3 col-xl-3 border-left">
                                     <b>Latest activity</b>: Dec 06 2017, 22:23
                                     <br />
                                     <b>Register date: </b>: Nov 24 2017, 20:32
@@ -113,7 +113,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                         <label>Change avatar</label>
                                         <input type="file" name="image" class="form-control">
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </form>
                     </div>

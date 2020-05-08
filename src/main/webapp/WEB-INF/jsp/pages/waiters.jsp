@@ -53,6 +53,8 @@
     var myUrl;
     //传入点击的用户id，获取该用户信息并放入表单中
     function update(id, a) {
+        // 先重置表单
+        $('#form-data input').val("");
         //将提交表单的URL变为update
         myUrl = 'nursworker/updateHuGong';
         $("#userID").attr("value", id);
@@ -117,14 +119,14 @@
                     required: true,
                     rangelength: [5, 20]
                 },
-                phone: {
+                salary: {
                     required: true,
                     digits: true,
-                    rangelength: [11, 11]
+                    rangelength: [2, 5]
                 },
-                email: {
+                userName: {
                     required: true,
-                    email: true
+                    rangelength: [2, 20]
                 }
             },
             messages: {
@@ -132,14 +134,14 @@
                     required: "请填写密码",
                     rangelength: "密码长度不符合规范"
                 },
-                phone: {
-                    required: "请填写手机号",
-                    digits: "请填写正确的手机号",
-                    rangelength: "请填写正确的手机号"
+                salary: {
+                    required: "请填写工资数",
+                    digits: "请填写正确的工资数",
+                    rangelength: "工资数长度不符合规范"
                 },
-                email: {
-                    required: "请填写邮箱",
-                    email: "请填写正确的邮箱"
+                userName: {
+                    required: "请填写姓名",
+                    rangelength: "姓名长度不符合规范"
                 }
             },
             submitHandler: function (form) {
@@ -350,21 +352,21 @@
                                     <label for="userName" class="col-sm-3 control-label">姓名</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="userName" name="userName"
-                                            placeholder="护工姓名">
+                                            placeholder="护工姓名长度在2-20字符之间">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="col-sm-3 control-label">密码</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="password" name="password"
-                                            placeholder="请输入密码">
+                                            placeholder="密码长度在5-20字符之间">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="col-sm-3 control-label">工资</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="salary" name="salary"
-                                            placeholder="请输入工资">
+                                            placeholder="工资必须为正整数">
                                     </div>
                                 </div>
 

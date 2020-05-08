@@ -107,14 +107,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     required: true,
                     rangelength: [5, 20]
                 },
-                phone: {
+                userName: {
                     required: true,
-                    digits: true,
-                    rangelength: [11, 11]
-                },
-                email: {
-                    required: true,
-                    email: true
+                    rangelength: [5, 20]
                 }
             },
             messages: {
@@ -122,14 +117,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     required: "请填写密码",
                     rangelength: "密码长度不符合规范"
                 },
-                phone: {
-                    required: "请填写手机号",
-                    digits: "请填写正确的手机号",
-                    rangelength: "请填写正确的手机号"
-                },
-                email: {
-                    required: "请填写邮箱",
-                    email: "请填写正确的邮箱"
+                userName: {
+                    required: "请填写用户名",
+                    rangelength: "用户名长度不符合规范"
                 }
             },
             submitHandler: function (form) {
@@ -252,7 +242,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
         </div>
     <br>
-    <table class="table table-sm table-bordered table-hover text-center">
+    <table class="table table-bordered table-hover">
         <thead>
             <tr>
                 <th></th>
@@ -370,14 +360,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 <label for="userName" class="col-sm-3 control-label">用户名</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="userName" name="userName"
-                                        placeholder="用户名">
+                                        placeholder="用户名长度在5-20字符之间">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="password" class="col-sm-3 control-label">密码</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="password" name="password"
-                                        placeholder="请输入密码">
+                                        placeholder="密码长度在5-20字符之间">
                                 </div>
                             </div>
 
@@ -387,7 +377,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <select id="roleId" name="roleId" class="selectpicker show-tick form-control"
                                         data-live-search="false">
                                         <c:forEach items="${powers}" var="power">
-                                            <option value="${power.id }">${power.power }</option>
+                                            <option value="${power.id }">${power.power}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
