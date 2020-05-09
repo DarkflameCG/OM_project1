@@ -6,4 +6,5 @@ import com.czp.project.common.bean.extend.AccountEX;
 
 public interface AccountEXMapper {
 	List<AccountEX> findAllAccountEX();
+	List<AccountEX> findAllAccountByOldManId(int id);
 }

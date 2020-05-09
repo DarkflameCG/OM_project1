@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.czp.project.common.bean.Account;
 import com.czp.project.common.bean.extend.AccountEX;
+import com.czp.project.common.bean.extend.CostEX;
 import com.github.pagehelper.PageInfo;
 
 /**
@@ -18,10 +19,20 @@ public interface AccountService {
 	 */
 	public void addAccount(Account account);
 	/**
-	 * 根据id删除账户
+	 * 查询账户
+	 * @param account
+	 */
+	public Account findByIdAccount(int id);
+	/**
+	 * 通过id删除账户
 	 * @param id
 	 */
 	public void removeAccountById(int id);
+	/**
+	 * 批量删除账户
+	 * @param ids
+	 */
+	public void removeAccountByIds(String[] ids);
 	/**
 	 * 修改账户信息
 	 * @param account
@@ -39,5 +50,6 @@ public interface AccountService {
 	 * @return 
 	 */
 	public PageInfo<AccountEX> findAllAccountForPages(int currpage , int row);
+	public PageInfo<AccountEX> findAllByName(int currpage, int row, String source);
 	
 }
