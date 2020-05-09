@@ -153,6 +153,15 @@
         // 打开模态框禁用提交按钮
         $('#modal_button').attr('disabled', true)
     }
+    // 点击入住
+    function ruzhu(){
+        $('#hugong').attr('hidden',false)
+
+    }
+    // 点击转房
+    function zhuanfang(){
+        $('#hugong').attr('hidden',true)
+    }
     //提交表单
     function checkForm() {
         var formData;
@@ -160,7 +169,7 @@
         //userid为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#oldmanImg').serializeArray();
+            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#oldmanImg,#inRoomId,#inhugongName,#backup').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -268,11 +277,11 @@
                             <c:set var="flag" scope="session" value="${old.room.roomNumb}" />
                             <c:if test="${empty flag}">
                                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                    data-target="#updateModal" onclick="update(${old.id},this)">入住</button>
+                                    data-target="#udroomModal" onclick="ruzhu(${old.id},this)">入住</button>
                             </c:if>
                             <c:if test="${not empty flag}">
                                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                    data-target="#updateModal" onclick="update(${old.id},this)">转房</button>
+                                    data-target="#udroomModal" onclick="zhuanfang(${old.id},this)">转房</button>
                             </c:if>
                         </td>
                     </tr>
@@ -312,7 +321,7 @@
             </table>
         </div>
         <!-- 分页结束 -->
-        <!--模态框-->
+        <!--添加模态框-->
         <form method="post" name="user" enctype="form-data" class="form-horizontal" role="form" id="form-data"
             style="margin: 20px;">
             <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
@@ -395,7 +404,68 @@
                 </div>
             </div>
         </form>
-
+        <!--添加模态框结束-->
+        <!--入住/转房模态框-->
+        <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
+            <div class="modal fade" id="udroomModal" tabindex="-1" role="dialog" aria-labelledby="udroomModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="udroomModalLabel">
+                                房间信息
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" class="form-horizontal">
+                                <!--userid为隐藏的input，便于update时的传值-->
+                                <input type="text" id="userID" name="userLog" value="${login.userName}" hidden>
+                                <div class="form-group">
+                                    <label for="inRoomId" class="col-sm-3 control-label">转入房间号</label>
+                                    <div class="col-sm-9">
+                                        <select id="inRoomId" name="inRoomId"
+                                            class="selectpicker show-tick form-control" data-live-search="false">
+                                            <c:forEach items="${emptyRooms}" var="room">
+                                                <option value="${room.id}">${room.roomNumb}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="hugong">
+                                    <label for="inhugongName" class="col-sm-3 control-label">护工</label>
+                                    <div class="col-sm-9">
+                                        <select id="inhugongName" name="inhugongName"
+                                            class="selectpicker show-tick form-control" data-live-search="false">
+                                            <c:forEach items="${emptyRooms}" var="room">
+                                                <option value="${room.id}">${room.roomNumb}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="backup" class="col-sm-3 control-label">备注</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="backup" name="backup"
+                                            placeholder="请输入备注">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
+                    所以把按钮类型改为input，再手动调用封装好的验证函数-->
+                            <button type="input" class="btn btn-primary" onclick="vali();">提交</button>
+                            <span id="tip"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- 入住/转房模态框结束 -->
         <!--删除模态框-->
         <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
             <div class="modal fade bs-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog"

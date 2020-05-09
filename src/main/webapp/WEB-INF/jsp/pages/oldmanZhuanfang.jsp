@@ -296,7 +296,7 @@
             </table>
         </div>
         <!-- 分页结束 -->
-        <!--模态框-->
+        <!--转房模态框-->
         <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
             <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
                 aria-hidden="true">
@@ -363,7 +363,7 @@
                 </div>
             </div>
         </form>
-
+        <!-- 转房模态框结束 -->
         <!--删除模态框-->
         <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
             <div class="modal fade bs-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog"
