@@ -37,6 +37,7 @@ public class NursWorkServiceImpl implements NursWorkService{
 	@Override
 	public List<BaseUser> selectAll() throws Exception {
 		BaseUserExample example = new BaseUserExample();
+		example.createCriteria().andRoleIdEqualTo(2);
 		List<BaseUser> list = baseUserMapper.selectByExample(example);
 		return list;
 	}
