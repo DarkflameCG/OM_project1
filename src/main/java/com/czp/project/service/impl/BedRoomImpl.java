@@ -57,4 +57,9 @@ public class BedRoomImpl implements BedRoomService{
 		
 	}
 
+	@Override
+	public Room getRoomDetailById(String id) {
+		return roommapper.selectByPrimaryKey(Integer.parseInt(id));
+	}
+
 }

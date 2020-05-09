@@ -33,5 +33,11 @@ public interface BedRoomService {
 	 * @param room_id
 	 */
 	public void switchRoomStatus(int room_id);
+
+	/**
+	 * 根据房间id查询房间信息
+	 * @param id
+	 */
+	public Room getRoomDetailById(String id);
 	
 }

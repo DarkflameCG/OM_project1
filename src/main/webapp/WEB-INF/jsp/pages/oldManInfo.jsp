@@ -169,7 +169,7 @@
         //获取当前行tr下的所有td
         var t = temp[0].cells;
         //模态框赋值
-        $('#userID').val(t[1].innerHTML);
+        $('#oldmanId').val(t[1].innerHTML);
 
     }
     // 点击转房

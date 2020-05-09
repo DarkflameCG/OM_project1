@@ -106,14 +106,19 @@ public class OldManMsgController {
 	@RequestMapping("/checkin")
 	@ResponseBody
 	public String addCheckInMsg(OldManRuZhu rz,@RequestParam String inhugongName) {
-		System.out.println(inhugongName);
 		//记录添加进去
 		rz.setTime(new Date());
-		rzimpl.addRz(rz);
+		//根据id查出房间信息
+		Room room = roomimpl.getRoomDetailById(rz.getInRoomId());
 		//改变房间状态
 		roomimpl.switchRoomStatus(Integer.parseInt(rz.getInRoomId()));
-		//老人表里更新护工姓名
+
+
+		//老人表里更新护工姓名和房间信息
 		OldMan om = oldimpl.selectOldDetailById(rz.getOldmanId());
+		om.setRoomId(Integer.parseInt(rz.getInRoomId()));
+		rz.setInRoomId(room.getRoomNumb());
+		rzimpl.addRz(rz);
 		om.setUserId(Integer.parseInt(inhugongName));
 		oldimpl.updateOldManMsg(om);
 
