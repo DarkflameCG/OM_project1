@@ -359,7 +359,7 @@
                                             <option value="微信">微信</option>
                                             <option value="支付宝">支付宝</option>
                                             <option value="现金">现金</option>
-                                            <option value="银行卡">银行卡</option>
+                                            <option value="充值卡">充值卡</option>
                                         </select>
                                     </div>
                                 </div>

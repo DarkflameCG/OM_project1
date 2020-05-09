@@ -25,6 +25,9 @@
 			select id,oldman_name from old_man where id=#{oldman_id} 
 		</select> 
 <select id="findAllAccountEX" resultMap="BaseResultMap"> 
-			select * from user_leave
+			select * from account
+	</select> 
+	<select id="findAllAccountByOldManId" parameterType="java.lang.Integer" resultMap="BaseResultMap"> 
+			select id,card_numb,balance,family_name,account_date,user_id,oldman_id from account where oldman_id=#{oldman_id}
 	</select> 
 </mapper>

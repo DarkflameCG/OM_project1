@@ -53,8 +53,8 @@
     //传入点击的用户id，获取该用户信息并放入表单中
     function update(id, a) {
         //将提交表单的URL变为update
-        myUrl = 'oldmsg/edit';
-        $("#userID").attr("value", id);
+        myUrl = 'index/updateAccount';
+        $("#id").attr("value", id);
         ;
         if (!id) {
             alert('id错误');
@@ -65,11 +65,10 @@
         //获取当前行tr下的所有td
         var t = temp[0].cells;
         //模态框赋值
-        $('#username').val(t[2].innerHTML);
-        $('#age').val(t[4].innerHTML);
-        $('#gender').val(t[5].innerHTML);
-        $('#telphone').val(t[9].innerHTML);
-        $('#health').val(t[7].innerHTML);
+         $('#id').val(t[1].innerHTML);
+        $('#familyName').val(t[5].innerHTML);
+        $('#cardNumb').val(t[3].innerHTML);
+        $('#balance').val(t[4].innerHTML);
         //给姓名框设置只读
         //$('#username').attr("readonly", "readonly");
         //下面是使用ajax动态的放数据
@@ -90,7 +89,7 @@
                          var user = eval("(" + data + ")");
  
                          //赋值
-                         $('#userID').val(user.userID);
+                         $('#id').val(user.id);
                          $('#username').val(user.username);
                          $('#password').val(user.password);
                          $('#phone').val(user.phone);
@@ -150,11 +149,11 @@
         //username的校验只在添加操作时才需要
         //通过对username的readonly属性验证来判断是添加还是更新
         //
-        if ($('#username').attr("readonly") == undefined) {
+      /*   if ($('#username').attr("readonly") == undefined) {
             $('#username').rules("add", {
                 required: true,
                 rangelength: [5, 20],
-                /* remote: {
+                 remote: {
                     type: "POST",
                     url: "/checkUsername",
                     data: {
@@ -169,14 +168,14 @@
                         else
                             return false;
                     }
-                }, */
+                }, 
                 messages: {
                     required: "请填写用户名",
-                    /*  remote: "用户名已存在", */
+                      remote: "用户名已存在", 
                     rangelength: "用户名长度不符合规范"
                 }
             });
-        }
+        } */
     }
     /*
     点击添加用户时需要做的操作：
@@ -185,8 +184,7 @@
         3.清空表单数据
      */
     function setUrl() {
-        myUrl = 'oldmsg/addOldmanMsg';
-        $('#username').removeAttr("readonly");
+        myUrl = 'index/addAccount';
         $('#form-data input').val("");
     }
     //提交表单
@@ -194,13 +192,13 @@
         var formData;
         //将表单内容序列化，即可得到相应对象，直接传到后台
         // ！！！！！
-        //userid为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错！！！
+        //id为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错！！！
         // ！！！！！
         // 此处绑定表单数据
-        if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId').serializeArray();
+        if ($('#id').val() == null || $('#id').val() == undefined || $('#id').val().length == 0) {
+            formData = $('#id,#familyName,#cardNumb,#balance,#oldmanId').serializeArray();
         }
-        //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
+        //否则为更新操作，id为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
             formData = $('#form-data').serializeArray();
         }
@@ -243,9 +241,9 @@
         <div class="tool">
             <div class="row">
                 <br />
-                <form action="oldmsg/getMsgBySource" class="form-horizontal">
+                <form action="index/searchAccount/1" class="form-horizontal">
                     <div class="col-sm-3">
-                        <input name="source" type="text" id="search" class="form-control">
+                        <input name="source" type="text" id="search" class="form-control" placeholder="请输入老人全名">
                     </div>
                     <div class="col-sm-1">
                         <button type="submit" class="btn btn-primary">搜索</button>
@@ -275,26 +273,24 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${oldPages.list}" var="old">
+                <c:forEach items="${accounts.list}" var="account">
                     <tr>
-                        <td><input type="checkbox" value="${old.id}"></td>
-                        <td>${old.id}</td>
-                        <td>${old.oldmanName}</td>
-                        <td><img src="./" alt="没有图片"></td>
-                        <td>${old.age}</td>
+                        <td><input type="checkbox" value="${account.id}"></td>
+                        <td>${account.id}</td>
+                        <td>${account.oldMan.oldmanName}</td>
+                        <td>${account.cardNumb}</td>
+                        <td>${account.balance}</td>
+                        <td>${account.familyName}</td>
                         <td>
-                                <%-- ${old.checkintime} --%>
-                            <fmt:formatDate value="${old.checkintime}" pattern="yyyy年MM月dd日" />
+                            <fmt:formatDate value="${account.accountDate}" pattern="yyyy-MM-dd" />
                         </td>
-                        <td></td>
-                        <td></td>
-
+						<td>${account.baseUser.userName}</td>
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
+                                data-target="#updateModal" onclick="update(${account.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                data-target="#deleteModal" data-orderId="${old.id}">删除</button>
+                                data-target="#deleteModal" data-orderId="${account.id}">删除</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -304,7 +300,7 @@
         <div class="divcss5-left">
             <table width="461" height="24" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td width="120">当前为第${oldPages.pageNum}页,共${oldPages.pages}页</td>
+                    <td width="120">当前为第${accounts.pageNum}页,共${accounts.pages}页</td>
                     <!-- <td width="199">
                     <c:forEach items="${oldPages.navigatepageNums}" var="p">
                         <a>${p }</a>
@@ -312,18 +308,18 @@
                 </td> -->
                     <td width="256">
                         <c:choose>
-                            <c:when test="${oldPages.hasPreviousPage}">
-                                <a href="oldmsg/getmsg/1">首页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pageNum -1 }">上一页</a>
+                            <c:when test="${accounts.hasPreviousPage}">
+                                <a href="index/account/1">首页</a> |
+                                <a href="index/account/${accounts.pageNum -1 }">上一页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
                         </c:choose>
 
                         <c:choose>
-                            <c:when test="${oldPages.hasNextPage}">
-                                <a href="oldmsg/getmsg/${oldPages.pageNum + 1 }">下一页</a> |
-                                <a href="oldmsg/getmsg/${oldPages.pages }">尾页</a>
+                            <c:when test="${accounts.hasNextPage}">
+                                <a href="index/account/${accounts.pageNum + 1 }">下一页</a> |
+                                <a href="index/account/${accounts.pages }">尾页</a>
                             </c:when>
                             <c:otherwise>
                             </c:otherwise>
@@ -344,31 +340,42 @@
                                 &times;
                             </button>
                             <h4 class="modal-title" id="updateModalLabel">
-                                用户信息
+                                充值信息
                             </h4>
                         </div>
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
-                                <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="id" hidden>
+                                <!--id为隐藏的input，便于update时的传值-->
+                                <input type="text" id="id" name="id" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">姓名</label>
+                                    <label for="familyName" class="col-sm-3 control-label">家属姓名</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="username" name="oldmanName"
+                                        <input type="text" class="form-control" id="familyName" name="familyName"
                                             placeholder="用户名长度在5-18字符之间">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">卡号</label>
+                                    <label for="cardNumb" class="col-sm-3 control-label">卡号</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">
+                                        <input type="text" class="form-control" id="cardNumb" name="cardNumb" placeholder="请输入卡号">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="health" class="col-sm-3 control-label">余额</label>
+                                    <label for="balance" class="col-sm-3 control-label">充值</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="health" name="health"
-                                            placeholder="请输入老人的健康状况">
+                                        <input type="text" class="form-control" id="balance" name="balance"
+                                            placeholder="请输入人民币">
+                                    </div>
+                                </div>
+                                 <div class="form-group">
+                                    <label for="oldMan" class="col-sm-3 control-label">老人</label>
+                                    <div class="col-sm-9">
+                                         <select id="oldmanId" name="oldmanId" class="selectpicker show-tick form-control"
+                                        data-live-search="false">
+                                        <c:forEach items="${oldManList}" var="oldMan">
+                                            <option value="${oldMan.id }">${oldMan.oldmanName }</option>
+                                        </c:forEach>
+                                    </select>
                                     </div>
                                 </div>
                             </form>
@@ -401,7 +408,7 @@
                         </div>
                         <div class="modal-footer">
                             <!--  onclick="deletebyId()" -->
-                            <button id="tijiao" type="input" class="btn btn-danger">确定</button>
+                            <button id="tijiao" type="button" class="btn btn-danger">确定</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                             <!--type为submit时，会自动调用该表单的验证，但是不会调用自己定义的动态的username的验证，
                       所以把按钮类型改为input，再手动调用封装好的验证函数-->
@@ -436,17 +443,16 @@
                 idval = $(e.relatedTarget).data('orderid');
             }
             //发送请求
-            var myUrl = 'http://localhost:2333/oldmsg/remove?id=' + idval;
-            var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
-            httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
-            httpRequest.send();//第三步：发送请求  将请求参数写在URL中
-            //结果处理
-            httpRequest.onreadystatechange = function () {
-                if (httpRequest.readyState == 4 && httpRequest.status == 200) {
-                    var str = httpRequest.responseText;
-                    alert(str);
+            var myUrl = 'index/removeAccount?id=' + idval;
+            $.ajax({
+                type: "GET",
+                url: myUrl,
+                data: "null",
+                dataType: "text",
+                success: function (obj) {
+                    window.location.href = "index/account/1";
                 }
-            };
+            });
         });
     })
     // 上传图片

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.czp.project.common.bean.Account;
 import com.czp.project.common.bean.BasePower;
 import com.czp.project.common.bean.BaseUser;
 import com.czp.project.common.bean.Charges;
@@ -21,6 +22,7 @@ import com.czp.project.common.bean.Cost;
 import com.czp.project.common.bean.OldMan;
 import com.czp.project.common.bean.extend.AccountEX;
 import com.czp.project.common.bean.extend.CostEX;
+import com.czp.project.common.bean.extend.OldManExtend;
 import com.czp.project.common.bean.extend.UserLeaveEX;
 import com.czp.project.service.impl.IndexImpl;
 import com.czp.project.service.impl.OldManMsgImpl;
@@ -148,6 +150,7 @@ public String removeAttendance(@RequestParam String id) {
    @RequestMapping("/addCost")
    @ResponseBody
    public String addCost(HttpServletRequest req,HttpSession session,String oldManName,int indexId,String payType) {
+	   //如果选择的是充值卡则从account中扣掉对应老人的钱
 	  List<OldMan> list = oldimpl.selectMsgByString(oldManName);
 	  Cost cost=new Cost();
 	  cost.setPayType(payType);
@@ -157,6 +160,12 @@ public String removeAttendance(@RequestParam String id) {
 	  BaseUser baseUser=(BaseUser) session.getAttribute("login");
 	  cost.setUserId(baseUser.getId());
 	  costService.addCost(cost);
+	  if (payType.equals("充值卡")) {
+		Charges charges = indexImpl.findIndexById(indexId);
+		Account account = accountService.findByOldIdAccount(list.get(0).getId());
+		 account.setBalance(account.getBalance()-charges.getAmountOfMoney());
+		 accountService.editAccount(account);
+	}
 	   return "ok";
    }
    //更新缴费
@@ -193,7 +202,10 @@ public String removeAttendance(@RequestParam String id) {
 	@RequestMapping("/account/{page}")
    public String selectAccount(HttpSession session,
 			  @PathVariable String page) {
-		//分页员工信息
+		 List<OldManExtend> list = oldimpl.selectAll();
+		 session.setAttribute("oldManList", list);
+		 
+		//分页充值信息
 		  try {
 			  PageInfo<AccountEX> info = accountService.findAllAccountForPages(Integer.parseInt(page), 6);
 			  session.setAttribute("accounts", info);
@@ -206,4 +218,65 @@ public String removeAttendance(@RequestParam String id) {
 		} 
 		  return "pages/money";
    }
+	//批量或单个删除
+	   @RequestMapping("/removeAccount")
+	   @ResponseBody
+	public String removeAccount(@RequestParam String id) {
+		  
+		   try {
+			   String[] d=null;
+			   if(id.contains(",")) {
+				  
+					//批量删除
+				   d=id.split(",");//把数组里的值逗号隔开
+				   accountService.removeAccountByIds(d);
+				}else {		
+					accountService.removeAccountById(Integer.parseInt(id));
+				}
+				   return "ok";
+			  
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "ok";
+		}
+		  
+	}	
+	   //增加充值
+	   @RequestMapping("/addAccount")
+	   @ResponseBody
+	   public String addAccount(HttpServletRequest req,HttpSession session,Account account) {
+		   BaseUser baseUser=(BaseUser) session.getAttribute("login");
+		   account.setUserId(baseUser.getId());
+		   account.setAccountDate(new Date());
+		accountService.addAccount(account);
+		   return "ok";
+	   }
+	 //更新缴费
+	   @RequestMapping("/updateAccount")
+	   @ResponseBody
+	   public String updateAccount(HttpServletRequest req,HttpSession session,Account account) {
+		   try {
+			        Account account2 = accountService.findByIdAccount(account.getId());
+				  BaseUser baseUser=(BaseUser) session.getAttribute("login");
+				  //取出原有的加上新充值的
+				  account.setBalance(account2.getBalance()+account.getBalance());
+				  account.setUserId(baseUser.getId());
+				   account.setAccountDate(new Date());
+				   accountService.editAccount(account);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+	 	  return "ok";
+	   } 
+	 //搜索充值卡
+	   @RequestMapping("/searchAccount/{page}")
+		public String searchAccount(HttpSession session,String source,@PathVariable String page) throws NumberFormatException, Exception {
+		   //分页搜索信息
+		   PageInfo<AccountEX> info = accountService.findAllByName(Integer.parseInt(page), 6, source);
+		   session.setAttribute("accounts", info);
+		   return "pages/money";
+		}
 }

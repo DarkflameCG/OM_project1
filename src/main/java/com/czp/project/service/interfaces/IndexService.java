@@ -20,6 +20,11 @@ public interface IndexService {
 	 * 根据id删除收费项目
 	 * @param id
 	 */
+	public Charges findIndexById(int id);
+	/**
+	 * 根据id删除收费项目
+	 * @param id
+	 */
 	public void removeIndexById(int id);
 	/**
 	 * 批量删除收费项目
