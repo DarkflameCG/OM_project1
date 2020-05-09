@@ -212,9 +212,11 @@
                 </form>
                 <div style="float: right;margin-right: 15px;">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
-                        onclick="setUrl()">添加用户</button>
+                        onclick="setUrl()">添加老人信息</button>
+                    <c:if test="${login.role.id} == 1">
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                         th:onclick="">批量删除</button>
+                    </c:if>
                 </div>
             </div>
         </div>
@@ -239,7 +241,7 @@
             </thead>
             <tbody>
                 <c:forEach items="${oldPages.list}" var="old">
-                    <tr th:each="user : ${userlist}">
+                    <tr>
                         <td><input type="checkbox" value="${old.id}"></td>
                         <td>${old.id}</td>
                         <td>${old.oldmanName}</td>
@@ -257,16 +259,18 @@
                         <td>${old.hugong.userName}</td>
                         <td>
                             <!--传入当前用户id-->
+                            <c:if test="${login.role.id} == 1">
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                 data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${old.id}">删除</button>
-                            <c:set var="flag" scope="session" value="${old.gender}" />
-                            <c:if test="${flag eq '男'}">
+                            </c:if>
+                            <c:set var="flag" scope="session" value="${old.room.roomNumb}" />
+                            <c:if test="${empty flag}">
                                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                     data-target="#updateModal" onclick="update(${old.id},this)">入住</button>
                             </c:if>
-                            <c:if test="${flag eq '女'}">
+                            <c:if test="${not empty flag}">
                                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                     data-target="#updateModal" onclick="update(${old.id},this)">转房</button>
                             </c:if>
@@ -510,6 +514,12 @@
         }
         return xhr;
     }
+
+    //入住和转房的逻辑重新在这个页面里调用
+
+
+
+
 
 </script>
 
