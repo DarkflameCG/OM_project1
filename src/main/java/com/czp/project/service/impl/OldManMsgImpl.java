@@ -54,8 +54,16 @@ public class OldManMsgImpl implements OldManMsgService{
 		PageInfo<OldManExtend> pi = new PageInfo<OldManExtend>(templist);
 		return pi;
 	}
-	
-	
+
+	@Override
+	public OldManExtend selectDetailById(String id) {
+		return oldmanExtendMapper.selectById(id);
+	}
+
+	@Override
+	public OldMan selectOldDetailById(Integer id) {
+		return oldamanmapper.selectByPrimaryKey(id);
+	}
 
 
 	@Override

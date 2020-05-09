@@ -154,13 +154,45 @@
         $('#modal_button').attr('disabled', true)
     }
     // 点击入住
-    function ruzhu(){
-        $('#hugong').attr('hidden',false)
+    function ruzhu(id,a){
+        $('#outroom').attr('hidden',false);
+        $('#hugong').attr('hidden',false);
+        myUrl = 'oldmsg/checkin';
+        //将提交表单的URL变为update
+        $("#userID").attr("value", id);
+        if (!id) {
+            alert('id错误');
+            return false;
+        }
+        //获取当前控件的父控件 tr
+        var temp = $(a).parent().parent();
+        //获取当前行tr下的所有td
+        var t = temp[0].cells;
+        //模态框赋值
+        $('#userID').val(t[1].innerHTML);
 
     }
     // 点击转房
-    function zhuanfang(){
-        $('#hugong').attr('hidden',true)
+    function zhuanfang(id,a){
+        $('#hugong').attr('hidden',true);
+        $('#outroom').attr('readonly',true);
+        myUrl = 'oldmsg/transfer';
+        //将提交表单的URL变为update
+        $("#userID").attr("value", id);
+        if (!id) {
+            alert('id错误');
+            return false;
+        }
+        //获取当前控件的父控件 tr
+        var temp = $(a).parent().parent();
+        //获取当前行tr下的所有td
+        var t = temp[0].cells;
+        //模态框赋值
+        $('#oldmanId').val(t[1].innerHTML);
+        $('#outRoomName').val(t[10].innerHTML);
+        //隐藏组件传值
+        $('#outRoomId').val(t[10].title);
+
     }
     //提交表单
     function checkForm() {
@@ -169,7 +201,7 @@
         //userid为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#oldmanImg,#inRoomId,#inhugongName,#backup').serializeArray();
+            formData = $('#oldmanId,#username,#age,#gender,#health,#familyMembersId,#telphone,#oldmanImg,#inRoomId,#outRoomId,#inhugongName,#backup').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -264,7 +296,7 @@
                         <td>${old.health}</td>
                         <td>${old.familyMembersId}</td>
                         <td>${old.telphone}</td>
-                        <td>${old.room.roomNumb}</td>
+                        <td title="${old.room.id}">${old.room.roomNumb}</td>
                         <td>${old.hugong.userName}</td>
                         <td>
                             <!--传入当前用户id-->
@@ -422,7 +454,15 @@
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="userLog" value="${login.userName}" hidden>
+                                <input type="text" id="oldmanId" name="oldmanId" hidden>
+                                <input type="text" id="logName" name="userLog" value="${login.userName}" hidden>
+                                <div class="form-group" id="outroom">
+                                    <label for="outRoomId" class="col-sm-3 control-label">转出房间号</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="outRoomId" name="outRoomId" hidden>
+                                        <input type="text" class="form-control" id="outRoomName">
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label for="inRoomId" class="col-sm-3 control-label">转入房间号</label>
                                     <div class="col-sm-9">
@@ -439,8 +479,8 @@
                                     <div class="col-sm-9">
                                         <select id="inhugongName" name="inhugongName"
                                             class="selectpicker show-tick form-control" data-live-search="false">
-                                            <c:forEach items="${emptyRooms}" var="room">
-                                                <option value="${room.id}">${room.roomNumb}</option>
+                                            <c:forEach items="${nurseList}" var="nurse">
+                                                <option value="${nurse.id}">${nurse.userName}</option>
                                             </c:forEach>
                                         </select>
                                     </div>
