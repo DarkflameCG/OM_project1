@@ -35,13 +35,28 @@ public interface OldManMsgService {
 	
 	/**
 	 * 根据名字做模糊查询，带分页
-	 * @param curPage 当前页数
+	 * @param currpage 当前页数
 	 * @param row     每页的条数
 	 * @param name
 	 * @return
 	 * @throws Exception
 	 */
 	public PageInfo<OldManExtend> fuzzyQueryByPage(String name,int currpage,int row) throws Exception;
+
+	/**
+	 * 根据老人id及联查询老人详情
+	 * @param id
+	 * @return
+	 */
+	public OldManExtend selectDetailById(String id);
+
+	/**
+	 * 根据老人id查询老人详情，不及联
+	 * @param id
+	 * @return
+	 */
+	public OldMan selectOldDetailById(Integer id);
+
 	/**
 	 * 添加老人信息
 	 * @param newmsg

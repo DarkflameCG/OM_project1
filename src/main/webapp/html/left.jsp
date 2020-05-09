@@ -56,7 +56,7 @@
             <div id="sidebar-menu">
                 <ul>
                     <li class="submenu">
-                        <a href="pages/home.html" target="mainFrame"><i class="fa fa-fw fa-bars"></i><span>首页</span>
+                        <a href="pages/home.jsp" target="mainFrame"><i class="fa fa-fw fa-bars"></i><span>首页</span>
                         </a>
                     </li>
                     <li class="submenu">
