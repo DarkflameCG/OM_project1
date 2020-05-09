@@ -155,7 +155,7 @@
     }
     // 点击入住
     function ruzhu(id,a){
-        $('#outroom').attr('hidden',false);
+        $('#outroom').attr('hidden',true);
         $('#hugong').attr('hidden',false);
         myUrl = 'oldmsg/checkin';
         //将提交表单的URL变为update
@@ -175,7 +175,8 @@
     // 点击转房
     function zhuanfang(id,a){
         $('#hugong').attr('hidden',true);
-        $('#outroom').attr('readonly',true);
+        $('#outroom').attr('hidden',false);
+        $('#outRoomName').attr('readonly',true);
         myUrl = 'oldmsg/transfer';
         //将提交表单的URL变为update
         $("#userID").attr("value", id);
