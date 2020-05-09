@@ -19,10 +19,12 @@ import com.czp.project.common.bean.BaseUser;
 import com.czp.project.common.bean.Charges;
 import com.czp.project.common.bean.Cost;
 import com.czp.project.common.bean.OldMan;
+import com.czp.project.common.bean.extend.AccountEX;
 import com.czp.project.common.bean.extend.CostEX;
 import com.czp.project.common.bean.extend.UserLeaveEX;
 import com.czp.project.service.impl.IndexImpl;
 import com.czp.project.service.impl.OldManMsgImpl;
+import com.czp.project.service.interfaces.AccountService;
 import com.czp.project.service.interfaces.CostService;
 import com.czp.project.service.interfaces.IndexService;
 import com.czp.project.utils.DateAndStringUtil;
@@ -41,6 +43,8 @@ public class IndexController {
 	private CostService costService;
 	@Autowired
 	private OldManMsgImpl oldimpl;
+	@Autowired
+	private AccountService accountService;
 	 @RequestMapping("/finance/{page}")
 		public String getIndex(HttpSession session,
 								  @PathVariable String page) throws NumberFormatException, Exception {
@@ -185,4 +189,21 @@ public String removeAttendance(@RequestParam String id) {
 	   session.setAttribute("costs", info);
 	   return "pages/moneyLog";
 	}
+   //充值卡
+	@RequestMapping("/account/{page}")
+   public String selectAccount(HttpSession session,
+			  @PathVariable String page) {
+		//分页员工信息
+		  try {
+			  PageInfo<AccountEX> info = accountService.findAllAccountForPages(Integer.parseInt(page), 6);
+			  session.setAttribute("accounts", info);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		  return "pages/money";
+   }
 }
