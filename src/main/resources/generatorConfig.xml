@@ -42,7 +42,7 @@
 
 
 	<!-- 映射配置 -->
-	<table tableName="user_leave" domainObjectName="UserLeave" ></table>
+	<table tableName="account" domainObjectName="Account" ></table>
 	<!-- <table tableName="monitor" domainObjectName="Monitor" ></table>
     <table tableName="medical" domainObjectName="Medical" ></table> -->
     <!-- <table tableName="cost" domainObjectName="Cost" ></table> -->

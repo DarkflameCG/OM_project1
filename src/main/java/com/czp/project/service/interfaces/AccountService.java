@@ -3,6 +3,7 @@ package com.czp.project.service.interfaces;
 import java.util.List;
 
 import com.czp.project.common.bean.Account;
+import com.czp.project.common.bean.extend.AccountEX;
 import com.github.pagehelper.PageInfo;
 
 /**
@@ -37,6 +38,6 @@ public interface AccountService {
 	 * @param row
 	 * @return 
 	 */
-	public PageInfo<Account> findAllAccountForPages(int currpage , int row);
+	public PageInfo<AccountEX> findAllAccountForPages(int currpage , int row);
 	
 }

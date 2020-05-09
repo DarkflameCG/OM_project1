@@ -34,5 +34,11 @@ public class NursWorkServiceImpl implements NursWorkService{
 		PageInfo<BaseUser> pi = new PageInfo<BaseUser>(list);
 		return pi;
 	}
+	@Override
+	public List<BaseUser> selectAll() throws Exception {
+		BaseUserExample example = new BaseUserExample();
+		List<BaseUser> list = baseUserMapper.selectByExample(example);
+		return list;
+	}
 
 }

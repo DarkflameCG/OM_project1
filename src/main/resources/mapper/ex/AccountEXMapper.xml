@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czp.project.dao.ex.AccountEXMapper">
+  <resultMap id="BaseResultMap" type="com.czp.project.common.bean.extend.AccountEX">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="card_numb"  property="cardNumb"/>
+    <result column="balance"  property="balance"/>
+    <result column="family_name" property="familyName"/>
+     <result column="account_date"  property="accountDate"/>
+     <association property="baseUser" column="user_id" select="findUserById" />
+     <association property="oldMan" column="oldman_id" select="findOldManById" />
+ </resultMap>
+ <resultMap id="userMap" type="com.czp.project.common.bean.BaseUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+  </resultMap>
+   <resultMap id="oldManMap" type="com.czp.project.common.bean.OldMan">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="oldman_name" jdbcType="VARCHAR" property="oldmanName" />
+  </resultMap>
+  	<select id="findUserById" parameterType="int" resultMap="userMap"> 
+			select id,user_name from base_user_info where id=#{user_id} 
+		</select> 
+		<select id="findOldManById" parameterType="int" resultMap="oldManMap"> 
+			select id,oldman_name from old_man where id=#{oldman_id} 
+		</select> 
+<select id="findAllAccountEX" resultMap="BaseResultMap"> 
+			select * from user_leave
+	</select> 
+</mapper>
