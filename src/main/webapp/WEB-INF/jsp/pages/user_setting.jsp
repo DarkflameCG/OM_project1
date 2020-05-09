@@ -37,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>头像</label><br/>
+                                                <label>头像</label><br />
                                                 <img id="img" src="${login.userImg}" alt="图片丢失了"
                                                     style="border-radius: 50%;width: 200px;height: 200px; margin-bottom: 7px;">
                                                 <div class="fileBox">
@@ -58,17 +58,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                                     value="${login.userName }" required />
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>密码</label>
-                                                <input class="form-control" name="password" type="password"
-                                                    value="${login.password }" />
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>密码</label>
+                                                    <input class="form-control" name="password" type="password"
+                                                        value="${login.password }" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <button type="submit" class="btn btn-primary">修改信息</button>

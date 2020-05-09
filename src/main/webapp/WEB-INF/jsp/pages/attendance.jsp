@@ -35,6 +35,8 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
     <!-- 时间选择器 -->
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
+    rel="stylesheet">
     <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
@@ -63,7 +65,6 @@
     </style>
 </head>
 <script>
-
     //定义一个变量用于存储添加和修改时不同的URL
     var myUrl;
     //传入点击的用户id，获取该用户信息并放入表单中
@@ -83,8 +84,8 @@
         //模态框赋值
         $('#userId').val(t[3].innerHTML);
         $('#reson').val(t[4].innerHTML);
-        $('#time1').val(t[5].innerHTML);
-        $('#time2').val(t[6].innerHTML);
+        $('#time1').val(t[5].innerHTML.trim());
+        $('#time2').val(t[6].innerHTML.trim());
         $('#backup').val(t[9].innerHTML);
     }
 
@@ -266,13 +267,13 @@
                         <td>
                             <!--传入当前用户id-->
                             <c:if test="${userLeave.state==0}">
-                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${userLeave.id},this)">编辑</button>
-                                </c:if>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                    data-target="#updateModal" onclick="update(${userLeave.id},this)">编辑</button>
+                            </c:if>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${userLeave.id}">删除</button>
                             <c:if test="${userLeave.state==0}">
-                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                     data-target="#okModal" data-orderId="${userLeave.id}">通过</button>
                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target="#noOkModal" data-orderId="${userLeave.id}">拒绝</button>
@@ -440,7 +441,7 @@
                                 &times;
                             </button>
                             <h4 class="modal-title" id="">
-                                警告：确认通过？
+                                提示：确认通过？
                             </h4>
                         </div>
                         <div class="modal-footer">
@@ -456,7 +457,7 @@
             </div>
         </form>
         <!-- 通过模态框结束 -->
-         <!--拒绝模态框-->
+        <!--拒绝模态框-->
         <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
             <div class="modal fade bs-example-modal-sm" id="noOkModal" tabindex="-1" role="dialog"
                 aria-labelledby="mySmallModalLabel">
@@ -467,7 +468,7 @@
                                 &times;
                             </button>
                             <h4 class="modal-title" id="">
-                                警告：确认通过？
+                                提示：确认通过？
                             </h4>
                         </div>
                         <div class="modal-footer">
@@ -486,46 +487,46 @@
     </div>
 </body>
 <script type="text/javascript">
-$("#okModal").on("shown.bs.modal", function (e) {
-    $("#tongguo").on("click", function () {
-        //定义url
-        var idval = "";
+    $("#okModal").on("shown.bs.modal", function (e) {
+        $("#tongguo").on("click", function () {
+            //定义url
+            var idval = "";
             idval = $(e.relatedTarget).data('orderid');
-       
-        //发送请求
-        var myUrl = 'nursworker/updateAttend2?state=1&id=' + idval;
-        $.ajax({
-            type: "GET",
-            url: myUrl,
-            data: "null",
-            dataType: "text",
-            success: function (obj) {
-                window.location.href = "nursworker/attendance/1";
-            }
-        });
 
-    });
-})
-$("#noOkModal").on("shown.bs.modal", function (e) {
-    $("#jujue").on("click", function () {
-        //定义url
-        var idval = "";
+            //发送请求
+            var myUrl = 'nursworker/updateAttend2?state=1&id=' + idval;
+            $.ajax({
+                type: "GET",
+                url: myUrl,
+                data: "null",
+                dataType: "text",
+                success: function (obj) {
+                    window.location.href = "nursworker/attendance/1";
+                }
+            });
+
+        });
+    })
+    $("#noOkModal").on("shown.bs.modal", function (e) {
+        $("#jujue").on("click", function () {
+            //定义url
+            var idval = "";
             idval = $(e.relatedTarget).data('orderid');
-       
-        //发送请求
-        var myUrl = 'nursworker/updateAttend2?state=2&id=' + idval;
-        $.ajax({
-            type: "GET",
-            url: myUrl,
-            data: "null",
-            dataType: "text",
-            success: function (obj) {
-                window.location.href = "nursworker/attendance/1";
-            }
-        });
 
-    });
-})
+            //发送请求
+            var myUrl = 'nursworker/updateAttend2?state=2&id=' + idval;
+            $.ajax({
+                type: "GET",
+                url: myUrl,
+                data: "null",
+                dataType: "text",
+                success: function (obj) {
+                    window.location.href = "nursworker/attendance/1";
+                }
+            });
+
+        });
+    })
     //删除
     $("#deleteModal").on("shown.bs.modal", function (e) {
         $("#tijiao").on("click", function () {
@@ -598,7 +599,7 @@ $("#noOkModal").on("shown.bs.modal", function (e) {
         });
         //动态设置最大值
         picker2.on('dp.change', function (e) {
-            picker1.data('DateTimePicker').maxDate(e.date);
+            // picker1.data('DateTimePicker').maxDate(e.date);
         });
     });
     //  日期选择框相关代码结束

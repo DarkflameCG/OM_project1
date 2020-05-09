@@ -318,10 +318,10 @@
                                 data-target="#updateModal" onclick="update(${wc.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${wc.id}">删除</button>
-                            <c:set var="flag" scope="session" value="男" />
-                            <c:if test="${flag eq '男'}">
+                            <c:set var="flag" scope="session" value="${wc.status}" />
+                            <c:if test="${wc.status eq '未归'}">
                                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                    data-target="#updateModal" onclick="">按钮</button>
+                                    data-target="#updateModal" onclick="">按钮1</button>
                             </c:if>
                         </td>
                     </tr>
