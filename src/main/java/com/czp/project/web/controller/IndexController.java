@@ -150,6 +150,7 @@ public String removeAttendance(@RequestParam String id) {
    @RequestMapping("/addCost")
    @ResponseBody
    public String addCost(HttpServletRequest req,HttpSession session,String oldManName,int indexId,String payType) {
+	   //如果选择的是充值卡则从account中扣掉对应老人的钱
 	  List<OldMan> list = oldimpl.selectMsgByString(oldManName);
 	  Cost cost=new Cost();
 	  cost.setPayType(payType);
@@ -159,6 +160,12 @@ public String removeAttendance(@RequestParam String id) {
 	  BaseUser baseUser=(BaseUser) session.getAttribute("login");
 	  cost.setUserId(baseUser.getId());
 	  costService.addCost(cost);
+	  if (payType.equals("充值卡")) {
+		Charges charges = indexImpl.findIndexById(indexId);
+		Account account = accountService.findByOldIdAccount(list.get(0).getId());
+		 account.setBalance(account.getBalance()-charges.getAmountOfMoney());
+		 accountService.editAccount(account);
+	}
 	   return "ok";
    }
    //更新缴费

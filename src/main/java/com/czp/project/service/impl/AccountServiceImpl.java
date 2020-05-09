@@ -35,6 +35,10 @@ private OldManMapper oldamanmapper;
 		accountMapper.deleteByPrimaryKey(id);
 		
 	}
+	@Override
+	public Account findByOldIdAccount(int oldId) {
+		return accountMapper.selectByoldKey(oldId);
+	}
 
 
 
@@ -84,5 +88,6 @@ private OldManMapper oldamanmapper;
 		return pi;
 	}
 
+	
 
 }

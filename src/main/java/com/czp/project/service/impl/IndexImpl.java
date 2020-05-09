@@ -75,4 +75,9 @@ public class IndexImpl implements IndexService{
 		return pi;
 	}
 
+	@Override
+	public Charges findIndexById(int id) {
+		return chargesMapper.selectByPrimaryKey(id);
+	}
+
 }

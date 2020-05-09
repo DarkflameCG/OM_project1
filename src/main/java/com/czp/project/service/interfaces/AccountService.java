@@ -24,6 +24,11 @@ public interface AccountService {
 	 */
 	public Account findByIdAccount(int id);
 	/**
+	 * 查询账户
+	 * @param account
+	 */
+	public Account findByOldIdAccount(int oldId);
+	/**
 	 * 通过id删除账户
 	 * @param id
 	 */
@@ -38,6 +43,7 @@ public interface AccountService {
 	 * @param account
 	 */
 	public void editAccount(Account account);
+
 	/**
 	 * 查询全部，不带分页
 	 * @return
