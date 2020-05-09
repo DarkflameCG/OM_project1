@@ -58,13 +58,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                                     value="${login.userName }" required />
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label>密码</label>
-                                                    <input class="form-control" name="password" type="password"
-                                                        value="${login.password }" />
-                                                </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>密码</label>
+                                                <input class="form-control" name="password" type="password"
+                                                    value="${login.password }" />
                                             </div>
                                         </div>
                                     </div>

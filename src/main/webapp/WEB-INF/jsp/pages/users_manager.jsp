@@ -35,7 +35,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
     <!-- 下拉选择框相关 JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-
+    <style>
+        .divcss5-left {
+            float: right;
+            width: 350px;
+            height: 50px;
+        }
+    </style>
 </head>
 <script>
 
@@ -241,38 +247,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 </div>
             </div>
         </div>
-    <br>
-    <table class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                <th></th>
-                <th>用户</th>
-                <th>密码</th>
-                <th>照片</th>
-                <th>角色</th>
-                <th scope="col">操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach items="${users.list}" var="user">
+        <br>
+        <table class="table table-bordered table-hover">
+            <thead>
                 <tr>
-                    <td><input type="checkbox" value="${user.id}"></td>
-                    <td>${user.userName}</td>
-                    <td>${user.password}</td>
-                    <td><img style="width: 50px;" src="${user.userImg}" alt="没有图片"></td>
-                    <td>${user.role.power}</td>
-                    <td>
-                        <!--传入当前用户id-->
-                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#updateModal"
-                            onclick="update(${user.id},this)">编辑</button>
-                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                            data-target="#deleteModal" data-orderId="${user.id}">删除</button>
-                    </td>
+                    <th></th>
+                    <th>用户</th>
+                    <th>密码</th>
+                    <th>照片</th>
+                    <th>角色</th>
+                    <th scope="col">操作</th>
                 </tr>
-            </c:forEach>
-        </tbody>
-    </table>
-    <!-- 分页 -->
+            </thead>
+            <tbody>
+                <c:forEach items="${users.list}" var="user">
+                    <tr>
+                        <td><input type="checkbox" value="${user.id}"></td>
+                        <td>${user.userName}</td>
+                        <td>${user.password}</td>
+                        <td><img style="width: 50px;" src="${user.userImg}" alt="没有图片"></td>
+                        <td>${user.role.power}</td>
+                        <td>
+                            <!--传入当前用户id-->
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                data-target="#updateModal" onclick="update(${user.id},this)">编辑</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                data-target="#deleteModal" data-orderId="${user.id}">删除</button>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+        <!-- 分页 -->
 
     </div>
     <!-- 分页开始 -->
@@ -308,7 +314,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </table>
     </div>
     <!-- 分页结束 -->
-
     <!--删除模态框-->
     <form method="get" name="user" class="form-horizontal" role="form" id="form-data1" style="margin: 20px;">
         <div class="modal fade bs-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog"
@@ -336,7 +341,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
     </form>
     <!-- 删除模态框结束 -->
-
     <!--添加更新模态框-->
     <form method="post" name="user" class="form-horizontal" enctype="form-data" role="form" id="form-data"
         style="margin: 20px;">
@@ -382,7 +386,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     </select>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label for="image" class="col-sm-3 control-label">照片</label>
                                 <div class="col-sm-9">
