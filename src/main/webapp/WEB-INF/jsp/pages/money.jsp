@@ -369,7 +369,7 @@
                                             </c:when>
                                               <c:otherwise>
                         					<input type="text" class="form-control" id="familyName" name="familyName"
-                                            placeholder="用户名长度在5-18字符之间" readonly="readonly">
+                                            placeholder="用户名长度在5-18字符之间">
        										</c:otherwise>
                                              </c:choose>
                                     </div>
@@ -382,7 +382,7 @@
                                         <input type="text" class="form-control" id="cardNumb" name="cardNumb" placeholder="请输入卡号">
                                          </c:when>
                                               <c:otherwise>
-                                                <input type="text" class="form-control" id="cardNumb" name="cardNumb" placeholder="请输入卡号" readonly="readonly">
+                                                <input type="text" class="form-control" id="cardNumb" name="cardNumb" placeholder="请输入卡号">
                                                 </c:otherwise>
                                          </c:choose>
                                     </div>

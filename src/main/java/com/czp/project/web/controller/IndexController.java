@@ -209,6 +209,11 @@ public String removeAttendance(@RequestParam String id) {
 		  try {
 			  PageInfo<AccountEX> info = accountService.findAllAccountForPages(Integer.parseInt(page), 6);
 			  session.setAttribute("accounts", info);
+			  BaseUser baseUser=(BaseUser) session.getAttribute("login");
+			  //取出原有的加上新充值的
+			  if (baseUser.getRole().getId()!=1) {
+				  
+			}
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -263,7 +268,6 @@ public String removeAttendance(@RequestParam String id) {
 				  if (baseUser.getRole().getId()!=1) {
 					  account.setBalance(account2.getBalance()+account.getBalance());
 				}
-				  account.setBalance(account2.getBalance()+account.getBalance());
 				  account.setUserId(baseUser.getId());
 				   account.setAccountDate(new Date());
 				   accountService.editAccount(account);
