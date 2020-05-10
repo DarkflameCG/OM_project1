@@ -8,5 +8,6 @@ import com.czp.project.common.bean.extend.UserLeaveEX;
 
 public interface UserLeaveEXMapper {
 	List<UserLeaveEX> findAllUserLeaverEX();
+	List<UserLeaveEX> findAllUserLeaverEXByUserId(int userId);
 	List<UserLeaveEX> findAllUserLeaverEXByName(@Param("source") String source);
 }

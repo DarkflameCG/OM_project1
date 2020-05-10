@@ -93,8 +93,14 @@ public class NursingworkersController {
 					  @PathVariable String page) {
 				//分页员工信息
 				  try {
-					PageInfo<UserLeaveEX> info =
-							userLeaveServiceImpl.findAllUserLeaveEX(Integer.parseInt(page), 6);
+					  BaseUser baseUser=(BaseUser) session.getAttribute("login");
+					  PageInfo<UserLeaveEX> info=null;
+					  if (baseUser.getRole().getId()==1) {
+							info=userLeaveServiceImpl.findAllUserLeaveEX(Integer.parseInt(page), 6);
+					}else {
+						info=userLeaveServiceImpl.findAllUserLeaveEX(Integer.parseInt(page), 6,baseUser.getId());
+					}
+				
 					  session.setAttribute("userLeaves", info);
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block

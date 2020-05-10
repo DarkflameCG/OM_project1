@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 
 public interface UserLeaveService {
 	PageInfo<UserLeaveEX> findAllUserLeaveEX(int currpage, int row) throws Exception;
+	PageInfo<UserLeaveEX> findAllUserLeaveEX(int currpage, int row,int userId) throws Exception;
 	/**
 	 * 根据id删除考勤
 	 * @param id

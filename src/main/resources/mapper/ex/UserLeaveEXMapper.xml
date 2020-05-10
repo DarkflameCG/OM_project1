@@ -23,6 +23,9 @@
 <select id="findAllUserLeaverEX" resultMap="BaseResultMap"> 
 			select * from user_leave
 	</select> 
+	<select id="findAllUserLeaverEXByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap"> 
+			select * from user_leave where user_id=#{userId}
+	</select> 
   <select id="findAllUserLeaverEXByName" parameterType="java.lang.String"  resultMap="BaseResultMap"> 
 			select l.id,l.start_time,l.end_time,l.state,l.reson,l.user_manager,l.backup,l.user_id from user_leave l,base_user_info b 
 			  where l.user_id=b.id and  b.user_name like  concat(concat("%",#{source}),"%")

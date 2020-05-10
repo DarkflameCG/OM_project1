@@ -254,12 +254,14 @@
                         <button type="submit" class="btn btn-primary">搜索</button>
                     </div>
                 </form>
+                 <c:if test="${login.role.id == 1}">
                 <div class="btns" style="float: right;margin-right: 15px;">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加护工</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal"
                         data-target="#deleteModal">批量删除</button>
                 </div>
+                </c:if>
             </div>
         </div>
         <br>
@@ -283,17 +285,42 @@
                         <td><input type="checkbox" value="${user.id}"></td>
                         <td>${user.id}</td>
                         <td>${user.userName}</td>
+                        <c:choose>
+                        <c:when test="${login.role.id == 1}">
                         <td>${user.password}</td>
+                        </c:when>
+                         <c:when test="${login.userName == user.userName}">
+                        <td>${user.password}</td>
+                        </c:when>
+                         <c:otherwise>
+                         <td></td>
+       					</c:otherwise>
+                        </c:choose>
                         <td><img style="width: 50px;" src="${user.userImg}" alt="没有图片"></td>
+                        <c:choose>
+                        <c:when test="${login.role.id == 1}">
                         <td>${user.salary}</td>
+                        </c:when>
+                         <c:when test="${login.userName == user.userName}">
+                         <td>${user.salary}</td>
+                         </c:when>
+                         <c:otherwise>
+                         <td></td>
+       					</c:otherwise>
+                        </c:choose>
                         <td>${user.workTime}</td>
                         <td>${user.role.power}</td>
                         <td>
-
+                             <c:if test="${login.role.id == 1}">
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                 data-target="#updateModal" onclick="update(${user.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${user.id}">删除</button>
+                                </c:if>
+                                 <c:if test="${login.userName == user.userName}">
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                data-target="#updateModal" onclick="update(${user.id},this)">编辑</button>
+                                </c:if>
                         </td>
                     </tr>
                 </c:forEach>

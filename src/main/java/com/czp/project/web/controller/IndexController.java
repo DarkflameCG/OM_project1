@@ -260,6 +260,9 @@ public String removeAttendance(@RequestParam String id) {
 			        Account account2 = accountService.findByIdAccount(account.getId());
 				  BaseUser baseUser=(BaseUser) session.getAttribute("login");
 				  //取出原有的加上新充值的
+				  if (baseUser.getRole().getId()!=1) {
+					  account.setBalance(account2.getBalance()+account.getBalance());
+				}
 				  account.setBalance(account2.getBalance()+account.getBalance());
 				  account.setUserId(baseUser.getId());
 				   account.setAccountDate(new Date());

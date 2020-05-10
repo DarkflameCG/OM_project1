@@ -236,8 +236,10 @@
                 <div style="float: right;margin-right: 15px;">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加缴费</button>
+                          <c:if test="${login.role.id == 1}">
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                         th:onclick="">批量删除</button>
+                        </c:if>
                 </div>
             </div>
         </div>
@@ -270,11 +272,19 @@
                         </td>
                         <td>${cost.baseUser.userName}</td>
                         <td>
+                         <c:if test="${login.role.id == 1}">
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                 data-target="#updateModal" onclick="update(${cost.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${cost.id}">删除</button>
+                                </c:if>
+                                  <c:if test="${login.role.id != 1}">
+                                 <c:if test="${login.userName == cost.baseUser.userName}">
+                                  <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                data-target="#updateModal" onclick="update(${cost.id},this)">编辑</button>
+                                 </c:if>
+                                 </c:if>
                         </td>
                     </tr>
                 </c:forEach>

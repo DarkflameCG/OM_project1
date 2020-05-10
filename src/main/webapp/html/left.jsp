@@ -101,7 +101,7 @@
                             <li><a href="/index/account/1" target="mainFrame">会员卡充值</a></li>
                         </ul>
                     </li>
-                    <c:if test="${login.role.id == 1}">
+                    
                     <li class="submenu">
                         <a href="#"><i class="fa fa-fw fa-table"></i> <span>护工管理</span> <span
                                 class="menu-arrow"></span></a>
@@ -115,14 +115,14 @@
                             </li>
                         </ul>
                     </li>
-                    </c:if>
+                   
                     <li class="submenu">
                         <a href="#"><i class="fa fa-cog fa-fw"></i> <span>基本设置</span> <span
                                 class="menu-arrow"></span></a>
                         <ul class="list-unstyled">
                             <li><a href="/user/me" target="mainFrame">个人设置</a></li>
                             <c:if test="${login.role.id == 1}">
-                            <li><a href="/user/user/1" target="mainFrame">用户管理</a></>li>
+                            <li><a href="/user/user/1" target="mainFrame">用户管理</a></li>
                             <li><a href="/powers/power/1" target="mainFrame">角色管理</a></li>
                             </c:if>
                         </ul>

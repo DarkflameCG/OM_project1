@@ -213,12 +213,14 @@
                         <button type="submit" class="btn btn-primary">搜索</button>
                     </div>
                 </form>
+                  <c:if test="${login.role.id == 1}">
                 <div class="btns" style="float: right;margin-right: 15px;">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加项目</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal"
                         data-target="#deleteModal">批量删除</button>
                 </div>
+                </c:if>
             </div>
             <br>
             <table class="table table-bordered table-hover">
@@ -239,11 +241,13 @@
                             <td>${index.indexName}</td>
                             <td>${index.amountOfMoney}</td>
                             <td>
+                             <c:if test="${login.role.id == 1}">
                                 <!--传入当前用户id-->
                                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                     data-target="#updateModal" onclick="update(${index.id},this)">编辑</button>
                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target="#deleteModal" data-orderId="${index.id}">删除</button>
+                                    </c:if>
                             </td>
                         </tr>
                     </c:forEach>

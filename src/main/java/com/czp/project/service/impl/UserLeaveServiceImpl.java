@@ -28,6 +28,13 @@ private UserLeaveMapper userLeaveMapper;
 		return pi;
 	}
 	@Override
+	public PageInfo<UserLeaveEX> findAllUserLeaveEX(int currpage, int row,int userId) throws Exception {
+		PageHelper.startPage(currpage, row);
+		List<UserLeaveEX> list = userLeaveEXMapper.findAllUserLeaverEXByUserId(userId);
+		PageInfo<UserLeaveEX> pi = new PageInfo<UserLeaveEX>(list);
+		return pi;
+	}
+	@Override
 	public void removeAttendById(int id) {
 		userLeaveMapper.deleteByPrimaryKey(id);
 		

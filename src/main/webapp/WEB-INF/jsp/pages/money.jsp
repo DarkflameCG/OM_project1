@@ -55,7 +55,6 @@
         //将提交表单的URL变为update
         myUrl = 'index/updateAccount';
         $("#id").attr("value", id);
-        ;
         if (!id) {
             alert('id错误');
             return false;
@@ -250,10 +249,15 @@
                     </div>
                 </form>
                 <div style="float: right;margin-right: 15px;">
+                  <c:if test="${login.role.id != 1}">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加充值记录</button>
+                            </c:if>
+                              <c:if test="${login.role.id == 1}">
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                         th:onclick="">批量删除</button>
+                        </c:if>
+                    
                 </div>
             </div>
         </div>
@@ -286,11 +290,18 @@
                         </td>
 						<td>${account.baseUser.userName}</td>
                         <td>
+                         <c:if test="${login.role.id == 1}">
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                 data-target="#updateModal" onclick="update(${account.id},this)">编辑</button>
+                                
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${account.id}">删除</button>
+                                </c:if>
+                                 <c:if test="${login.role.id != 1}">
+                                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                data-target="#updateModal" onclick="update(${account.id},this)">充值</button>
+                                </c:if>
                         </td>
                     </tr>
                 </c:forEach>
@@ -345,23 +356,46 @@
                         </div>
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
+                           
                                 <!--id为隐藏的input，便于update时的传值-->
                                 <input type="text" id="id" name="id" hidden>
                                 <div class="form-group">
                                     <label for="familyName" class="col-sm-3 control-label">家属姓名</label>
                                     <div class="col-sm-9">
+                                      <c:choose>
+                                        <c:when test="${login.role.id == 1}">
                                         <input type="text" class="form-control" id="familyName" name="familyName"
                                             placeholder="用户名长度在5-18字符之间">
+                                            </c:when>
+                                              <c:otherwise>
+                        					<input type="text" class="form-control" id="familyName" name="familyName"
+                                            placeholder="用户名长度在5-18字符之间" readonly="readonly">
+       										</c:otherwise>
+                                             </c:choose>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="cardNumb" class="col-sm-3 control-label">卡号</label>
                                     <div class="col-sm-9">
+                                     <c:choose>
+                                        <c:when test="${login.role.id == 1}">
                                         <input type="text" class="form-control" id="cardNumb" name="cardNumb" placeholder="请输入卡号">
+                                         </c:when>
+                                              <c:otherwise>
+                                                <input type="text" class="form-control" id="cardNumb" name="cardNumb" placeholder="请输入卡号" readonly="readonly">
+                                                </c:otherwise>
+                                         </c:choose>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="balance" class="col-sm-3 control-label">充值</label>
+                                 <c:choose>
+                                        <c:when test="${login.role.id == 1}">
+                                    <label for="balance" class="col-sm-3 control-label">修改</label>
+                                    </c:when>
+                                     <c:otherwise>
+                                      <label for="balance" class="col-sm-3 control-label">充值</label>
+                                          </c:otherwise>
+                                    </c:choose>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="balance" name="balance"
                                             placeholder="请输入人民币">
@@ -379,6 +413,7 @@
                                     </div>
                                 </div>
                             </form>
+                           
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

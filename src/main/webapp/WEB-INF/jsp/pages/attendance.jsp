@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>老人请假</title>
+    <title>护工考勤</title>
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -218,8 +218,10 @@
                 <div style="float: right;padding-right: 15px;">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加考勤记录</button>
+                         <c:if test="${login.role.id == 1}">
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                         th:onclick="">批量删除</button>
+                        </c:if>
                 </div>
             </div>
         </div>
@@ -270,13 +272,17 @@
                                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                     data-target="#updateModal" onclick="update(${userLeave.id},this)">编辑</button>
                             </c:if>
+                              <c:if test="${login.role.id == 1}">
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${userLeave.id}">删除</button>
+                                </c:if>
                             <c:if test="${userLeave.state==0}">
+                               <c:if test="${login.role.id == 1}">
                                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                     data-target="#okModal" data-orderId="${userLeave.id}">通过</button>
                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target="#noOkModal" data-orderId="${userLeave.id}">拒绝</button>
+                                    </c:if>
                             </c:if>
                         </td>
                     </tr>
@@ -338,7 +344,7 @@
                                     <label for="userName" class="col-sm-3 control-label">护工编号</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="userId" name="userId"
-                                            placeholder="编号为id">
+                                            placeholder="编号为id" value="${login.id}">
                                     </div>
                                 </div>
                                 <div class="form-group">
