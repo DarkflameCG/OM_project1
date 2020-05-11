@@ -1,24 +1,22 @@
 package com.czp.project.web.controller;
 
-import java.io.File;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.czp.project.common.bean.*;
 import com.czp.project.service.impl.*;
-import com.czp.project.service.interfaces.BaseUserService;
-import org.apache.ibatis.annotations.Param;
+import com.czp.project.utils.ExcelWriter;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.*;
 
 import com.czp.project.common.bean.extend.OldManExtend;
 import com.czp.project.utils.NumberProduct;
@@ -143,6 +141,54 @@ public class OldManMsgController {
 
 		return "ok";
 	}
+
+
+	//一键导出老人信息
+	@RequestMapping("/exportExcel")
+	public void downloadOldMsgForExcel(HttpServletRequest request,
+										 HttpServletResponse response) throws Exception{
+		Workbook workbook = null;
+		OutputStream out = null;
+		//PrintWriter pw = response.getWriter();
+		try {
+			// todo 根据业务需求获取需要写入Excel的数据列表 dataList
+			List<OldManExtend> dataList = oldimpl.selectAll();
+			// 生成Excel工作簿对象并写入数据
+			workbook = ExcelWriter.exportData(dataList);
+
+			// 写入Excel文件到前端
+			String excelName = "老人信息总表";
+			String fileName = excelName + System.currentTimeMillis() + ".xlsx";
+			fileName = new String(fileName.getBytes("UTF-8"),"iso8859-1");
+			response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+			response.setContentType("application/vnd.ms-excel");
+			response.setContentType("application/x-download");
+			response.setCharacterEncoding("UTF-8");
+			response.addHeader("Pargam", "no-cache");
+			response.addHeader("Cache-Control", "no-cache");
+			response.flushBuffer();
+
+			out = response.getOutputStream();
+			workbook.write(out);
+			out.flush();
+
+		} catch (Exception e) {
+			System.err.println("关闭workbook或outputStream出错！");
+		} finally {
+			try {
+				if (null != workbook) {
+					workbook.close();
+				}
+				if (null != out) {
+					out.close();
+				}
+			} catch (IOException e) {
+				System.err.println("关闭workbook或outputStream出错！");
+			}
+		}
+	}
+
+
 
 
 }

@@ -253,6 +253,9 @@
                     </div>
                 </form>
                 <div style="float: right;margin-right: 15px;">
+                    <c:if test="${login.role.id == 1}">
+                    <button type="button" class="btn btn-info" data-toggle="modal" onclick="window.location='oldmsg/exportExcel'">一键导出</button>
+                    </c:if>
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加老人信息</button>
                     <c:if test="${login.role.id == 1}">
