@@ -1,0 +1,43 @@
+.cw{width:1200px;margin:0 auto;min-width:1200px;}
+.simsun{font-family:simsun;}
+.inner_bg{background-color:#f5f1ee;}
+
+header{height:120px;background-color:#eee;min-width:1200px;position:relative;z-index:1000;}
+header .cw{height:120px;}
+header .logo{background:url(/images/logo.jpg) no-repeat;width:228px;height:84px;
+	text-indent:-9999em;margin:20px 0 0;}
+
+header div.fr a , header div.fr span , header div.fr i , header div.fr em{vertical-align:middle;}
+header div.fr p{padding:20px 0;height:20px;line-height:20px;text-align:right;overflow:hidden;}
+header .btn{display:inline-block;width:90px;height:20px;line-height:20px;text-align:center;
+	border:1px solid #2C6144;border-radius:4px;color:#2C6144;font-size:12px;margin-left:7px;}
+header .btn:hover{text-decoration:none;background-color:#2C6144;color:#fff;}
+header .tel{margin-left:17px;}
+header .tel i{display:inline-block;width:18px;height:18px;background:url(../images/tel_ico1.png) no-repeat;
+	margin-right:8px;}
+header .tel em{color:#2C6144;font-size:20px;}
+
+header .nav_list{height:60px;}
+header .nav_list li{float:left;margin-left:40px;height:60px;line-height:60px;}
+header .nav_list li a{display:block;height:50px;line-height:50px;text-align:center;padding-bottom:10px;}
+header .nav_list li a span , header .nav_list li a i{vertical-align:middle;}
+header .nav_list li a span{font-size:18px;color:#333;}
+header .nav_list li a i{display:inline-block;width:10px;height:10px;background:url(../images/nav_list_ico.png) no-repeat;
+	margin-left:10px;transition:all ease 0.3s;}
+header .nav_list li:hover a , header .nav_list li.cur a{text-decoration:none;}
+header .nav_list li:hover a span , header .nav_list li.cur a span{color:#b3896f;}
+header .nav_list li:hover a i{transform:rotate(180deg);}
+
+
+header .sub_nav{width:100%;height:60px;line-height:60px;background:#2C6144;filter:alpha(Opacity=80);-moz-opacity:0.8;opacity: 0.8;
+	position:absolute;top:120px;left:0;width:100%;overflow:hidden;display:none;}
+header .sub_nav .in{display:none;}
+header .sub_nav .cw{height:60px;line-height:60px;text-align:right;}
+header .sub_nav .cw a{color:#fff;font-size:15px;margin-left:50px;text-decoration:none;}
+header .sub_nav .cw a:hover{text-shadow:0 0 5px #f9f9f9;}
+
+footer{background-color:#3d3632;padding:25px 0 45px;}
+footer .link_line{text-align:center;}
+footer .link_line a{color:#fff;font-size:16px;color:#fff;}
+footer .link_line em{color:#fff;padding:0 15px;font-size:16px;}
+footer .copyright{text-align:center;color:#fff;padding-top:20px;}
