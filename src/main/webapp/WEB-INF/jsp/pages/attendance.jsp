@@ -36,7 +36,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
     <!-- 时间选择器 -->
     <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
-    rel="stylesheet">
+        rel="stylesheet">
     <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
@@ -99,34 +99,58 @@
             onsubmit: true,      //提交时验证（有效）
             onkeyup: false,
             rules: {
-                password: {
+                userId: {
                     required: true,
-                    rangelength: [5, 20]
+                    rangelength: [1, 20]
                 },
-                phone: {
+                reson: {
                     required: true,
-                    digits: true,
-                    rangelength: [11, 11]
+                    rangelength: [1, 99]
                 },
-                email: {
+                // time1: {
+                //     required: true,
+                //     rangelength: [1, 99]
+                // },
+                // time2: {
+                //     required: true,
+                //     rangelength: [1, 99]
+                // },
+                state: {
                     required: true,
-                    email: true
-                }
+                    rangelength: [1, 99]
+                },
+                backup: {
+                    required: true,
+                    rangelength: [1, 99]
+                },
             },
             messages: {
-                password: {
-                    required: "请填写密码",
-                    rangelength: "密码长度不符合规范"
+                userId: {
+                    required: "请填写编号",
+                    rangelength: "编号长度不符合规范"
                 },
-                phone: {
-                    required: "请填写手机号",
-                    digits: "请填写正确的手机号",
-                    rangelength: "请填写正确的手机号"
+                reson: {
+                    required: "请填写原因",
+                    rangelength: "请填写正确的原因"
                 },
-                email: {
-                    required: "请填写邮箱",
-                    email: "请填写正确的邮箱"
-                }
+                // time1: {
+                //     required: "请填写时间",
+                //     rangelength: "请填写正确的时间"
+                // },
+                // time2: {
+                //     required: "请填写时间",
+                //     rangelength: "请填写正确的时间"
+                // },
+                state: {
+                    required: "请填写状态",
+                    rangelength: "请填写正确的状态"
+                },
+                backup: {
+                    required: "请填写备注",
+                    rangelength: "请填写正确的备注"
+                },
+
+               
             },
             submitHandler: function (form) {
                 checkForm();
@@ -201,7 +225,6 @@
         });
     }
 </script>
-
 <body>
     <div class="container-fluid">
         <div class="tool">
@@ -218,10 +241,10 @@
                 <div style="float: right;padding-right: 15px;">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加考勤记录</button>
-                         <c:if test="${login.role.id == 1}">
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
-                        th:onclick="">批量删除</button>
-                        </c:if>
+                    <c:if test="${login.role.id == 1}">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
+                            th:onclick="">批量删除</button>
+                    </c:if>
                 </div>
             </div>
         </div>
@@ -272,17 +295,17 @@
                                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                     data-target="#updateModal" onclick="update(${userLeave.id},this)">编辑</button>
                             </c:if>
-                              <c:if test="${login.role.id == 1}">
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                data-target="#deleteModal" data-orderId="${userLeave.id}">删除</button>
-                                </c:if>
-                            <c:if test="${userLeave.state==0}">
-                               <c:if test="${login.role.id == 1}">
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                    data-target="#okModal" data-orderId="${userLeave.id}">通过</button>
+                            <c:if test="${login.role.id == 1}">
                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                    data-target="#noOkModal" data-orderId="${userLeave.id}">拒绝</button>
-                                    </c:if>
+                                    data-target="#deleteModal" data-orderId="${userLeave.id}">删除</button>
+                            </c:if>
+                            <c:if test="${userLeave.state==0}">
+                                <c:if test="${login.role.id == 1}">
+                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                        data-target="#okModal" data-orderId="${userLeave.id}">通过</button>
+                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                        data-target="#noOkModal" data-orderId="${userLeave.id}">拒绝</button>
+                                </c:if>
                             </c:if>
                         </td>
                     </tr>

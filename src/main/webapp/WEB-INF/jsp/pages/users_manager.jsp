@@ -115,7 +115,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 },
                 userName: {
                     required: true,
-                    rangelength: [5, 20]
+                    rangelength: [2, 18]
                 }
             },
             messages: {
@@ -364,7 +364,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 <label for="userName" class="col-sm-3 control-label">用户名</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="userName" name="userName"
-                                        placeholder="用户名长度在5-20字符之间">
+                                        placeholder="用户名长度在2-18字符之间">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -476,7 +476,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         if (request) {
             request.onload = function () {
                 if (request.status == 200) {
-                    alert("图片上传成功！");
                     // 通过截取字符串获得图片路径
                     img_url = request.response.toString().split('url":')[1].slice(1, -2)
                     $('#userImg').val(img_url)

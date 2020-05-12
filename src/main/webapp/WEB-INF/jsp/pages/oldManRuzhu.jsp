@@ -110,36 +110,6 @@
             onblur: function (element) { $(element).valid(); },    //鼠标移开验证。这里写onblue:true没有效果
             onsubmit: true,      //提交时验证（有效）
             onkeyup: false,
-            rules: {
-                password: {
-                    required: true,
-                    rangelength: [5, 20]
-                },
-                phone: {
-                    required: true,
-                    digits: true,
-                    rangelength: [11, 11]
-                },
-                email: {
-                    required: true,
-                    email: true
-                }
-            },
-            messages: {
-                password: {
-                    required: "请填写密码",
-                    rangelength: "密码长度不符合规范"
-                },
-                phone: {
-                    required: "请填写手机号",
-                    digits: "请填写正确的手机号",
-                    rangelength: "请填写正确的手机号"
-                },
-                email: {
-                    required: "请填写邮箱",
-                    email: "请填写正确的邮箱"
-                }
-            },
             submitHandler: function (form) {
                 checkForm();
             }
@@ -151,26 +121,9 @@
         if ($('#username').attr("readonly") == undefined) {
             $('#username').rules("add", {
                 required: true,
-                rangelength: [5, 20],
-                /* remote: {
-                    type: "POST",
-                    url: "/checkUsername",
-                    data: {
-                        username: function () {
-                            return $("#username").val();
-                        }
-                    },
-                    dataType: "html",
-                    dataFilter: function (data) {
-                        if (data == "true")
-                            return true;
-                        else
-                            return false;
-                    }
-                }, */
+                rangelength: [2, 18],
                 messages: {
                     required: "请填写用户名",
-                    /*  remote: "用户名已存在", */
                     rangelength: "用户名长度不符合规范"
                 }
             });
