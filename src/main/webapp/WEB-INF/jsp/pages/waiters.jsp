@@ -155,7 +155,7 @@
         if ($('#userName').attr("readonly") == undefined) {
             /* $('#username').rules("add", {
                 required: true,
-                rangelength: [5, 20],
+                rangelength: [2, 18],
                  remote: {
                     type: "POST",
                     url: "/checkUsername",
@@ -512,7 +512,6 @@
         if (request) {
             request.onload = function () {
                 if (request.status == 200) {
-                    alert("图片上传成功！");
                     // 通过截取字符串获得图片路径
                     img_url = request.response.toString().split('url":')[1].slice(1, -2)
                     $('#userImg').val(img_url)

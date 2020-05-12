@@ -87,7 +87,8 @@
                 telphone: {
                     required: true,
                     digits: true,//数字
-                    telphone: true
+                    rangelength: [11, 11]
+
                 }
             },
             messages: {
@@ -106,6 +107,7 @@
                 }
             },
             submitHandler: function (form) {
+                alert('checkForm')
                 checkForm();
             }
         });
@@ -116,7 +118,7 @@
         if ($('#username').attr("readonly") == undefined) {
             $('#username').rules("add", {
                 required: true,
-                rangelength: [5, 20],
+                rangelength: [2, 18],
                 /* remote: {
                     type: "POST",
                     url: "/checkUsername",
@@ -154,9 +156,9 @@
         $('#modal_button').attr('disabled', true)
     }
     // 点击入住
-    function ruzhu(id,a){
-        $('#outroom').attr('hidden',true);
-        $('#hugong').attr('hidden',false);
+    function ruzhu(id, a) {
+        $('#outroom').attr('hidden', true);
+        $('#hugong').attr('hidden', false);
         myUrl = 'oldmsg/checkin';
         //将提交表单的URL变为update
         $("#userID").attr("value", id);
@@ -173,10 +175,10 @@
 
     }
     // 点击转房
-    function zhuanfang(id,a){
-        $('#hugong').attr('hidden',true);
-        $('#outroom').attr('hidden',false);
-        $('#outRoomName').attr('readonly',true);
+    function zhuanfang(id, a) {
+        $('#hugong').attr('hidden', true);
+        $('#outroom').attr('hidden', false);
+        $('#outRoomName').attr('readonly', true);
         myUrl = 'oldmsg/transfer';
         //将提交表单的URL变为update
         $("#userID").attr("value", id);
@@ -197,15 +199,18 @@
     }
     //提交表单
     function checkForm() {
+        alert(1)
         var formData;
         //将表单内容序列化，即可得到相应对象，直接传到后台
         //userid为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
+            alert('tijiao')
             formData = $('#oldmanId,#username,#age,#gender,#health,#familyMembersId,#telphone,#oldmanImg,#inRoomId,#outRoomId,#inhugongName,#backup').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
+            alert('gengxin')
             formData = $('#form-data').serializeArray();
         }
         $.ajax({
@@ -254,13 +259,14 @@
                 </form>
                 <div style="float: right;margin-right: 15px;">
                     <c:if test="${login.role.id == 1}">
-                    <button type="button" class="btn btn-info" data-toggle="modal" onclick="window.location='oldmsg/exportExcel'">一键导出</button>
+                        <button type="button" class="btn btn-info" data-toggle="modal"
+                            onclick="window.location='oldmsg/exportExcel'">一键导出</button>
                     </c:if>
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加老人信息</button>
                     <c:if test="${login.role.id == 1}">
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
-                        th:onclick="">批量删除</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
+                            th:onclick="">批量删除</button>
                     </c:if>
                 </div>
             </div>
@@ -305,21 +311,21 @@
                         <td>
                             <!--传入当前用户id-->
                             <c:if test="${login.role.id==1}">
-                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                data-target="#deleteModal" data-orderId="${old.id}">删除</button>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                    data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
+                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                    data-target="#deleteModal" data-orderId="${old.id}">删除</button>
                             </c:if>
                             <c:if test="${login.role.id==2}">
-                            <c:set var="flag" scope="session" value="${old.room.roomNumb}" />
-                            <c:if test="${empty flag}">
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                    data-target="#udroomModal" onclick="ruzhu(${old.id},this)">入住</button>
-                            </c:if>
-                            <c:if test="${not empty flag}">
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                    data-target="#udroomModal" onclick="zhuanfang(${old.id},this)">转房</button>
-                            </c:if>
+                                <c:set var="flag" scope="session" value="${old.room.roomNumb}" />
+                                <c:if test="${empty flag}">
+                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                        data-target="#udroomModal" onclick="ruzhu(${old.id},this)">入住</button>
+                                </c:if>
+                                <c:if test="${not empty flag}">
+                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                        data-target="#udroomModal" onclick="zhuanfang(${old.id},this)">转房</button>
+                                </c:if>
                             </c:if>
                         </td>
                     </tr>
@@ -382,7 +388,7 @@
                                     <label for="username" class="col-sm-3 control-label">用户名</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="username" name="oldmanName"
-                                            placeholder="用户名长度在5-18字符之间">
+                                            placeholder="用户名长度在2-18字符之间">
                                     </div>
                                 </div>
                                 <div class="form-group">

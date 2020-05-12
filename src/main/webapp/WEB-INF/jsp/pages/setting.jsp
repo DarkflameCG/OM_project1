@@ -153,7 +153,7 @@
         if ($('#username').attr("readonly") == undefined) {
             $('#username').rules("add", {
                 required: true,
-                rangelength: [5, 20],
+                rangelength: [2, 18],
                 /* remote: {
                     type: "POST",
                     url: "/checkUsername",
@@ -362,7 +362,7 @@
                                     <label for="username" class="col-sm-3 control-label">用户名</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="username" name="oldmanName"
-                                            placeholder="用户名长度在5-18字符之间">
+                                            placeholder="用户名长度在2-18字符之间">
                                     </div>
                                 </div>
                                 <div class="form-group">

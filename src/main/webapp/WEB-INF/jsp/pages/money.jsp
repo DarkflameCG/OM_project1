@@ -151,7 +151,7 @@
       /*   if ($('#username').attr("readonly") == undefined) {
             $('#username').rules("add", {
                 required: true,
-                rangelength: [5, 20],
+                rangelength: [2, 18],
                  remote: {
                     type: "POST",
                     url: "/checkUsername",
@@ -365,11 +365,11 @@
                                       <c:choose>
                                         <c:when test="${login.role.id == 1}">
                                         <input type="text" class="form-control" id="familyName" name="familyName"
-                                            placeholder="用户名长度在5-18字符之间">
+                                            placeholder="用户名长度在2-18字符之间">
                                             </c:when>
                                               <c:otherwise>
                         					<input type="text" class="form-control" id="familyName" name="familyName"
-                                            placeholder="用户名长度在5-18字符之间">
+                                            placeholder="用户名长度在2-18字符之间">
        										</c:otherwise>
                                              </c:choose>
                                     </div>

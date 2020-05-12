@@ -150,7 +150,7 @@
         if ($('#username').attr("readonly") == undefined) {
             $('#username').rules("add", {
                 required: true,
-                rangelength: [5, 20],
+                rangelength: [2, 18],
                 /* remote: {
                     type: "POST",
                     url: "/checkUsername",
