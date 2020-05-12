@@ -28,7 +28,8 @@
 	</select>
 
     <select id="selectByParameter" parameterType="String" resultMap="BaseResultMap">
-   SELECT * FROM oldman_ruzhu WHERE oldman_name LIKE CONCAT(CONCAT('%', #{text}), '%')
+   SELECT * FROM oldman_ruzhu rz,old_man om
+   WHERE om.oldman_name LIKE CONCAT(CONCAT('%', #{text}), '%') And om.id = rz.oldman_id
   </select>
   
 </mapper>

@@ -282,7 +282,9 @@
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
+                    <c:if test="${login.role.id==1}">
                     <th></th>
+                    </c:if>
                     <th>序号</th>
                     <th>姓名</th>
                     <th>事项</th>
@@ -298,7 +300,9 @@
             <tbody>
                 <c:forEach items="${oldwcPages.list}" var="wc">
                     <tr>
+                        <c:if test="${login.role.id==1}">
                         <td><input type="checkbox" value="${wc.id}"></td>
+                        </c:if>
                         <td>${wc.id}</td>
                         <td>${wc.oldman.oldmanName}</td>
                         <td>${wc.event}</td>
@@ -314,14 +318,17 @@
                         <td>${wc.backup}</td>
                         <td>
                             <!--传入当前用户id-->
-                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${wc.id},this)">编辑</button>
+                            <c:if test="${wc.status eq '已归'}">
+                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
+                                data-target="#updateModal" onclick="update(${wc.id},this)">修改</button>
+                            </c:if>
+                            <c:if test="${login.role.id==1}">
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${wc.id}">删除</button>
+                            </c:if>
                             <c:set var="flag" scope="session" value="${wc.status}" />
                             <c:if test="${wc.status eq '未归'}">
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                    data-target="#updateModal" onclick="">按钮1</button>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" onclick="">确认已归</button>
                             </c:if>
                         </td>
                     </tr>

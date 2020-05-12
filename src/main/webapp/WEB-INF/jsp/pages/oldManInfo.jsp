@@ -116,7 +116,7 @@
         if ($('#username').attr("readonly") == undefined) {
             $('#username').rules("add", {
                 required: true,
-                rangelength: [5, 20],
+                rangelength: [2, 18],
                 /* remote: {
                     type: "POST",
                     url: "/checkUsername",
@@ -305,7 +305,7 @@
                         <td>
                             <!--传入当前用户id-->
                             <c:if test="${login.role.id==1}">
-                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
                                 data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${old.id}">删除</button>
@@ -382,7 +382,7 @@
                                     <label for="username" class="col-sm-3 control-label">用户名</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="username" name="oldmanName"
-                                            placeholder="用户名长度在5-18字符之间">
+                                            placeholder="用户名长度在2-18字符之间">
                                     </div>
                                 </div>
                                 <div class="form-group">

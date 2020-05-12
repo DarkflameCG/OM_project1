@@ -4,9 +4,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<%
+    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
+%>
 
 <head>
-    <base href="http://localhost:2333/">
+    <base href="<%=basePath%>">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,7 +51,7 @@
     //传入点击的用户id，获取该用户信息并放入表单中
     function update(id, a) {
         //将提交表单的URL变为update
-        myUrl = 'oldmsg/edit';
+        myUrl = 'activity/edit';
         $("#userID").attr("value", id);
         ;
         if (!id) {
@@ -180,8 +183,7 @@
         3.清空表单数据
      */
     function setUrl() {
-        myUrl = 'oldmsg/addOldmanMsg';
-        $('#username').removeAttr("readonly");
+        myUrl = 'activity/add';
         $('#form-data input').val("");
     }
     //提交表单
@@ -238,7 +240,7 @@
         <div class="tool">
             <div class="row">
                 <br />
-                <form action="oldmsg/getMsgBySource" class="form-horizontal">
+                <form action="activity/getByName/1" class="form-horizontal">
                     <div class="col-sm-3">
                         <input name="source" type="text" id="search" class="form-control">
                     </div>
@@ -246,32 +248,40 @@
                         <button type="submit" class="btn btn-primary">搜索</button>
                     </div>
                 </form>
+                <c:if test="${login.role.id ==1}">
                 <div style="float: right;margin-right: 15px;">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">添加入住记录</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                         th:onclick="">批量删除</button>
                 </div>
+                </c:if>
             </div>
         </div>
         <br>
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
+                    <c:if test="${login.role.id ==1}">
                     <th></th>
+                    </c:if>
                     <th>序号</th>
                     <th>姓名</th>
                     <th>性别</th>
                     <th>时间</th>
                     <th>入住房间号</th>
                     <th>办理人</th>
+                    <c:if test="${login.role.id ==1}">
                     <th>操作</th>
+                    </c:if>
                 </tr>
             </thead>
             <tbody>
                 <c:forEach items="${ruzhus.list}" var="ruzhu">
                     <tr>
+                        <c:if test="${login.role.id ==1}">
                         <td><input type="checkbox" value="${ruzhu.id}"></td>
+                        </c:if>
                         <td>${ruzhu.id}</td>
                         <td>${ruzhu.oldMan.oldmanName}</td>
                         <td>${ruzhu.oldMan.gender}</td>
@@ -280,13 +290,15 @@
                         </td>
                         <td>${ruzhu.inRoomId}</td>
                         <td>${ruzhu.userLog}</td>
+                        <c:if test="${login.role.id ==1}">
                         <td>
                             <!--传入当前用户id-->
-                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
                                 data-target="#updateModal" onclick="update(${ruzhu.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${ruzhu.id}">删除</button>
                         </td>
+                        </c:if>
                     </tr>
                 </c:forEach>
             </tbody>
@@ -343,36 +355,39 @@
                                 <!--userid为隐藏的input，便于update时的传值-->
                                 <input type="text" id="userID" name="id" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">姓名</label>
+                                    <label for="username" class="col-sm-3 control-label">老人编号</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="username" name="oldmanName"
-                                            placeholder="用户名长度在5-18字符之间">
+                                            placeholder="请输入老人独立编号">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="gender" class="col-sm-3 control-label">性别</label>
+                                    <label for="inRoomId" class="col-sm-3 control-label">转入房间号</label>
                                     <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
-                                            data-live-search="false">
-                                            <option value="男">男</option>
-                                            <option value="女">女</option>
+                                        <select id="inRoomId" name="inRoomId"
+                                                class="selectpicker show-tick form-control" data-live-search="false">
+                                            <c:forEach items="${emptyRooms}" var="room">
+                                                <option value="${room.id}">${room.roomNumb}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="hugong">
+                                    <label for="inhugongName" class="col-sm-3 control-label">护工</label>
+                                    <div class="col-sm-9">
+                                        <select id="inhugongName" name="inhugongName"
+                                                class="selectpicker show-tick form-control" data-live-search="false">
+                                            <c:forEach items="${nurseList}" var="nurse">
+                                                <option value="${nurse.id}">${nurse.userName}</option>
+                                            </c:forEach>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="health" class="col-sm-3 control-label">请选择房间号</label>
+                                    <label for="backup" class="col-sm-3 control-label">备注</label>
                                     <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
-                                            data-live-search="false">
-                                            <option value="101">101</option>
-                                            <option value="102">102</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">备注</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">
+                                        <input type="text" class="form-control" id="backup" name="backup"
+                                               placeholder="请输入备注">
                                     </div>
                                 </div>
                             </form>
@@ -440,7 +455,7 @@
                 idval = $(e.relatedTarget).data('orderid');
             }
             //发送请求
-            var myUrl = 'http://localhost:2333/oldmsg/remove?id=' + idval;
+            var myUrl = '<%=basePath%>activity/remove?id=' + idval;
             var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
             httpRequest.open('GET', myUrl, true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
             httpRequest.send();//第三步：发送请求  将请求参数写在URL中

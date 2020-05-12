@@ -3,6 +3,7 @@ package com.czp.project.service.interfaces;
 
 import com.czp.project.common.bean.OldManRuZhu;
 import com.czp.project.common.bean.OmWaichu;
+import com.czp.project.common.bean.extend.OldManExtend;
 import com.czp.project.common.bean.extend.OldManRuZhuEX;
 import com.czp.project.common.bean.extend.WaichuExtend;
 import com.github.pagehelper.PageInfo;
@@ -19,6 +20,15 @@ public interface OldManRuZhuService {
 	 */
 	PageInfo<OldManRuZhuEX> findAllOldManRuZhuEX(int currpage, int row) throws Exception;;
 
+	/**
+	 * 根据名字做模糊查询，带分页
+	 * @param currpage 当前页数
+	 * @param row     每页的条数
+	 * @param name
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo<OldManRuZhuEX> fuzzyQueryByPage(String name, int currpage, int row) throws Exception;
 
 	/**
 	 * 添加外出记录

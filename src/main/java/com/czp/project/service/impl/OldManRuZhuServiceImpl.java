@@ -3,6 +3,7 @@ package com.czp.project.service.impl;
 import java.util.List;
 
 import com.czp.project.common.bean.OldManRuZhu;
+import com.czp.project.common.bean.extend.OldManExtend;
 import com.czp.project.dao.OldManRuZhuMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,13 @@ public class OldManRuZhuServiceImpl implements OldManRuZhuService{
 		List<OldManRuZhuEX> list = oldManRuZhuEXMapper.findAllOldManRuZhuEX();
 		PageInfo<OldManRuZhuEX> pi = new PageInfo<OldManRuZhuEX>(list);
 		return pi;
+	}
+
+	@Override
+	public PageInfo<OldManRuZhuEX> fuzzyQueryByPage(String name, int currpage, int row) throws Exception {
+		PageHelper.startPage(currpage,row);
+		List<OldManRuZhuEX> tempList = oldManRuZhuEXMapper.selectByParameter(name);
+		return new PageInfo<OldManRuZhuEX>(tempList);
 	}
 
 	@Override

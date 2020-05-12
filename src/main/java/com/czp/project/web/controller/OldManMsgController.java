@@ -72,7 +72,7 @@ public class OldManMsgController {
 	@RequestMapping("/addOldmanMsg")
 	@ResponseBody
 	public String addOldManMsg(OldMan oldman) {
-		System.out.println(oldman);
+		System.out.println("========"+oldman.getOldmanImg());
 		oldman.setOldNumber(NumberProduct.getNumber());
 		oldimpl.addOldManMsg(oldman);	
 		return "ok";
