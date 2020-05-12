@@ -7,8 +7,9 @@
   </select>
 
   <select id="selectByParameter" parameterType="String" resultMap="OmzfExtendResultMap">
-   SELECT * FROM oldman_zhuangfang WHERE oldman_name LIKE CONCAT(CONCAT('%', #{text}), '%')
+   SELECT * FROM oldman_zhuangfang zf,old_man om WHERE oldman_name LIKE CONCAT(CONCAT('%', #{text}), '%') AND om.id=zf.oldman_id
   </select>
+
 
   <resultMap id="OmzfExtendResultMap"
              type="com.czp.project.common.bean.extend.ZhuanFangExtend"

@@ -8,10 +8,12 @@ import com.czp.project.common.bean.Room;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class OldManExtend extends OldMan{
 	
 	private Room room; //房间对象

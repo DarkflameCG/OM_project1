@@ -1,7 +1,10 @@
 package com.czp.project.common.bean;
 
+import lombok.ToString;
+
 import java.util.Date;
 
+@ToString
 public class OldMan {
     /**
      *

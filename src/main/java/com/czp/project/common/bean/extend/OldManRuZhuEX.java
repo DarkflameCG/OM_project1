@@ -2,7 +2,9 @@ package com.czp.project.common.bean.extend;
 
 import com.czp.project.common.bean.OldMan;
 import com.czp.project.common.bean.OldManRuZhu;
+import lombok.ToString;
 
+@ToString
 public class OldManRuZhuEX extends OldManRuZhu{
  private OldMan oldMan;
 

@@ -75,7 +75,6 @@
         //将提交表单的URL变为update
         myUrl = 'wc/edit';
         $("#userID").attr("value", id);
-        ;
         if (!id) {
             alert('id错误');
             return false;
@@ -85,11 +84,12 @@
         //获取当前行tr下的所有td
         var t = temp[0].cells;
         //模态框赋值
-        $('#username').val(t[2].innerHTML);
-        $('#age').val(t[4].innerHTML);
-        $('#gender').val(t[5].innerHTML);
-        $('#telphone').val(t[9].innerHTML);
-        $('#health').val(t[7].innerHTML);
+        $('#oldNumb').val(t[1].title);
+        $('#backup').val(t[9].innerHTML);
+        $('#event').val(t[3].innerHTML);
+        $('#time1').val(t[4].innerHTML.trim());
+        $('#time2').val(t[5].innerHTML.trim());
+
         //给姓名框设置只读
         //$('#username').attr("readonly", "readonly");
         //下面是使用ajax动态的放数据
@@ -217,7 +217,7 @@
         // ！！！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#userID,#oldNumb,#event,#time_1,#time_2,#backup').serializeArray();
+            formData = $('#userLog,#oldNumb,#event,#time1,#time2,#backup').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -262,7 +262,7 @@
         <div class="tool">
             <div class="row">
                 <br />
-                <form action="oldmsg/getMsgBySource" class="form-horizontal">
+                <form action="wc/getByName/1" class="form-horizontal">
                     <div class="col-sm-3">
                         <input name="source" type="text" id="search" class="form-control">
                     </div>
@@ -303,14 +303,14 @@
                         <c:if test="${login.role.id==1}">
                         <td><input type="checkbox" value="${wc.id}"></td>
                         </c:if>
-                        <td>${wc.id}</td>
+                        <td title="${wc.oldman.oldNumber}">${wc.id}</td>
                         <td>${wc.oldman.oldmanName}</td>
                         <td>${wc.event}</td>
                         <td>
-                            <fmt:formatDate value="${wc.statTime}" pattern="yyyy年MM月dd日" />
+                            <fmt:formatDate value="${wc.statTime}" pattern="yyyy-MM-dd" />
                         </td>
                         <td>
-                            <fmt:formatDate value="${wc.endTime}" pattern="yyyy年MM月dd日" />
+                            <fmt:formatDate value="${wc.endTime}" pattern="yyyy-MM-dd" />
                         </td>
                         <td>${wc.oldman.telphone}</td>
                         <td>${wc.status}</td>
@@ -318,7 +318,7 @@
                         <td>${wc.backup}</td>
                         <td>
                             <!--传入当前用户id-->
-                            <c:if test="${wc.status eq '已归'}">
+                            <c:if test="${wc.status eq '未归'}">
                             <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
                                 data-target="#updateModal" onclick="update(${wc.id},this)">修改</button>
                             </c:if>
@@ -328,7 +328,7 @@
                             </c:if>
                             <c:set var="flag" scope="session" value="${wc.status}" />
                             <c:if test="${wc.status eq '未归'}">
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" onclick="">确认已归</button>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" onclick="window.location='wc/check/${wc.id}'">确认已归</button>
                             </c:if>
                         </td>
                     </tr>
@@ -385,7 +385,7 @@
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="userLog" value="${login.userName}" hidden>
+                                <input type="text" id="userLog" name="userLog" value="${login.userName}" hidden>
                                 <div class="form-group">
                                     <label for="oldNumb" class="col-sm-3 control-label">老人编号</label>
                                     <div class="col-sm-9">
@@ -405,7 +405,7 @@
                                     <div class="col-sm-9">
                                         <div class="myrow">
                                             <div class='input-group date' style="width: 14em;" id='datetimepicker1'>
-                                                <input id="time_1" name="time_1" type='text'
+                                                <input id="time1" name="time1" type='text'
                                                     class="timeInput form-control" />
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
@@ -414,7 +414,7 @@
                                             <div class="dates">
                                             </div>
                                             <div class='input-group date' style="width: 14em;" id='datetimepicker2'>
-                                                <input id="time_2" name="time_2" type='text'
+                                                <input id="time2" name="time2" type='text'
                                                     class="timeInput form-control" />
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>

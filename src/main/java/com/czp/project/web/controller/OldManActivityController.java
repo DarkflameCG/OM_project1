@@ -42,7 +42,6 @@ public class OldManActivityController {
 		PageInfo<OldManRuZhuEX> info = oldManRuZhuService.findAllOldManRuZhuEX(Integer.parseInt(page), 2);
 		session.setAttribute("ruzhus", info);
 
-
 		//需要查出所有空房间
 		List<Room> rooms2 = roomimpl.getRoomForEmpty();
 		session.setAttribute("emptyRooms", rooms2);
@@ -68,11 +67,14 @@ public class OldManActivityController {
 
 	@RequestMapping("/add")
 	@ResponseBody
-	public String addCheckInMsg(OldManRuZhu rz,@RequestParam String oldNumb) {
+	public String addCheckInMsg(OldManRuZhu rz,
+								@RequestParam String oldNumb,
+								@RequestParam String inhugongName) {
 		//先根据编号信息查询老人信息
 
 		OldMan oldman = oldmanimpl.getOldmanByNumb(oldNumb);
 		//记录添加进去
+		oldman.setUserId(Integer.parseInt(inhugongName));
 		rz.setOldmanId(oldman.getId());
 		rz.setTime(new Date());
 		oldManRuZhuService.addRz(rz);

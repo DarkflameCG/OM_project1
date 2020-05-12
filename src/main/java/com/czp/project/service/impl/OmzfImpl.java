@@ -2,6 +2,7 @@ package com.czp.project.service.impl;
 
 import java.util.List;
 
+import com.czp.project.common.bean.extend.OldManRuZhuEX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,13 @@ public class OmzfImpl implements OmzfService{
 	public PageInfo<ZhuanFangExtend> selectAllByPage(int currpage, int row) {
 		PageHelper.startPage(currpage,row);
 		return new PageInfo<ZhuanFangExtend>(this.selectAll());
+	}
+
+	@Override
+	public PageInfo<ZhuanFangExtend> fuzzyQueryByPage(String name, int currpage, int row) throws Exception {
+		PageHelper.startPage(currpage,row);
+		List<ZhuanFangExtend> tempList = omzfExtendMapper.selectByParameter(name);
+		return new PageInfo<ZhuanFangExtend>(tempList);
 	}
 
 	@Override

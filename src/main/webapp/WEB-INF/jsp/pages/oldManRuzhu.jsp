@@ -63,11 +63,8 @@
         //获取当前行tr下的所有td
         var t = temp[0].cells;
         //模态框赋值
-        $('#username').val(t[2].innerHTML);
-        $('#age').val(t[4].innerHTML);
-        $('#gender').val(t[5].innerHTML);
-        $('#telphone').val(t[9].innerHTML);
-        $('#health').val(t[7].innerHTML);
+        $('#inRoomId').val(t[5].innerHTML);
+        $('#oldmanName').val(t[1].title);
         //给姓名框设置只读
         //$('#username').attr("readonly", "readonly");
         //下面是使用ajax动态的放数据
@@ -148,7 +145,7 @@
         // ！！！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId').serializeArray();
+            formData = $('#oldNumb,#inRoomId,#inhugongName,#backup,#userLog').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -224,6 +221,7 @@
                     <th>时间</th>
                     <th>入住房间号</th>
                     <th>办理人</th>
+                    <th>备注</th>
                     <c:if test="${login.role.id ==1}">
                     <th>操作</th>
                     </c:if>
@@ -235,7 +233,7 @@
                         <c:if test="${login.role.id ==1}">
                         <td><input type="checkbox" value="${ruzhu.id}"></td>
                         </c:if>
-                        <td>${ruzhu.id}</td>
+                        <td title="${ruzhu.oldMan.oldNumber}">${ruzhu.id}</td>
                         <td>${ruzhu.oldMan.oldmanName}</td>
                         <td>${ruzhu.oldMan.gender}</td>
                         <td>
@@ -243,11 +241,10 @@
                         </td>
                         <td>${ruzhu.inRoomId}</td>
                         <td>${ruzhu.userLog}</td>
+                        <td>${ruzhu.backup}</td>
                         <c:if test="${login.role.id ==1}">
                         <td>
                             <!--传入当前用户id-->
-                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${ruzhu.id},this)">编辑</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${ruzhu.id}">删除</button>
                         </td>
@@ -306,11 +303,11 @@
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="id" hidden>
+                                <input type="text" id="userLog" name="userLog" value="${login.userName}" hidden>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">老人编号</label>
+                                    <label for="oldNumb" class="col-sm-3 control-label">老人编号</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="username" name="oldmanName"
+                                        <input type="text" class="form-control" id="oldNumb" name="oldNumb"
                                             placeholder="请输入老人独立编号">
                                     </div>
                                 </div>
