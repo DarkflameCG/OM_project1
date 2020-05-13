@@ -404,7 +404,7 @@
                                     <label for="health" class="col-sm-3 control-label">状态</label>
                                     <div class="col-sm-9">
                                         <select id="state" name="state" class="selectpicker show-tick form-control"
-                                            data-live-search="false">
+                                            data-live-search="false" disabled="disabled">
                                             <option value="0">未审核</option>
                                             <option value="1">审核通过</option>
                                             <option value="2">审核不通过</option>

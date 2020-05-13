@@ -270,6 +270,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+   <update id="updateBytelphone" parameterType="com.czp.project.common.bean.FamilyMembers">
+    update family_members
+   		set
+        family_password = #{familyPassword,jdbcType=VARCHAR}  
+     where  telphone = #{telphone,jdbcType=VARCHAR}
+  </update>
   <update id="updateByPrimaryKey" parameterType="com.czp.project.common.bean.FamilyMembers">
     <!--
       WARNING - @mbg.generated

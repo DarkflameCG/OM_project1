@@ -165,4 +165,11 @@ public class FamilyMembers {
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
     }
+
+	@Override
+	public String toString() {
+		return "FamilyMembers [id=" + id + ", familyPassword=" + familyPassword + ", familyName=" + familyName
+				+ ", telphone=" + telphone + ", address=" + address + "]";
+	}
+    
 }

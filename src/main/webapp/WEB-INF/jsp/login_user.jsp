@@ -48,12 +48,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             sessionStorage.removeItem('code');
             if (input_code === code) {
                 // 验证码正确
-                var url = baseURL + '/XXXXXXXXX';
-                var formData = new FormData();
+               // var url ='http://localhost:2333/family/modifyPassword';
+               // var formData = new FormData();
                 // 将文件数据添加到表单数据中
-                formData.append("XXXXX", $('#').val());
-                formData.append("XXXXXX", $('#pass').val());
-                var request = createCORSRequest('post', url);
+               // formData.append("telphone","1345666");
+                // formData.append("telphone", $('#telphone').val());
+               // formData.append("familyPassword", $('#familyPassword').val());
+               /*  var request = createCORSRequest('post', url);
                 if (request) {
                     request.onload = function () {
                         if (request.status == 200) {
@@ -64,7 +65,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     };
                     // 上传表单数据
                     request.send(formData);
-                }
+                } */
+            	 var obj = {};
+                 obj.telphone = $('#telphone').val();
+                 obj.familyPassword = $('#familyPassword').val();
+                 var jsonStr = JSON.stringify(obj);
+                 $.ajax({
+                     //请求方式
+                     type: "POST",
+                     //请求的媒体类型
+                     contentType: "application/json;charset=UTF-8",
+                     //请求地址
+                     url: "family/modifyPassword",
+                     //数据，json字符串
+                     data: jsonStr,
+                     dataType: "text",
+                     //请求成功
+                     success: function (result) {
+                         console.log(result);
+                         if (result == "error") {
+                             alert("手机号或密码错误，请重新输入!");
+                             // 刷新页面来重置登录滑块
+                             location.reload()
+                         } else {
+                             // 登录成功跳转到首页
+                             window.location.href = "login_user"
+                         }
+                     },
+                     //请求失败，包含具体的错误信息
+                     error: function (e) {
+                         console.log(e.status);
+                         console.log(e.responseText);
+                     }
+                 });
             } else {
                 // 验证码错误
                 alert(444)
@@ -132,22 +165,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     </div> -->
                                     <div class="group">
                                         <label for="pass" class="label">手机号</label>
-                                        <input id="" type="text" class="input" data-type="text">
+                                        <input id="telphone" type="text" class="input" data-type="text" name="telphone">
                                     </div>
                                     <div class="group" style="white-space: nowrap;">
                                         <label for="pass" class="label">验证码</label>
                                         <input id="input_code" type="text" class="input" data-type="text"
                                             style="width: 70%;display: inline;">
-                                        <button id="button_code" type="submit" class="button"
+                                        <button id="button_code" type="button" class="button"
                                             style="width: 29%;display: inline;text-align: center;background: #347754;">获取验证码</button>
                                     </div>
                                     <div class="group">
                                         <label for="pass" class="label">设置新密码</label>
-                                        <input id="pass" type="text" class="input">
+                                        <input id="familyPassword" type="text" class="input" name="familyPassword">
                                     </div>
                                     <div class="group">
                                         <!-- <a href="register.html"> -->
-                                        <input style="background: #347754;"  type="submit" onclick="queding()" class="button" value="确定">
+                                        <input style="background: #347754;"  type="button" onclick="queding()" class="button" value="确定">
                                         <!-- </a> -->
                                     </div>
                                     <div class="hr"></div>
@@ -179,8 +212,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         function login(name, pwd) {
             //请求参数
             var obj = {};
-            obj.userName = name;
-            obj.password = pwd;
+            obj.telphone = name;
+            obj.familyPassword = pwd;
             var jsonStr = JSON.stringify(obj);
             $.ajax({
                 //请求方式
@@ -188,7 +221,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 //请求的媒体类型
                 contentType: "application/json;charset=UTF-8",
                 //请求地址
-                url: "user/login",
+                url: "family/login",
                 //数据，json字符串
                 data: jsonStr,
                 dataType: "text",
@@ -196,7 +229,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 success: function (result) {
                     console.log(result);
                     if (result == "login") {
-                        alert("用户名或密码错误，请重新输入!");
+                        alert("电话号或密码错误，请重新输入!");
                         // 刷新页面来重置登录滑块
                         location.reload()
                     } else {
@@ -224,7 +257,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
             // 发送短信验证码业务逻辑
             // 获取手机号
-            var phoneNum = $('#').val();
+            var phoneNum = $('#telphone').val();
             // alert('手机号：'+phoneNum);
             // 生成随机数字验证码
             var code = Math.floor(Math.random() * 10000);
@@ -232,13 +265,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             sessionStorage.setItem('code', code);
             // 生成短信文本
             var text = '您好，您的验证码是：' + code + '，请不要告诉其他人，防止账号被盗。'
-            alert(text)
+           console.log(text);
+            // alert(text)
             // 调用后台发送短信接口
             that.sendMsg(phoneNum, text)
             // 发送短信验证码业务结束
             var This = this;
             // 禁用获取验证码button
-            this.disabled = true;
+             this.disabled = true;
             this.innerHTML = count + 's后重发';
             var timer = setInterval(function () {
                 count--;
@@ -251,7 +285,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 else {
                     This.innerHTML = count + 's后重发';
                 }
-            }, 1000);
+            }, 1000); 
         };
         function sendMsg(phoneNum, text) {
             // 表单数据对象
