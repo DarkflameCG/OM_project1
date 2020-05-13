@@ -37,6 +37,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             text-align: center;
         }
     </style>
+    <script>
+        function queding() {
+            // 验证验证码是否正确
+            var input_code = $('#input_code').val();
+            // 从sessionStorage获取验证码
+            var code = sessionStorage.getItem('code');
+            // 从sessionStorage删除保存的验证码
+            sessionStorage.removeItem('code');
+            if (input_code === code) {
+                // 验证码正确
+                var url = baseURL + '/XXXXXXXXX';
+                var formData = new FormData();
+                // 将文件数据添加到表单数据中
+                formData.append("XXXXX", $('#').val());
+                formData.append("XXXXXX", $('#pass').val());
+                var request = createCORSRequest('post', url);
+                if (request) {
+                    request.onload = function () {
+                        if (request.status == 200) {
+                            console.log('密码修改成功！')
+                        } else {
+                            console.log("密码修改失败！");
+                        }
+                    };
+                    // 上传表单数据
+                    request.send(formData);
+                }
+            } else {
+                // 验证码错误
+                alert(444)
+
+            }
+        }
+    </script>
 
 </head>
 
@@ -93,21 +127,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     </div> -->
                                     <div class="group">
                                         <label for="pass" class="label">手机号</label>
-                                        <input id="passs" type="password" class="input" data-type="password">
+                                        <input id="" type="text" class="input" data-type="text">
                                     </div>
                                     <div class="group" style="white-space: nowrap;">
                                         <label for="pass" class="label">验证码</label>
-                                        <input id="input_code" type="password" class="input" data-type="password"
+                                        <input id="input_code" type="text" class="input" data-type="text"
                                             style="width: 70%;display: inline;">
                                         <button id="button_code" type="submit" class="button"
-                                            style="width: 29%;display: inline;text-align: center;">发送验证码</button>
+                                            style="width: 29%;display: inline;text-align: center;">获取验证码</button>
                                     </div>
                                     <div class="group">
                                         <label for="pass" class="label">设置新密码</label>
                                         <input id="pass" type="text" class="input">
                                     </div>
                                     <div class="group">
-                                        <a href="register.html"><input type="submit" class="button" value="确定"></a>
+                                        <!-- <a href="register.html"> -->
+                                        <input type="submit" onclick="queding()" class="button" value="确定">
+                                        <!-- </a> -->
                                     </div>
                                     <div class="hr"></div>
                                     <div class="foot-lnk">
@@ -177,9 +213,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         // 获取短信验证码相关方法
         var input = document.querySelector('#input_code');
         var button = document.querySelector('#button_code');
-        var count = 60;
+        var count = 1;
+        var that = this;
         button.onclick = function () {
+
+            // 发送短信验证码业务逻辑
+            // 获取手机号
+            var phoneNum = $('#').val();
+            // alert('手机号：'+phoneNum);
+            // 生成随机数字验证码
+            var code = Math.floor(Math.random() * 10000);
+            // 将验证码储存到session中
+            sessionStorage.setItem('code', code);
+            // 生成短信文本
+            var text = '您好，您的验证码是：' + code + '，请不要告诉其他人，防止账号被盗。'
+            alert(text)
+            // 调用后台发送短信接口
+            that.sendMsg(phoneNum, text)
+            // 发送短信验证码业务结束
             var This = this;
+            // 禁用获取验证码button
             this.disabled = true;
             this.innerHTML = count + 's后重发';
             var timer = setInterval(function () {
@@ -188,13 +241,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     clearInterval(timer);
                     This.disabled = false;
                     This.innerHTML = '发送验证码';
-                    count = 60;
+                    count = 1;
                 }
                 else {
                     This.innerHTML = count + 's后重发';
                 }
             }, 1000);
         };
+        function sendMsg(phoneNum, text) {
+            // 表单数据对象
+            var formData = new FormData();
+            // 将文件数据添加到表单数据中
+            formData.append("phoneNum", phoneNum);
+            formData.append("text", text);
+            var url = 'https://203.195.246.58:8890/User/getSmsCode';
+            var request = createCORSRequest('post', url);
+            if (request) {
+                request.onload = function () {
+                    if (request.status == 200) {
+                        console.log('短信发送成功！')
+                    } else {
+                        console.log("短信发送失败！");
+                    }
+                };
+                // 上传表单数据
+                request.send(formData);
+            }
+        }
+        function createCORSRequest(method, url) {
+            var xhr = new XMLHttpRequest();
+            if ("withCredentials" in xhr) {
+                xhr.open(method, url, true);
+            } else if (typeof XDmainRequest != "undefined") { //兼容IE
+                xhr = new XDmainRequest();
+                xhr.open(method, url, true);
+            } else {
+                xhr = null;
+            }
+            return xhr;
+        }
     </script>
 </body>
 
