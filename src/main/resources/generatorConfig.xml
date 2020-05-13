@@ -42,7 +42,7 @@
 
 
 	<!-- 映射配置 -->
-	<table tableName="account" domainObjectName="Account" ></table>
+	<table tableName="family_members" domainObjectName="FamilyMembers" ></table>
 	<!-- <table tableName="monitor" domainObjectName="Monitor" ></table>
     <table tableName="medical" domainObjectName="Medical" ></table> -->
     <!-- <table tableName="cost" domainObjectName="Cost" ></table> -->
