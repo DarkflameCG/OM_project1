@@ -2,6 +2,7 @@ package com.czp.project.service.impl;
 
 import com.czp.project.common.bean.Medical;
 import com.czp.project.common.bean.extend.MedicalExtend;
+import com.czp.project.common.bean.extend.QingjiaExtend;
 import com.czp.project.dao.MedicalMapper;
 import com.czp.project.dao.extend.MedicalExtendMapper;
 import com.czp.project.service.interfaces.MedicalService;
@@ -28,6 +29,13 @@ public class MedicalImpl implements MedicalService {
     public PageInfo<MedicalExtend> selectAllByPage(int currpage, int row) {
         PageHelper.startPage(currpage,row);
         return new PageInfo<MedicalExtend>(this.selectAll());
+    }
+
+    @Override
+    public PageInfo<MedicalExtend> fuzzyQueryByPage(String name, int currpage, int row) throws Exception {
+        PageHelper.startPage(currpage,row);
+        List<MedicalExtend> tempList = medicalExtendMapper.selectByParameter(name);
+        return new PageInfo<MedicalExtend>(tempList);
     }
 
     @Override

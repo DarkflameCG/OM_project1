@@ -52,7 +52,6 @@
         //将提交表单的URL变为update
         myUrl = 'seek/edit';
         $("#userID").attr("value", id);
-        alert(id);
         if (!id) {
             alert('id错误');
             return false;
@@ -62,11 +61,13 @@
         //获取当前行tr下的所有td
         var t = temp[0].cells;
         //模态框赋值
-        $('#username').val(t[2].innerHTML);
-        $('#age').val(t[4].innerHTML);
-        $('#gender').val(t[5].innerHTML);
-        $('#telphone').val(t[9].innerHTML);
-        $('#health').val(t[7].innerHTML);
+        $('#oldNumb').val(t[1].title);
+        $('#backup').val(t[9].innerHTML);
+        $('#hospital').val(t[7].innerHTML);
+        $('#iscar').val(t[6].innerHTML);
+        $('#isfamily').val(t[4].innerHTML);
+        $('#isworker').val(t[5].innerHTML);
+        $('#id').val(id);
         //给姓名框设置只读
         //$('#username').attr("readonly", "readonly");
         //下面是使用ajax动态的放数据
@@ -194,7 +195,7 @@
         // ！！！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId').serializeArray();
+            formData = $('#backup,#isworker,#isfamily,#iscar,#hospital,#oldNumb,#userID,#userLog').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -239,7 +240,7 @@
         <div class="tool">
             <div class="row">
                 <br />
-                <form action="oldmsg/getMsgBySource" class="form-horizontal">
+                <form action="seek/getBySource/1" class="form-horizontal">
                     <div class="col-sm-3">
                         <input name="source" type="text" id="search" class="form-control">
                     </div>
@@ -276,7 +277,7 @@
                 <c:forEach items="${medicalPages.list}" var="medical">
                     <tr>
                         <td><input type="checkbox" value="${medical.id}"></td>
-                        <td>${medical.id}</td>
+                        <td title="${medical.oldman.oldNumber}">${medical.id}</td>
                         <td>${medical.oldman.oldmanName}</td>
                         <td>
                             <fmt:formatDate value="${medical.time}" pattern="yyyy年MM月dd日" />
@@ -348,7 +349,8 @@
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="userLog" value="${login.userName}" hidden>
+                                <input type="text" id="userID" name="id" hidden>
+                                <input type="text" id="userLog" name="userLog" value="${login.userName}" hidden>
                                 <div class="form-group">
                                     <label for="oldNumb" class="col-sm-3 control-label">老人编号</label>
                                     <div class="col-sm-9">
@@ -385,16 +387,16 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">目标医院</label>
+                                    <label for="hospital" class="col-sm-3 control-label">目标医院</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="username" name="oldmanName"
+                                        <input type="text" class="form-control" id="hospital" name="hospital"
                                             placeholder="请填写医院名称">
                                     </div>
                                 </div>
                                  <div class="form-group">
-                                    <label for="username" class="col-sm-3 control-label">备注</label>
+                                    <label for="backup" class="col-sm-3 control-label">备注</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="username" name="oldmanName"
+                                        <input type="text" class="form-control" id="backup" name="backup"
                                             placeholder="请填写备注">
                                     </div>
                                 </div>

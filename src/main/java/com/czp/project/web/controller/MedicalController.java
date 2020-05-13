@@ -1,10 +1,13 @@
 package com.czp.project.web.controller;
 
 import com.czp.project.common.bean.Medical;
+import com.czp.project.common.bean.OldMan;
 import com.czp.project.common.bean.OmWaichu;
 import com.czp.project.common.bean.extend.MedicalExtend;
+import com.czp.project.common.bean.extend.QingjiaExtend;
 import com.czp.project.common.bean.extend.WaichuExtend;
 import com.czp.project.service.impl.MedicalImpl;
+import com.czp.project.service.impl.OldManMsgImpl;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 /**
  * @Description: 外出就医接口
@@ -28,32 +32,39 @@ import javax.servlet.http.HttpSession;
 public class MedicalController {
     @Autowired
     private MedicalImpl medicalImpl;
+    @Autowired
+    private OldManMsgImpl oldmanimpl;
 
     @RequestMapping("/get/{page}")
     public String queryAllMedicalMsg(HttpServletRequest request,
                                    HttpSession session,
                                    @PathVariable String page) {
-        String source = request.getParameter("source");
-        PageInfo<MedicalExtend> medicalPages = null;
-        if(source == null || source.equals("")) {
-            medicalPages = medicalImpl.selectAllByPage(Integer.parseInt(page), 5);
-
-        }else {
-            //模糊查询
-            //oldzfPages = omzfImpl.fuzzyQueryByPage(source, Integer.parseInt(page), 10);
-        }
+        PageInfo<MedicalExtend> medicalPages = medicalImpl.selectAllByPage(Integer.parseInt(page), 5);
         session.setAttribute("medicalPages", medicalPages);
+        return "pages/seek";
+    }
+
+    //分页模糊查询
+    @RequestMapping("/getBySource/{page}")
+    public String getAllGoOutMsgByString(HttpSession session,
+                                         HttpServletRequest request,
+                                         @PathVariable String page) throws Exception {
+        String source = request.getParameter("source");
+        PageInfo<MedicalExtend> medicalPages = medicalImpl.fuzzyQueryByPage(source, Integer.parseInt(page), 20);
+        session.setAttribute("medicalPages", medicalPages);
+
         return "pages/seek";
     }
 
     @RequestMapping("/add")
     @ResponseBody
-    public String addMedicalMsg(Medical medical) {
-//		//先根据编号信息查询老人信息
-//		OldMan oldman = oldmanimpl.getOldmanByNumb(oldNumb);
-//		//记录添加进去
-//		zf.setOldmanId(oldman.getId());
-//		zf.setTime(new Date());
+    public String addMedicalMsg(Medical medical,
+                                @RequestParam String oldNumb) {
+		//先根据编号信息查询老人信息
+		OldMan oldman = oldmanimpl.getOldmanByNumb(oldNumb);
+		//记录添加进去
+        medical.setOldManId(oldman.getId());
+        medical.setTime(new Date());
         medicalImpl.addMedical(medical);
         return "ok";
     }

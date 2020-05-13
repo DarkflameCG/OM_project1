@@ -2,6 +2,7 @@ package com.czp.project.service.interfaces;
 
 import com.czp.project.common.bean.Medical;
 import com.czp.project.common.bean.extend.MedicalExtend;
+import com.czp.project.common.bean.extend.QingjiaExtend;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -29,6 +30,16 @@ public interface MedicalService {
      * @return
      */
     public PageInfo<MedicalExtend> selectAllByPage(int currpage , int row);
+
+    /**
+     * 根据名字做模糊查询，带分页
+     * @param currpage 当前页数
+     * @param row     每页的条数
+     * @param name
+     * @return
+     * @throws Exception
+     */
+    public PageInfo<MedicalExtend> fuzzyQueryByPage(String name, int currpage, int row) throws Exception;
 
     /**
      * 添加外出就医记录

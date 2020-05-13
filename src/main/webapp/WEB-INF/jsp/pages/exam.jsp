@@ -267,7 +267,7 @@
                     <th>项目</th>
                     <th>体检时间</th>
                     <th>体检报告</th>
-                    <th>时间</th>
+                    <th>登记时间</th>
                     <th>操作人</th>
                     <th>操作</th>
                 </tr>
@@ -279,7 +279,7 @@
                         <td>${exam.id}</td>
                         <td>${exam.oldman.oldmanName}</td>
                         <td>${exam.oldman.gender}</td>
-                        <td>量血压</td>
+                        <td>${exam.level}</td>
                         <td>
                             <fmt:formatDate value="${exam.examTime}" pattern="yyyy年MM月dd日" />
                         </td>
@@ -349,7 +349,7 @@
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="userLog" value="${login.id}" hidden>
+                                <input type="text" id="userID" name="userId" value="${login.id}" hidden>
                                 <div class="form-group">
                                     <label for="oldNumb" class="col-sm-3 control-label">老人编号</label>
                                     <div class="col-sm-9">
@@ -361,16 +361,17 @@
                                 <div class="form-group">
                                     <label for="modular" class="col-sm-3 control-label">体检项目</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="modular" name="modular" placeholder="请输入备注">
+                                        <input type="text" class="form-control" id="modular" name="modular" placeholder="请输入体检项目">
                                     </div>
                                 </div>
                                 <!--这个地方需要一个时间控件，就一个-->
                                 <div class="form-group">
                                     <label for="examTime" class="col-sm-3 control-label">体检时间</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="examTime" name="examTime" placeholder="请输入备注">
+                                        <input type="text" class="form-control" id="examTime" name="examTime" placeholder="请输入体检时间">
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     <label for="backup" class="col-sm-3 control-label">备注</label>
                                     <div class="col-sm-9">
