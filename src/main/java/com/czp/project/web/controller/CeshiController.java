@@ -14,4 +14,8 @@ public class CeshiController {
        public String login() {
      	  return "login1";
        }
+          @RequestMapping("/login_user")
+       public String login_user() {
+     	  return "login_user";
+       }
 }

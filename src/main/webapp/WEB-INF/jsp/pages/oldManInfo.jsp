@@ -65,6 +65,7 @@
         $('#gender').val(t[5].innerHTML);
         $('#telphone').val(t[9].innerHTML);
         $('#health').val(t[7].innerHTML);
+        $('#familyTel').val(t[8].innerHTML);
     }
     //表单字段验证
     //如果按照一般验证的写法，只能调用整个表单的validate函数，而不能调用自定义的username验证，所以把两个函数封装成为一个，在点击按钮时调用
@@ -88,7 +89,11 @@
                     required: true,
                     digits: true,//数字
                     rangelength: [11, 11]
-
+                },
+                familyTel: {
+                    required: true,
+                    digits: true,//数字
+                    rangelength: [11, 11]
                 }
             },
             messages: {
@@ -104,7 +109,12 @@
                 },
                 health: {
                     required: "请填写健康状态",
-                }
+                },
+                familyTel: {
+                    required: "请填写手机号",
+                    digits: "请填写正确的手机号",
+                    rangelength: "请填写正确的手机号"
+                },
             },
             submitHandler: function (form) {
                 alert('checkForm')
@@ -206,7 +216,7 @@
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
             alert('tijiao')
-            formData = $('#oldmanId,#username,#age,#gender,#health,#familyMembersId,#telphone,#oldmanImg,#inRoomId,#outRoomId,#inhugongName,#backup').serializeArray();
+            formData = $('#oldmanId,#username,#age,#gender,#health,#familyMembersId,#telphone,#oldmanImg,#inRoomId,#outRoomId,#inhugongName,#backup,#familyTel').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -423,6 +433,14 @@
                                             placeholder="请输入手机号">
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="familyTel" class="col-sm-3 control-label">家属手机号</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="familyTel" name="familyTel"
+                                            placeholder="请输入手机号">
+                                    </div>
+                                </div>
+                                
                                 <div class="form-group">
                                     <label for="photo" class="col-sm-3 control-label">照片</label>
                                     <div class="col-sm-9">
