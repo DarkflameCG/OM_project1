@@ -277,6 +277,7 @@
                 <tr>
                     <th></th>
                     <th>序号</th>
+                    <th>唯一编号</th>
                     <th>姓名</th>
                     <th>照片</th>
                     <th>年龄</th>
@@ -295,6 +296,7 @@
                     <tr>
                         <td><input type="checkbox" value="${old.id}"></td>
                         <td>${old.id}</td>
+                        <td>${old.oldNumber}</td>
                         <td>${old.oldmanName}</td>
                         <td><img style="width: 50px;" src="${old.oldmanImg}" alt="没有图片"></td>
                         <td>${old.age}</td>

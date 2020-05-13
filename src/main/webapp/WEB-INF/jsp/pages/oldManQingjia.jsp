@@ -207,7 +207,7 @@
         <div class="tool">
             <div class="row">
                 <br />
-                <form action="oldmsg/getMsgBySource" class="form-horizontal">
+                <form action="qj/getBySource/1" class="form-horizontal">
                     <div class="col-sm-3">
                         <input name="source" type="text" id="search" class="form-control">
                     </div>
@@ -319,7 +319,7 @@
                                 &times;
                             </button>
                             <h4 class="modal-title" id="updateModalLabel">
-                                用户信息
+                                请假信息
                             </h4>
                         </div>
                         <div class="modal-body">
@@ -334,9 +334,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="age" class="col-sm-3 control-label">原因</label>
+                                    <label for="reson" class="col-sm-3 control-label">原因</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age"
+                                        <input type="text" class="form-control" id="reson" name="reson"
                                             placeholder="请输入请假原因">
                                     </div>
                                 </div>
@@ -364,19 +364,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="health" class="col-sm-3 control-label">状态</label>
+                                    <label for="backup" class="col-sm-3 control-label">备注</label>
                                     <div class="col-sm-9">
-                                        <select id="gender" name="gender" class="selectpicker show-tick form-control"
-                                            data-live-search="false">
-                                            <option value="1">未审核</option>
-                                            <option value="2">已审核</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="telphone" class="col-sm-3 control-label">备注</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="telphone" name="telphone"
+                                        <input type="text" class="form-control" id="backup" name="backup"
                                             placeholder="请输入备注">
                                     </div>
                                 </div>

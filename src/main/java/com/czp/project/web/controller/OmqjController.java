@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.czp.project.common.bean.OldMan;
+import com.czp.project.service.impl.OldManMsgImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,8 @@ import com.github.pagehelper.PageInfo;
 public class OmqjController {
 	@Autowired
 	private OmqjImpl omqjimpl;
+	@Autowired
+	private OldManMsgImpl oldmanimpl;
 	
 	@RequestMapping("/get/{page}")
 	public String queryAllGoOutMsg(HttpServletRequest request,
@@ -39,18 +42,18 @@ public class OmqjController {
 									   HttpServletRequest request,
 									   @PathVariable String page) throws Exception {
 		String source = request.getParameter("source");
-//		PageInfo<OldMan> oldqjPages = oldimpl.fuzzyQueryByPage(source, Integer.parseInt(page), 20);
-//		session.setAttribute("oldqjPages", oldqjPages);
+		PageInfo<QingjiaExtend> oldqjPages = omqjimpl.fuzzyQueryByPage(source, Integer.parseInt(page), 20);
+		session.setAttribute("oldqjPages", oldqjPages);
 
-		return "pages/oldManInfo";
+		return "pages/oldManQingjia";
 	}
 
 
 	@RequestMapping("/add")
 	@ResponseBody
-	public String addLeaveMsg(OmQingjia qj) {
-//		//先根据编号信息查询老人信息
-//		OldMan oldman = oldmanimpl.getOldmanByNumb(oldNumb);
+	public String addLeaveMsg(OmQingjia qj,@RequestParam String oldNumb) {
+		//先根据编号信息查询老人信息
+		OldMan oldman = oldmanimpl.getOldmanByNumb(oldNumb);
 //		//记录添加进去
 //		zf.setOldmanId(oldman.getId());
 //		zf.setTime(new Date());

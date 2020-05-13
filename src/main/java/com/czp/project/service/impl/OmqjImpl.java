@@ -35,6 +35,13 @@ public class OmqjImpl implements OmqjService{
 	}
 
 	@Override
+	public PageInfo<QingjiaExtend> fuzzyQueryByPage(String name, int currpage, int row) throws Exception {
+		PageHelper.startPage(currpage,row);
+		List<QingjiaExtend> tempList = omqjExtendMapper.selectByParameter(name);
+		return new PageInfo<QingjiaExtend>(tempList);
+	}
+
+	@Override
 	public void addQj(OmQingjia qj) {
 		omqjMapper.insert(qj);
 	}
