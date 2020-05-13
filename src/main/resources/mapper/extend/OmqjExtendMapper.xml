@@ -15,7 +15,7 @@
              extends="com.czp.project.dao.OmQingjiaMapper.BaseResultMap">
     <association
             property="oldman"
-            column="old_man_id"
+            column="oldman_id"
             select="com.czp.project.dao.extend.OldManMsgExtendMapper.selectById"></association>
   </resultMap>
 

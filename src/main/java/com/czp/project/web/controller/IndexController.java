@@ -93,6 +93,18 @@ public class IndexController {
 		}
 		  
 	   }
+	   //添加收费项
+	   @RequestMapping("/updateIndex")
+	   @ResponseBody
+       public String updateIndex(HttpServletRequest req,HttpSession session,Charges charges) {
+		   try {
+			indexImpl.eidtIndex(charges);
+			 return "ok";
+		} catch (Exception e) {
+			return "error";
+		}
+		  
+	   }
 	   //搜索
 	   @RequestMapping("/search/{page}")
 		public String search(HttpSession session,String source,@PathVariable String page) throws NumberFormatException, Exception {

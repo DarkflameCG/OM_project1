@@ -41,7 +41,7 @@ public class IndexImpl implements IndexService{
 
 	@Override
 	public void eidtIndex(Charges index) {
-		// TODO Auto-generated method stub
+		chargesMapper.updateByPrimaryKey(index);
 		
 	}
 

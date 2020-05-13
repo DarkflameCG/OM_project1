@@ -51,7 +51,7 @@
     //传入点击的用户id，获取该用户信息并放入表单中
     function update(id, a) {
         //将提交表单的URL变为update
-        myUrl = 'oldmsg/edit';
+        myUrl = 'index/updateIndex';
         $("#id").attr("value", id);
         ;
         if (!id) {

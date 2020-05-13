@@ -68,9 +68,8 @@ public class NursingworkersController {
 		 //更新护工
 		   @RequestMapping("/updateHuGong")
 		   @ResponseBody
-	       public String updateUser1(HttpServletRequest req,HttpSession session,BaseUser baseUser) {
+	       public String updateUser2(HttpServletRequest req,HttpSession session,BaseUser baseUser) {
 			   try {
-				   System.out.println(baseUser);
 				baseUserService.updateUser2(baseUser);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

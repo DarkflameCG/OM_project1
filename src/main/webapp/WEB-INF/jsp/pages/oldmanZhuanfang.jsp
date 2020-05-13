@@ -207,7 +207,7 @@
         <div class="tool">
             <div class="row">
                 <br />
-                <form action="oldmsg/getMsgBySource" class="form-horizontal">
+                <form action="zf/getByName/1" class="form-horizontal">
                     <div class="col-sm-3">
                         <input name="source" type="text" id="search" class="form-control">
                     </div>
@@ -215,19 +215,23 @@
                         <button type="submit" class="btn btn-primary">搜索</button>
                     </div>
                 </form>
+                <c:if test="${login.role.id ==1}">
                 <div style="float: right;margin-right: 15px;">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                         onclick="setUrl()">转房</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                         th:onclick="">批量删除</button>
                 </div>
+                </c:if>
             </div>
         </div>
         <br>
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
+                    <c:if test="${login.role.id ==1}">
                     <th></th>
+                    </c:if>
                     <th>序号</th>
                     <th>姓名</th>
                     <th>性别</th>
@@ -236,13 +240,17 @@
                     <th>操作时间</th>
                     <th>登记人</th>
                     <th>备注</th>
+                    <c:if test="${login.role.id ==1}">
                     <th>操作</th>
+                    </c:if>
                 </tr>
             </thead>
             <tbody>
                 <c:forEach items="${oldzfPages.list}" var="zf">
                     <tr>
+                        <c:if test="${login.role.id ==1}">
                         <td><input type="checkbox" value="${zf.id}"></td>
+                        </c:if>
                         <td>${zf.id}</td>
                         <td>${zf.oldman.oldmanName}</td>
                         <td>${zf.oldman.gender}</td>
@@ -254,11 +262,13 @@
                         <td>${zf.userLog}</td>
                         <td>${zf.backup}</td>
 
+                        <c:if test="${login.role.id ==1}">
                         <td>
                             <!--传入当前用户id-->
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${zf.id}">删除</button>
                         </td>
+                        </c:if>
                     </tr>
                 </c:forEach>
             </tbody>

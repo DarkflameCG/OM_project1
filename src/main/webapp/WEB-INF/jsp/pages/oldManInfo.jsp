@@ -311,15 +311,15 @@
                         <td>
                             <!--传入当前用户id-->
                             <c:if test="${login.role.id==1}">
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                    data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
-                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                    data-target="#deleteModal" data-orderId="${old.id}">删除</button>
+                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
+                                data-target="#updateModal" onclick="update(${old.id},this)">编辑</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                data-target="#deleteModal" data-orderId="${old.id}">删除</button>
                             </c:if>
                             <c:if test="${login.role.id==2}">
-                                <c:set var="flag" scope="session" value="${old.room.roomNumb}" />
-                                <c:if test="${empty flag}">
-                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                            <c:set var="flag" scope="session" value="${old.room.roomNumb}" />
+                            <c:if test="${empty flag}">
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                         data-target="#udroomModal" onclick="ruzhu(${old.id},this)">入住</button>
                                 </c:if>
                                 <c:if test="${not empty flag}">

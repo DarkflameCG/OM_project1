@@ -72,7 +72,13 @@ private BaseUserMapper baseUserMapper;
 	}
 	@Override
 	public int updateUser2(BaseUser baseUser) throws Exception {
-		int key = baseUserMapper.updateByPrimaryKey2(baseUser);
+		int key=0;
+		if (baseUser.getUserImg()=="") {
+			key = baseUserMapper.updateByPrimaryKey3(baseUser);
+		}else {
+			 key = baseUserMapper.updateByPrimaryKey2(baseUser);
+		}
+		
 		return key;
 	}
 	@Override

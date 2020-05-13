@@ -2,6 +2,7 @@ package com.czp.project.service.impl;
 
 import java.util.List;
 
+import com.czp.project.common.bean.extend.ZhuanFangExtend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,13 @@ public class OmwcImpl implements OmwcService{
 	}
 
 	@Override
+	public PageInfo<WaichuExtend> fuzzyQueryByPage(String name, int currpage, int row) throws Exception {
+		PageHelper.startPage(currpage,row);
+		List<WaichuExtend> tempList = omwcExtendMapper.selectByParameter(name);
+		return new PageInfo<WaichuExtend>(tempList);
+	}
+
+	@Override
 	public void addWc(OmWaichu wc) {
 		omwcMapper.insert(wc);
 	}
@@ -52,6 +60,11 @@ public class OmwcImpl implements OmwcService{
 	@Override
 	public void updateWc(OmWaichu newmsg) {
 		omwcMapper.updateByPrimaryKeySelective(newmsg); 
+	}
+
+	@Override
+	public OmWaichu selectWcById(String wcid) {
+		return omwcMapper.selectByPrimaryKey(Integer.parseInt(wcid));
 	}
 
 }

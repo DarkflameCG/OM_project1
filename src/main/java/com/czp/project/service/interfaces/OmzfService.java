@@ -5,6 +5,7 @@ import java.util.List;
 import com.czp.project.common.bean.OldMan;
 import com.czp.project.common.bean.OmZhuanfang;
 import com.czp.project.common.bean.OmZhuanfangExample;
+import com.czp.project.common.bean.extend.OldManRuZhuEX;
 import com.czp.project.common.bean.extend.ZhuanFangExtend;
 import com.github.pagehelper.PageInfo;
 
@@ -28,6 +29,16 @@ public interface OmzfService {
 	 * @return
 	 */
 	public PageInfo<ZhuanFangExtend> selectAllByPage(int currpage , int row);
+
+	/**
+	 * 根据名字做模糊查询，带分页
+	 * @param currpage 当前页数
+	 * @param row     每页的条数
+	 * @param name
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo<ZhuanFangExtend> fuzzyQueryByPage(String name, int currpage, int row) throws Exception;
 
 	/**
 	 * 添加转房记录

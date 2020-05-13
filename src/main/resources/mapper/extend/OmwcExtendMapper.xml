@@ -7,7 +7,7 @@
   </select>
 
   <select id="selectByParameter" parameterType="String" resultMap="OmwcExtendResultMap">
-   SELECT * FROM oldman_waichu WHERE oldman_name LIKE CONCAT(CONCAT('%', #{text}), '%')
+   SELECT * FROM oldman_waichu wc,old_man om WHERE oldman_name LIKE CONCAT(CONCAT('%', #{text}), '%') AND om.id=wc.old_man_id
   </select>
 
   <resultMap id="OmwcExtendResultMap"

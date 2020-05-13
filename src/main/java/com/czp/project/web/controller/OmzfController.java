@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.czp.project.common.bean.extend.OldManRuZhuEX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,6 +57,19 @@ public class OmzfController {
 			//oldzfPages = omzfImpl.fuzzyQueryByPage(source, Integer.parseInt(page), 10);
 		}
 		session.setAttribute("oldzfPages", oldzfPages);
+		return "pages/oldmanZhuanfang";
+	}
+
+	//分页模糊查询
+	@RequestMapping("/getByName/{page}")
+	public String getTransferLogByString(HttpSession session,
+										HttpServletRequest request,
+										@PathVariable String page) throws Exception {
+		String source = request.getParameter("source");
+		PageInfo<ZhuanFangExtend> info = omzfImpl.fuzzyQueryByPage(source, Integer.parseInt(page), 20);
+
+		session.setAttribute("oldzfPages", info);
+
 		return "pages/oldmanZhuanfang";
 	}
 	

@@ -29,6 +29,16 @@ public interface OmwcService {
 	public PageInfo<WaichuExtend> selectAllByPage(int currpage , int row);
 
 	/**
+	 * 根据名字做模糊查询，带分页
+	 * @param currpage 当前页数
+	 * @param row     每页的条数
+	 * @param name
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo<WaichuExtend> fuzzyQueryByPage(String name, int currpage, int row) throws Exception;
+
+	/**
 	 * 添加外出记录
 	 * @param wc
 	 */
@@ -49,6 +59,12 @@ public interface OmwcService {
 	 * @param newmsg
 	 */
 	public void updateWc(OmWaichu newmsg);
-	
+
+	/**
+	 * 根据id查询外出记录
+	 * @param wcid
+	 * @return
+	 */
+	public OmWaichu selectWcById(String wcid);
 	
 }

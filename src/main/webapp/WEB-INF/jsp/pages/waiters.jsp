@@ -53,12 +53,9 @@
     var myUrl;
     //传入点击的用户id，获取该用户信息并放入表单中
     function update(id, a) {
-        // 先重置表单
-        $('#form-data input').val("");
         //将提交表单的URL变为update
         myUrl = 'nursworker/updateHuGong';
         $("#userID").attr("value", id);
-        ;
         if (!id) {
             alert('id错误');
             return false;
@@ -92,7 +89,7 @@
                          var user = eval("(" + data + ")");
  
                          //赋值
-                         $('#userID').val(user.userID);
+                         $('#id').val(user.id);
                          $('#username').val(user.username);
                          $('#password').val(user.password);
                          $('#phone').val(user.phone);
@@ -197,13 +194,13 @@
         var formData;
         //将表单内容序列化，即可得到相应对象，直接传到后台
         // ！！！！！
-        //userid为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错！！！
+        //id为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错！！！
         // ！！！！！
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
             formData = $('#userName,#password,#salary,#userImg').serializeArray();
         }
-        //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
+        //否则为更新操作，id为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
             formData = $('#form-data').serializeArray();
         }
@@ -373,8 +370,8 @@
                         </div>
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
-                                <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="id" hidden>
+                                <!--id为隐藏的input，便于update时的传值-->
+                                 <input type="text" id="userID" name="id" hidden>
                                 <div class="form-group">
                                     <label for="userName" class="col-sm-3 control-label">姓名</label>
                                     <div class="col-sm-9">
