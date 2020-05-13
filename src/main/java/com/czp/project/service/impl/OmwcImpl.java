@@ -2,6 +2,7 @@ package com.czp.project.service.impl;
 
 import java.util.List;
 
+import com.czp.project.common.bean.OmWaichuExample;
 import com.czp.project.common.bean.extend.ZhuanFangExtend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,7 +60,8 @@ public class OmwcImpl implements OmwcService{
 
 	@Override
 	public void updateWc(OmWaichu newmsg) {
-		omwcMapper.updateByPrimaryKeySelective(newmsg); 
+
+		omwcMapper.updateByPrimaryKeySelective(newmsg);
 	}
 
 	@Override

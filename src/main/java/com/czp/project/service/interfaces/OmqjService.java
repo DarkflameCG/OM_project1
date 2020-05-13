@@ -3,6 +3,7 @@ package com.czp.project.service.interfaces;
 import java.util.List;
 
 import com.czp.project.common.bean.OmQingjia;
+import com.czp.project.common.bean.OmWaichu;
 import com.czp.project.common.bean.extend.QingjiaExtend;
 import com.czp.project.common.bean.extend.WaichuExtend;
 import com.github.pagehelper.PageInfo;
@@ -57,5 +58,12 @@ public interface OmqjService {
 	 * @param newmsg
 	 */
 	public void updateQj(OmQingjia newmsg);
-	
+
+
+	/**
+	 * 根据id查询请假记录
+	 * @param qjid
+	 * @return
+	 */
+	public OmQingjia selectWcById(String qjid);
 }

@@ -61,7 +61,13 @@ public class OmqjImpl implements OmqjService{
 
 	@Override
 	public void updateQj(OmQingjia newmsg) {
-		omqjMapper.updateByPrimaryKeySelective(newmsg); 
+		omqjMapper.updateByPrimaryKeySelective(newmsg);
+
+	}
+
+	@Override
+	public OmQingjia selectWcById(String qjid) {
+		return omqjMapper.selectByPrimaryKey(Integer.parseInt(qjid));
 	}
 
 

@@ -89,6 +89,7 @@
         $('#event').val(t[3].innerHTML);
         $('#time1').val(t[4].innerHTML.trim());
         $('#time2').val(t[5].innerHTML.trim());
+        $('#userID').val(id);
 
         //给姓名框设置只读
         //$('#username').attr("readonly", "readonly");
@@ -385,6 +386,7 @@
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
+                                <input type="text" id="userID" name="id" hidden>
                                 <input type="text" id="userLog" name="userLog" value="${login.userName}" hidden>
                                 <div class="form-group">
                                     <label for="oldNumb" class="col-sm-3 control-label">老人编号</label>

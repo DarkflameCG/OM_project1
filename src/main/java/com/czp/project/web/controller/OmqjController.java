@@ -20,6 +20,11 @@ import com.czp.project.service.impl.OmqjImpl;
 import com.czp.project.service.impl.OmwcImpl;
 import com.github.pagehelper.PageInfo;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Controller
 @RequestMapping("/qj")
 public class OmqjController {
@@ -51,12 +56,23 @@ public class OmqjController {
 
 	@RequestMapping("/add")
 	@ResponseBody
-	public String addLeaveMsg(OmQingjia qj,@RequestParam String oldNumb) {
+	public String addLeaveMsg(OmQingjia qj,
+							  @RequestParam String oldNumb,
+							  @RequestParam String time_1,
+							  @RequestParam String time_2) {
 		//先根据编号信息查询老人信息
 		OldMan oldman = oldmanimpl.getOldmanByNumb(oldNumb);
-//		//记录添加进去
-//		zf.setOldmanId(oldman.getId());
-//		zf.setTime(new Date());
+		//记录添加进去
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			qj.setStartTime(simpleDateFormat.parse(time_1));
+			qj.setEndTime(simpleDateFormat.parse(time_2));
+		} catch (ParseException e) {
+			return "日期格式转换失败";
+		}
+		qj.setOldmanId(oldman.getId());
+		qj.setTime(new Date());
+		qj.setState(1);
 		omqjimpl.addQj(qj);
 		return "ok";
 	}
@@ -79,9 +95,34 @@ public class OmqjController {
 	//编辑
 	@RequestMapping("/edit")
 	@ResponseBody
-	public String editLeaveMsg(OmQingjia newmsg) {
-		
+	public String editLeaveMsg(OmQingjia newmsg,
+							   @RequestParam String time_1,
+							   @RequestParam String time_2) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			newmsg.setStartTime(simpleDateFormat.parse(time_1));
+			newmsg.setEndTime(simpleDateFormat.parse(time_2));
+		} catch (ParseException e) {
+			return "日期格式转换失败";
+		}
+		newmsg.setTime(new Date());
 		omqjimpl.updateQj(newmsg);
 		return "ok";
+	}
+
+	//通过和不通过
+	@RequestMapping("/{isCheck}/{qjid}")
+	public String checkHasReturn(@PathVariable String qjid,
+								 @PathVariable String isCheck) {
+		//根据qjid查出对应的外出记录
+		OmQingjia qj = omqjimpl.selectWcById(qjid);
+		if(isCheck.equals("yes")){
+			qj.setState(2);
+		}else if (isCheck.equals("no")){
+			qj.setState(3);
+		}
+		omqjimpl.updateQj(qj);
+		return "pages/oldManQingjia";
+
 	}
 }

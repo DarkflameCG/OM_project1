@@ -82,11 +82,12 @@
         //获取当前行tr下的所有td
         var t = temp[0].cells;
         //模态框赋值
-        $('#username').val(t[2].innerHTML);
-        $('#age').val(t[4].innerHTML);
-        $('#gender').val(t[5].innerHTML);
-        $('#telphone').val(t[9].innerHTML);
-        $('#health').val(t[7].innerHTML);
+        $('#oldNumb').val(t[1].title);
+        $('#reson').val(t[3].innerHTML);
+        $('#time_1').val(t[4].innerHTML.trim());
+        $('#time_2').val(t[5].innerHTML.trim());
+        $('#backup').val(t[9].innerHTML);
+        $('#id').val(id);
     }
 
     //表单字段验证
@@ -162,7 +163,7 @@
         var formData;
         // 此处绑定表单数据
         if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId,#time_1,#time_2').serializeArray();
+            formData = $('#userLog,#reson,#oldNumb,#backup,#time_1,#time_2').serializeArray();
         }
         //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
         else {
@@ -217,7 +218,7 @@
                 </form>
                 <div style="float: right;margin-right: 15px;">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
-                        onclick="setUrl()">添加用户</button>
+                        onclick="setUrl()">添加请假记录</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                         th:onclick="">批量删除</button>
                 </div>
@@ -244,16 +245,24 @@
                 <c:forEach items="${oldqjPages.list}" var="qj">
                     <tr>
                         <td><input type="checkbox" value="${qj.id}"></td>
-                        <td>${qj.id}</td>
+                        <td title="${qj.oldman.oldNumber}">${qj.id}</td>
                         <td>${qj.oldman.oldmanName}</td>
                         <td>${qj.reson}</td>
                         <td>
-                            <fmt:formatDate value="${qj.startTime}" pattern="yyyy年MM月dd日" />
+                            <fmt:formatDate value="${qj.startTime}" pattern="yyyy-MM-dd" />
                         </td>
                         <td>
-                            <fmt:formatDate value="${qj.endTime}" pattern="yyyy年MM月dd日" />
+                            <fmt:formatDate value="${qj.endTime}" pattern="yyyy-MM-dd" />
                         </td>
-                        <td>${qj.state}</td>
+                        <c:if test="${qj.state==1}">
+                            <td>未审核</td>
+                        </c:if>
+                        <c:if test="${qj.state==2}">
+                            <td>审核通过</td>
+                        </c:if>
+                        <c:if test="${qj.state==3}">
+                            <td>审核不通过</td>
+                        </c:if>
                         <td>${qj.userLog}</td>
                         <td>
                             <fmt:formatDate value="${qj.time}" pattern="yyyy年MM月dd日" />
@@ -261,15 +270,18 @@
                         <td>${qj.bakcup}</td>
                         <td>
                             <!--传入当前用户id-->
+                            <c:set var="flag" scope="session" value="${qj.state}" />
+                            <c:if test="${flag==1}">
                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                data-target="#updateModal" onclick="update(${qj.id},this)">编辑</button>
+                                data-target="#updateModal" onclick="update(${qj.id},this)">修改</button>
+                            </c:if>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${qj.id}">删除</button>
-                                <c:set var="flag" scope="session" value="男" />
-                            <c:if test="${flag eq '男'}">
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                    data-target="#updateModal" onclick="">按钮</button>
+                            <c:if test="${flag==1}">
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" onclick="window.location='qj/yes/${qj.id}'">通过</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" onclick="window.location='qj/no/${qj.id}'">不通过</button>
                             </c:if>
+
                         </td>
                     </tr>
                 </c:forEach>
@@ -325,7 +337,8 @@
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="userLog" value="${login.userName}" hidden>
+                                <input type="text" id="userID" name="id" hidden>
+                                <input type="text" id="userLog" name="userLog" value="${login.userName}" hidden>
                                 <div class="form-group">
                                     <label for="oldNumb" class="col-sm-3 control-label">老人编号</label>
                                     <div class="col-sm-9">
@@ -366,7 +379,7 @@
                                 <div class="form-group">
                                     <label for="backup" class="col-sm-3 control-label">备注</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="backup" name="backup"
+                                        <input type="text" class="form-control" id="backup" name="bakcup"
                                             placeholder="请输入备注">
                                     </div>
                                 </div>
