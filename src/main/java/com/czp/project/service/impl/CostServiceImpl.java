@@ -77,4 +77,11 @@ private OldManMapper oldamanmapper;
 		return pi;
 	}
 
+	@Override
+	public List<Cost> selectByOldManId(String oldmanid) {
+		CostExample example = new CostExample();
+		example.createCriteria().andOldmanIdEqualTo(Integer.parseInt(oldmanid));
+		return costMapper.selectByExample(example);
+	}
+
 }

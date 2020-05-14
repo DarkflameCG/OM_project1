@@ -66,4 +66,6 @@ public interface OmqjService {
 	 * @return
 	 */
 	public OmQingjia selectWcById(String qjid);
+
+	public List<OmQingjia> selectByOldManId(String oldmanid);
 }

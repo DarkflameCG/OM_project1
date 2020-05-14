@@ -2,6 +2,7 @@ package com.czp.project.service.impl;
 
 import java.util.List;
 
+import com.czp.project.common.bean.OmQingjiaExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,6 +69,13 @@ public class OmqjImpl implements OmqjService{
 	@Override
 	public OmQingjia selectWcById(String qjid) {
 		return omqjMapper.selectByPrimaryKey(Integer.parseInt(qjid));
+	}
+
+	@Override
+	public List<OmQingjia> selectByOldManId(String oldmanid) {
+		OmQingjiaExample example = new OmQingjiaExample();
+		example.createCriteria().andOldmanIdEqualTo(Integer.parseInt(oldmanid));
+		return omqjMapper.selectByExample(example);
 	}
 
 

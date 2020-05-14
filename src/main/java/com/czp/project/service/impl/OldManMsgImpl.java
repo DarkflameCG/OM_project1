@@ -100,7 +100,12 @@ public class OldManMsgImpl implements OldManMsgService{
 		return oldamanmapper.selectByExample(example).get(0);
 	}
 
+	@Override
+	public OldMan getOldmanByFamiluId(String familuId) {
+		OldManExample example = new OldManExample();
+		example.createCriteria().andFamilyMembersIdEqualTo(Integer.parseInt(familuId));
+		return oldamanmapper.selectByExample(example).get(0);
+	}
 
-	
 
 }

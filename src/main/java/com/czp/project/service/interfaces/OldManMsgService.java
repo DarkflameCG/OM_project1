@@ -84,7 +84,13 @@ public interface OldManMsgService {
 	 * @return
 	 */
 	public OldMan getOldmanByNumb(String numb);
-	
+
+	/**
+	 * 根据家属id查询老人信息
+	 * @param familuId
+	 * @return
+	 */
+	public OldMan getOldmanByFamiluId(String familuId);
 	
 	
 }

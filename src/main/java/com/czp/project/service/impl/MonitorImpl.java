@@ -3,6 +3,7 @@ package com.czp.project.service.impl;
 import com.czp.project.common.bean.Monitor;
 import com.czp.project.common.bean.MonitorExample;
 import com.czp.project.common.bean.OldMan;
+import com.czp.project.common.bean.OmWaichuExample;
 import com.czp.project.common.bean.extend.MedicalExtend;
 import com.czp.project.common.bean.extend.MonitorExtend;
 import com.czp.project.dao.MonitorMapper;
@@ -72,4 +73,6 @@ public class MonitorImpl implements MonitorService {
         example.createCriteria().andOldManIdEqualTo(Integer.parseInt(id));
         return monitorMapper.selectByExample(example);
     }
+
+
 }

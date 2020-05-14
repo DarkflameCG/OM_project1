@@ -30,4 +30,16 @@ public class FamilyServiceImpl implements FamilyService{
 		
 	}
 
+	@Override
+	public void addFamily(FamilyMembers fm) {
+		familyMembersMapper.insert(fm);
+	}
+
+	@Override
+	public FamilyMembers selectByTel(String tel) {
+		FamilyMembersExample example = new FamilyMembersExample();
+		example.createCriteria().andTelphoneEqualTo(tel);
+		return familyMembersMapper.selectByExample(example).get(0);
+	}
+
 }

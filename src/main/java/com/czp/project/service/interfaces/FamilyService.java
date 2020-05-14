@@ -5,4 +5,7 @@ import com.czp.project.common.bean.FamilyMembers;
 public interface FamilyService {
 	FamilyMembers selectLogin(FamilyMembers familyMembers) throws Exception;
 	void updateBytelphone(FamilyMembers familyMembers) throws Exception;
+
+	public void addFamily(FamilyMembers fm);
+	public FamilyMembers selectByTel(String tel);
 }

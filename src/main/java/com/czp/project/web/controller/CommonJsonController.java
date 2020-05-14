@@ -6,8 +6,14 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.czp.project.common.bean.Medical;
+import com.czp.project.common.bean.OldMan;
+import com.czp.project.common.bean.extend.MainData;
+import com.czp.project.service.impl.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +31,22 @@ import com.czp.project.utils.Message;
 @RestController
 @RequestMapping("/commonJson")
 public class CommonJsonController {
-	
+
+	@Autowired
+	private OldManMsgImpl oldimpl;
+	@Autowired
+	private OmwcImpl wcimpl;
+	@Autowired
+	private OmqjImpl qjipml;
+	@Autowired
+	private MonitorImpl monitorImpl;
+	@Autowired
+	private MedicalImpl medicalImpl;
+	@Autowired
+	private CostServiceImpl costImpl;
+
+
+
 	@RequestMapping("/upload")
 	public FileUrl uploadFile(HttpServletRequest req,
 											  @RequestParam MultipartFile file){
@@ -48,6 +69,25 @@ public class CommonJsonController {
 		//return new FileUrl(200,basePath+"file/"+filename);
 		return new FileUrl(200,"file/"+filename);
 
-		
+
+	}
+
+	@RequestMapping("/mainData/{member_id}")
+	public ResponseEntity<Message> getMainData(@PathVariable String member_id){
+		//根据家属id查出老人id
+		OldMan oldMan = oldimpl.getOldmanByFamiluId(member_id);
+		if (oldMan==null){
+			return ResponseEntity.ok(new Message(CodeStatus.ERROR));
+		}
+		String id = String.valueOf(oldMan.getId());
+		//获取数目
+		MainData md = new MainData();
+		md.setQjNumb(qjipml.selectByOldManId(id).size());
+		md.setJyNumb(medicalImpl.selectByOldManId(id).size());
+		md.setTjNumb(monitorImpl.selectAllByOldManId(id).size());
+		md.setWcNumb(wcimpl.selectByOldManId(id).size());
+		//获取老人的缴费记录
+		md.setCostLogs(costImpl.selectByOldManId(id));
+		return ResponseEntity.ok(new Message(CodeStatus.SUCCESS,md));
 	}
 }

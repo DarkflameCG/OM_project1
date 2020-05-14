@@ -2,6 +2,7 @@ package com.czp.project.service.interfaces;
 
 import java.util.List;
 
+import com.czp.project.common.bean.OmQingjia;
 import com.czp.project.common.bean.OmWaichu;
 import com.czp.project.common.bean.OmZhuanfang;
 import com.czp.project.common.bean.extend.WaichuExtend;
@@ -66,5 +67,7 @@ public interface OmwcService {
 	 * @return
 	 */
 	public OmWaichu selectWcById(String wcid);
+
+	public List<OmWaichu> selectByOldManId(String oldmanid);
 	
 }

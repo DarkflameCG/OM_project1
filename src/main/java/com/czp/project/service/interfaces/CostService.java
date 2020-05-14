@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.czp.project.common.bean.BaseUser;
 import com.czp.project.common.bean.Cost;
+import com.czp.project.common.bean.Medical;
 import com.czp.project.common.bean.extend.CostEX;
 import com.github.pagehelper.PageInfo;
 
@@ -47,4 +48,6 @@ public interface CostService {
 	 */
 	public PageInfo<CostEX> findAllForPage(int currpage , int row);
 	public PageInfo<CostEX> findAllByName(int currpage, int row, String source);
+
+	public List<Cost> selectByOldManId(String oldmanid);
 }

@@ -1,6 +1,7 @@
 package com.czp.project.service.interfaces;
 
 import com.czp.project.common.bean.Monitor;
+import com.czp.project.common.bean.OmWaichu;
 import com.czp.project.common.bean.extend.MedicalExtend;
 import com.czp.project.common.bean.extend.MonitorExtend;
 import com.github.pagehelper.PageInfo;
@@ -67,5 +68,7 @@ public interface MonitorService {
      * @return
      */
     public List<Monitor> selectAllByOldManId(String id);
+
+
 
 }

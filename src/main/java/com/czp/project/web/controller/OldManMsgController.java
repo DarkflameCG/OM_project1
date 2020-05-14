@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.czp.project.common.bean.*;
 import com.czp.project.service.impl.*;
+import com.czp.project.service.interfaces.FamilyService;
 import com.czp.project.utils.ExcelWriter;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -36,6 +37,8 @@ public class OldManMsgController {
 	private OldManRuZhuServiceImpl rzimpl;
 	@Autowired
 	private OmzfImpl omzfImpl;
+	@Autowired
+	private FamilyService familyService;
 	
 	//分页查询全部
 	@RequestMapping("/getmsg/{page}")
@@ -71,9 +74,17 @@ public class OldManMsgController {
 	
 	@RequestMapping("/addOldmanMsg")
 	@ResponseBody
-	public String addOldManMsg(OldMan oldman) {
-		System.out.println("========"+oldman.getOldmanImg());
+	public String addOldManMsg(OldMan oldman,
+							   @RequestParam String familyTel) {
 		oldman.setOldNumber(NumberProduct.getNumber());
+
+		FamilyMembers fm = new FamilyMembers();
+		fm.setTelphone(familyTel);
+		fm.setFamilyPassword(oldman.getOldNumber().substring(2));
+		familyService.addFamily(fm);
+
+		FamilyMembers temp = familyService.selectByTel(familyTel);
+		oldman.setFamilyMembersId(temp.getId());
 		oldimpl.addOldManMsg(oldman);	
 		return "ok";
 	}

@@ -1,6 +1,8 @@
 package com.czp.project.service.impl;
 
 import com.czp.project.common.bean.Medical;
+import com.czp.project.common.bean.MedicalExample;
+import com.czp.project.common.bean.MonitorExample;
 import com.czp.project.common.bean.extend.MedicalExtend;
 import com.czp.project.common.bean.extend.QingjiaExtend;
 import com.czp.project.dao.MedicalMapper;
@@ -59,5 +61,12 @@ public class MedicalImpl implements MedicalService {
     @Override
     public void updateMedical(Medical newmsg) {
         medicalMapper.updateByPrimaryKeySelective(newmsg);
+    }
+
+    @Override
+    public List<Medical> selectByOldManId(String oldmanid) {
+        MedicalExample example = new MedicalExample();
+        example.createCriteria().andOldManIdEqualTo(Integer.parseInt(oldmanid));
+        return medicalMapper.selectByExample(example);
     }
 }

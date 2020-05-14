@@ -1,6 +1,7 @@
 package com.czp.project.service.interfaces;
 
 import com.czp.project.common.bean.Medical;
+import com.czp.project.common.bean.OmWaichu;
 import com.czp.project.common.bean.extend.MedicalExtend;
 import com.czp.project.common.bean.extend.QingjiaExtend;
 import com.github.pagehelper.PageInfo;
@@ -62,4 +63,7 @@ public interface MedicalService {
      * @param newmsg
      */
     public void updateMedical(Medical newmsg);
+
+    public List<Medical> selectByOldManId(String oldmanid);
+
 }

@@ -2,6 +2,7 @@ package com.czp.project.service.impl;
 
 import java.util.List;
 
+import com.czp.project.common.bean.OmQingjiaExample;
 import com.czp.project.common.bean.OmWaichuExample;
 import com.czp.project.common.bean.extend.ZhuanFangExtend;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,13 @@ public class OmwcImpl implements OmwcService{
 	@Override
 	public OmWaichu selectWcById(String wcid) {
 		return omwcMapper.selectByPrimaryKey(Integer.parseInt(wcid));
+	}
+
+	@Override
+	public List<OmWaichu> selectByOldManId(String oldmanid) {
+		OmWaichuExample example = new OmWaichuExample();
+		example.createCriteria().andOldManIdEqualTo(Integer.parseInt(oldmanid));
+		return omwcMapper.selectByExample(example);
 	}
 
 }
