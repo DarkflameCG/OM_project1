@@ -65,7 +65,6 @@
         //将提交表单的URL变为update
         myUrl = 'exam/edit';
         $("#userID").attr("value", id);
-        alert(id);
         if (!id) {
             alert('id错误');
             return false;
@@ -75,11 +74,9 @@
         //获取当前行tr下的所有td
         var t = temp[0].cells;
         //模态框赋值
-        $('#username').val(t[2].innerHTML);
-        $('#age').val(t[4].innerHTML);
-        $('#gender').val(t[5].innerHTML);
-        $('#telphone').val(t[9].innerHTML);
-        $('#health').val(t[7].innerHTML);
+        $('#oldNumb').val(t[1].title);
+        $('#level').val(t[4].innerHTML);
+        $('#time_1').val(t[5].innerHTML.trim());
         //给姓名框设置只读
         //$('#username').attr("readonly", "readonly");
         //下面是使用ajax动态的放数据
@@ -206,13 +203,9 @@
         //userid为空时，即当前操作为添加用户操作，此时只序列化除id之外四个属性，添加用户时id自增长。如果id为空也被序列化会报错！！！
         // ！！！！！
         // 此处绑定表单数据
-        if ($('#userID').val() == null || $('#userID').val() == undefined || $('#userID').val().length == 0) {
-            formData = $('#username,#age,#gender,#health,#familyMembersId,#telphone,#roomId,#userId').serializeArray();
-        }
-        //否则为更新操作，userid为隐藏input，并且已经被赋值，序列化整个表单即可
-        else {
-            formData = $('#form-data').serializeArray();
-        }
+        formData = $('#time_1,#userLog,#userId,#oldNumb,#level').serializeArray();
+
+
         $.ajax({
             url: myUrl,      //根据操作传入不同的URL
             data: formData,  //传入序列化的表单对象
@@ -252,7 +245,7 @@
         <div class="tool">
             <div class="row">
                 <br />
-                <form action="oldmsg/getMsgBySource" class="form-horizontal">
+                <form action="exam/getBySource/1" class="form-horizontal">
                     <div class="col-sm-3">
                         <input name="source" type="text" id="search" class="form-control">
                     </div>
@@ -288,14 +281,14 @@
                 <c:forEach items="${monitorPages.list}" var="exam">
                     <tr">
                         <td><input type="checkbox" value="${exam.id}"></td>
-                        <td>${exam.id}</td>
+                        <td title="${exam.oldman.oldNumber}">${exam.id}</td>
                         <td>${exam.oldman.oldmanName}</td>
                         <td>${exam.oldman.gender}</td>
                         <td>${exam.level}</td>
                         <td>
-                            <fmt:formatDate value="${exam.examTime}" pattern="yyyy年MM月dd日" />
+                            <fmt:formatDate value="${exam.examTime}" pattern="yyyy-MM-dd" />
                         </td>
-                        <td><a>下载</a></td>
+                        <td><a href="exam/download/${exam.oldman.id}">下载</a></td>
                         <td>
                             <fmt:formatDate value="${exam.time}" pattern="yyyy年MM月dd日" />
                         </td>
@@ -361,7 +354,7 @@
                         <div class="modal-body">
                             <form action="" class="form-horizontal">
                                 <!--userid为隐藏的input，便于update时的传值-->
-                                <input type="text" id="userID" name="userId" value="${login.id}" hidden>
+                                <input type="text" id="userId" name="userId" value="${login.id}" hidden>
                                 <div class="form-group">
                                     <label for="oldNumb" class="col-sm-3 control-label">老人编号</label>
                                     <div class="col-sm-9">
@@ -371,9 +364,9 @@
                                 </div>
                                 <!--这个地方可能需要一个选择框-->
                                 <div class="form-group">
-                                    <label for="modular" class="col-sm-3 control-label">体检项目</label>
+                                    <label for="level" class="col-sm-3 control-label">体检项目</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="modular" name="modular"
+                                        <input type="text" class="form-control" id="level" name="level"
                                             placeholder="请输入体检项目">
                                     </div>
                                 </div>
@@ -392,14 +385,6 @@
                                                 </span>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="backup" class="col-sm-3 control-label">备注</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="backup" name="backup"
-                                            placeholder="请输入备注">
                                     </div>
                                 </div>
 

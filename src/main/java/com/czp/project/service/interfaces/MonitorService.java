@@ -1,6 +1,7 @@
 package com.czp.project.service.interfaces;
 
 import com.czp.project.common.bean.Monitor;
+import com.czp.project.common.bean.extend.MedicalExtend;
 import com.czp.project.common.bean.extend.MonitorExtend;
 import com.github.pagehelper.PageInfo;
 
@@ -29,6 +30,16 @@ public interface MonitorService {
     public PageInfo<MonitorExtend> selectAllByPage(int currpage , int row);
 
     /**
+     * 根据名字做模糊查询，带分页
+     * @param currpage 当前页数
+     * @param row     每页的条数
+     * @param name
+     * @return
+     * @throws Exception
+     */
+    public PageInfo<MonitorExtend> fuzzyQueryByPage(String name, int currpage, int row) throws Exception;
+
+    /**
      * 添加体检记录
      * @param monitor
      */
@@ -49,4 +60,12 @@ public interface MonitorService {
      * @param newmsg
      */
     public void updateExam(Monitor newmsg);
+
+    /**
+     * 根据老人id查询所有的体检记录
+     * @param id
+     * @return
+     */
+    public List<Monitor> selectAllByOldManId(String id);
+
 }

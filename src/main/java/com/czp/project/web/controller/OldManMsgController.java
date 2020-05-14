@@ -149,7 +149,6 @@ public class OldManMsgController {
 										 HttpServletResponse response) throws Exception{
 		Workbook workbook = null;
 		OutputStream out = null;
-		//PrintWriter pw = response.getWriter();
 		try {
 			// todo 根据业务需求获取需要写入Excel的数据列表 dataList
 			List<OldManExtend> dataList = oldimpl.selectAll();

@@ -7,7 +7,8 @@
   </select>
 
   <select id="selectByParameter" parameterType="String" resultMap="MonitorExtendResultMap">
-   SELECT * FROM monitor WHERE oldman_name LIKE CONCAT(CONCAT('%', #{text}), '%')
+    SELECT * FROM monitor m,old_man om WHERE oldman_name LIKE CONCAT(CONCAT('%', #{text}), '%') AND om.id=m.old_man_id
+
   </select>
 
   <resultMap id="MonitorExtendResultMap"

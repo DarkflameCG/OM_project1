@@ -1,6 +1,9 @@
 package com.czp.project.service.impl;
 
 import com.czp.project.common.bean.Monitor;
+import com.czp.project.common.bean.MonitorExample;
+import com.czp.project.common.bean.OldMan;
+import com.czp.project.common.bean.extend.MedicalExtend;
 import com.czp.project.common.bean.extend.MonitorExtend;
 import com.czp.project.dao.MonitorMapper;
 import com.czp.project.dao.extend.MonitorExtendMapper;
@@ -33,6 +36,13 @@ public class MonitorImpl implements MonitorService {
     }
 
     @Override
+    public PageInfo<MonitorExtend> fuzzyQueryByPage(String name, int currpage, int row) throws Exception {
+        PageHelper.startPage(currpage,row);
+        List<MonitorExtend> tempList = monitorExtendMapper.selectByParameter(name);
+        return new PageInfo<MonitorExtend>(tempList);
+    }
+
+    @Override
     public void addExam(Monitor monitor) {
         monitorMapper.insert(monitor);
     }
@@ -53,5 +63,13 @@ public class MonitorImpl implements MonitorService {
     @Override
     public void updateExam(Monitor newmsg) {
         monitorMapper.updateByPrimaryKeySelective(newmsg);
+    }
+
+    @Override
+    public List<Monitor> selectAllByOldManId(String id) {
+
+        MonitorExample example = new MonitorExample();
+        example.createCriteria().andOldManIdEqualTo(Integer.parseInt(id));
+        return monitorMapper.selectByExample(example);
     }
 }
