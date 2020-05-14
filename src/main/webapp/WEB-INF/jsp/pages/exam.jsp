@@ -8,6 +8,7 @@
 <%
     String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
 %>
+
 <head>
     <base href="<%=basePath%>">
     <meta charset="UTF-8">
@@ -34,13 +35,24 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <!-- 时间选择器 -->
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
+        rel="stylesheet">
+    <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
-   
+
     <style>
         .divcss5-left {
             float: right;
             width: 350px;
             height: 50px;
+        }
+
+        .myrow {
+            display: flex;
+            flex-direction: row;
+            /*margin-left:1em;*/
         }
     </style>
 </head>
@@ -295,7 +307,7 @@
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                 data-target="#deleteModal" data-orderId="${exam.id}">删除</button>
                         </td>
-                    </tr>
+                        </tr>
                 </c:forEach>
             </tbody>
         </table>
@@ -354,28 +366,40 @@
                                     <label for="oldNumb" class="col-sm-3 control-label">老人编号</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="oldNumb" name="oldNumb"
-                                               placeholder="编号为两位字母六位数字">
+                                            placeholder="编号为两位字母六位数字">
                                     </div>
                                 </div>
                                 <!--这个地方可能需要一个选择框-->
                                 <div class="form-group">
                                     <label for="modular" class="col-sm-3 control-label">体检项目</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="modular" name="modular" placeholder="请输入体检项目">
+                                        <input type="text" class="form-control" id="modular" name="modular"
+                                            placeholder="请输入体检项目">
                                     </div>
                                 </div>
                                 <!--这个地方需要一个时间控件，就一个-->
                                 <div class="form-group">
                                     <label for="examTime" class="col-sm-3 control-label">体检时间</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="examTime" name="examTime" placeholder="请输入体检时间">
+                                        <!-- <input type="text" class="form-control" id="examTime" name="examTime"
+                                            placeholder="请输入体检时间"> -->
+                                        <div class="myrow">
+                                            <div class='input-group date' style="width: 14em;" id='datetimepicker1'>
+                                                <input id="time_1" name="time_1" type='text'
+                                                    class="timeInput form-control" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="backup" class="col-sm-3 control-label">备注</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="backup" name="backup" placeholder="请输入备注">
+                                        <input type="text" class="form-control" id="backup" name="backup"
+                                            placeholder="请输入备注">
                                     </div>
                                 </div>
 
@@ -459,16 +483,16 @@
     })
     // 上传图片
     $(".updatepanel").height($(".panel-info").height());
-    document.getElementById('file').onchange = function () {
-        add();
-        var imgFile = this.files[0];
-        var fr = new FileReader();
-        fr.onload = function () {
-            var imgs = document.getElementsByClassName('updateimg');
-            imgs[imgs.length - 1].src = fr.result;
-        };
-        fr.readAsDataURL(imgFile);
-    };
+    // document.getElementById('file').onchange = function () {
+    //     add();
+    //     var imgFile = this.files[0];
+    //     var fr = new FileReader();
+    //     fr.onload = function () {
+    //         var imgs = document.getElementsByClassName('updateimg');
+    //         imgs[imgs.length - 1].src = fr.result;
+    //     };
+    //     fr.readAsDataURL(imgFile);
+    // };
     function add() {
         var html = "<div class='col-sm-4'><div class='panel panel-info'><div class='panel-heading'><i class='fa fa-times'></i></div><div class='panel-body' style='text-align: center;'><div class='row'><div class='col-sm-12 col-md-12'><img class='updateimg img-responsive' src='img/p_big3.jpg' style='width: inherit;height: 210px;'/></div></div></div></div></div>";
         $("#updatebox").before(html);
@@ -476,6 +500,16 @@
     $(".fa-times").click(function () {
         $(this).parent().parent().parent().remove();
     });
+    //  日期选择框相关代码
+    $(function () {
+        $('#form1').hide();
+        var picker1 = $('#datetimepicker1').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn'),
+            minDate: '2016-7-1'//可选择的最小日期
+        });
+    });
+    //  日期选择框相关代码结束
 </script>
 
 </html>
